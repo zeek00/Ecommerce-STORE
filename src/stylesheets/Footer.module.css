@@ -1,0 +1,181 @@
+.footer{
+    border-top: 1px solid red;
+    background-color: rgb(234,227,201);
+    color: rgba(34, 34, 34, 0.60);
+    padding: 1rem;
+
+
+
+}
+.container{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-row-gap: .7rem;
+    grid-template-areas: 
+        "a b c d"
+         "f g e e"
+        
+    ;
+}
+
+.container ul{
+    list-style-type: none;
+}
+
+.container h4{
+    text-transform: uppercase;
+    font-size: .6rem;
+    color: rgba(34, 34, 34, 0.60);
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1.45rem;
+    letter-spacing: -0.025rem;
+}
+
+.container li{
+    font-size: .5rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.categories{
+    grid-area: a;
+
+}
+
+.accessories{
+    grid-area: b;
+
+}
+
+.company {
+    grid-area: c;
+}
+
+.support{
+    grid-area: d;
+}
+
+.subscribe{
+    grid-area: e;
+}
+
+.socials{
+    grid-area: f;
+}
+
+.contact{
+    grid-area: g;
+}
+
+.socials ul{
+    display: flex;
+    flex-direction: column;
+}
+
+.socialIcon{
+    font-size: 1.3rem;
+    margin-bottom: -.4rem;
+    padding: .2rem;
+}
+
+.socialLink{
+    padding-left: .2rem;
+    color: rgba(34, 34, 34, 0.60);
+    text-decoration: none;
+}
+
+.footer h3{
+    
+    font-size: .9rem;
+}
+.footer div:last-child{
+    font-size: .9rem;
+}
+
+.g{
+    grid-area: g;
+}
+
+.copy{
+    grid-area: h;
+}
+.subscribe form{
+    display: flex;
+}
+
+.subscribe h5{
+    font-size: .9rem;
+}
+.subscribe p{
+    font-size: .7rem;
+}
+
+.subscribe span{
+    text-decoration: underline;
+}
+
+.form{
+    display: flex;
+    background-color: #fff;
+    width: fit-content;
+    padding: .5rem 0 .2rem .7rem;
+    border-radius: 1rem;
+    margin-right: .7rem;
+}
+
+.form input{
+    border: none;
+    padding-left: .7rem;
+    width: 80%;
+    font-size: .8rem;
+    font-weight: 200;
+}
+
+.form{
+    color: rgba(34, 34, 34, 0.60);
+    font-size: 1.4rem;
+}
+
+
+@media only screen and (min-width: 992px) {
+    /* Styles for desktops */
+   .container{ 
+        grid-template-columns: repeat(8, 1fr);
+        grid-row-gap: .7rem;
+        grid-template-areas: 
+            "a a b b c c d d"
+            "f f g g e e e e"
+            
+        ;
+   }
+
+   .container h4{
+    font-size: 1.5rem;
+    
+    line-height: 2.45rem;
+    letter-spacing: 0.025rem;
+}
+
+.container li{
+    font-size: 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.subscribe h5{
+    font-size: 1.9rem;
+}
+.subscribe p{
+    font-size: 1.3rem;
+}
+.footer h3{
+    text-align: left;
+    font-size: 1.5rem;
+}
+
+
+    
+   
+    
+}

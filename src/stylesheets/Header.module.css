@@ -8,6 +8,7 @@
 }
 .header h3{
     padding: .2rem 4.5rem;
+    font-family: 'Galano Grotesque', sans-serif;
 
 }
 .actionbtn{
@@ -25,6 +26,7 @@
 
 .nav{
     padding: .2rem;
+    font-weight: 700;
 }
 
 
@@ -107,7 +109,7 @@
 
 @media only screen and (min-width: 992px) {
     /* Styles for desktops */
-    .header,h3,.nav,.actionbtn{
+    .headerh3,.nav,.actionbtn{
         display: flex;
         justify-content: space-evenly;
     }
