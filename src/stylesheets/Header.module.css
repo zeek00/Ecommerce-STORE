@@ -42,6 +42,7 @@
     }
     .header h3{
         padding: .2rem 4.5rem;
+        font-size: 1.3rem;
     
     }
     .actionbtn{
@@ -54,7 +55,8 @@
         /* border: 1px solid blue; */
         color: rgba(34, 34, 34);
         margin: .1rem 1rem;
-        font-size: 1.3rem;
+        font-size: 1.8rem;
+        font-weight: 900;
     }
     .nav{
         display: none;
@@ -73,6 +75,7 @@
     }
     .header h3{
         padding: .2rem 4.5rem;
+        font-size: 1.3rem;
     
     }
     .actionbtn{
@@ -85,7 +88,7 @@
         /* border: 1px solid blue; */
         color: rgba(34, 34, 34);
         margin: .1rem 1rem;
-        font-size: 1.3rem;
+        font-size: 1.8rem;
     }
     .nav{
         display: none;
