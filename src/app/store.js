@@ -4,6 +4,7 @@ import jewelriesReducer from '../features/jewelries/jewelriesSlice';
 import electronicsReducer from '../features/electronics/electronicsSlice';
 import cartReducer from '../features/cart/cartSlice';
 import loadingReducer from '../features/loading/loadingSlice';
+import sessionReducer from '../features/session/sessionSlice'
 
 
 
@@ -14,6 +15,7 @@ const store = configureStore({
         clothing: clothingReducer,
         cart: cartReducer,
         loading: loadingReducer,
+        session: sessionReducer
     }
 
 });

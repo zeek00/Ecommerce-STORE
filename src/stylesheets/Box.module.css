@@ -1,3 +1,14 @@
+
+.box{
+    border: 1px solid #fff;
+    border-radius: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
 h3,p{
     text-align: left;
     color: rgba(34, 34, 34, 0.60);

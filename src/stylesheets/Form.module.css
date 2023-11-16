@@ -1,0 +1,17 @@
+.form p{
+    padding-bottom: 1rem;
+
+}
+
+
+.label{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.label input{
+    border-style: none;
+    border-radius: .7rem;
+    padding: .7rem;
+}

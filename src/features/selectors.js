@@ -6,3 +6,5 @@ export const selectMale = (state)=>state.clothing.male;
 export const selectTops = (state)=>state.clothing.tops;
 export const selectFemale = (state)=>state.clothing.female;
 export const selectCart = (state) => state.cart.cart;
+export const selectCurrentUser = (state) => state.session.user;
+export const selectIsLoggedIn = (state) => state.session.isLoggedIn;
