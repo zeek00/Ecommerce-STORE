@@ -8,7 +8,6 @@ const Button = (props)=> {
         backgroundColor: backgroundColor || '#222',
         borderRadius: borderRadius || '.7rem',
         padding: '.7rem',
-        width: width || '100%',
         fontSize: '.7rem'
         // Add more styles as needed
       };

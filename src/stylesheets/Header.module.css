@@ -7,7 +7,9 @@
     
 }
 .header h3{
-    padding: .2rem 4.5rem;
+    margin-top: .3rem;
+    padding-left: .7rem;
+    color: rgba(34, 34, 34);
     font-family: 'Galano Grotesque', sans-serif;
 
 }
@@ -43,7 +45,7 @@
         
     }
     .header h3{
-        padding: .2rem 4.5rem;
+        padding: .2rem 4rem;
         font-size: 1.3rem;
     
     }

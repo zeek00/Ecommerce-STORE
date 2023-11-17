@@ -1,11 +1,7 @@
 .footer{
-    border-top: 1px solid red;
     background-color: rgb(234,227,201);
     color: rgba(34, 34, 34, 0.60);
     padding: 1rem;
-
-
-
 }
 .container{
     display: grid;
@@ -30,6 +26,10 @@
     font-weight: 700;
     line-height: 1.45rem;
     letter-spacing: -0.025rem;
+}
+
+.container p{
+    margin: .3rem auto;
 }
 
 .container li{
@@ -122,6 +122,8 @@
     padding: .5rem 0 .2rem .7rem;
     border-radius: 1rem;
     margin-right: .7rem;
+    color: rgba(34, 34, 34, 0.60);
+    font-size: 1.4rem;
 }
 
 .form input{
@@ -132,9 +134,148 @@
     font-weight: 200;
 }
 
-.form{
-    color: rgba(34, 34, 34, 0.60);
-    font-size: 1.4rem;
+
+
+
+@media only screen and (max-width: 480px) {
+    /* Styles for small screens */
+
+    .container{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-row-gap: .7rem;
+        grid-template-areas: 
+            "a b c d"
+             "f f g g"
+             "e e e e"
+            
+        ;
+    }
+
+    .form{
+        width: 60%;
+        
+    }
+    
+    .form input{
+        width: 60%;
+        
+    }
+    .container h4{
+        font-size: .8rem;
+        
+        line-height: 2.15rem;
+        letter-spacing: 0.025rem;
+        }
+    
+        .container li{
+            font-size: .7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+    
+        .subscribe h5{
+            font-size: 1.6rem;
+        }
+        .subscribe p{
+            font-size: .8rem;
+        }
+        .footer h3{
+            text-align: left;
+            font-size: 1rem;
+        }
+}
+
+
+@media only screen and (min-width:480px) and (max-width: 700px) {
+    /* Styles for small screens in landscape */
+    .form{
+        width: 60%;
+        
+    }
+    
+    .form input{
+        width: 60%;
+        
+    }
+    .container h4{
+        font-size: .9rem;
+        
+        line-height: 2.25rem;
+        letter-spacing: 0.025rem;
+        }
+    
+        .container li{
+            font-size: .8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+    
+        .subscribe h5{
+            font-size: 1.7rem;
+        }
+        .subscribe p{
+            font-size: .9rem;
+        }
+        .footer h3{
+            text-align: left;
+            font-size: 1rem;
+        }
+}
+
+@media only screen and (min-width: 700px) and (max-width: 991px) {
+    /* Styles for tablets in portrait */
+    .container h4{
+        font-size: 1rem;
+        
+        line-height: 2.35rem;
+        letter-spacing: 0.025rem;
+        }
+    
+        .container li{
+            font-size: .9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+    
+        .subscribe h5{
+            font-size: 1.8rem;
+        }
+        .subscribe p{
+            font-size: 1rem;
+        }
+        .footer h3{
+            text-align: left;
+            font-size: 1.1rem;
+        }
+
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) and (orientation: landscape) {
+    /* Styles for tablets in landscape */
+    .container h4{
+        font-size: 1.1rem;
+        
+        line-height: 2.45rem;
+        letter-spacing: 0.025rem;
+        }
+    
+        .container li{
+            font-size: 1rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+    
+        .subscribe h5{
+            font-size: 1.8rem;
+        }
+        .subscribe p{
+            font-size: 1.1rem;
+        }
+        .footer h3{
+            text-align: left;
+            font-size: 1.1rem;
+        }
+
 }
 
 
@@ -155,27 +296,29 @@
     
     line-height: 2.45rem;
     letter-spacing: 0.025rem;
-}
+    }
 
-.container li{
-    font-size: 1rem;
-    font-weight: 500;
-    text-transform: uppercase;
-}
+    .container li{
+        font-size: 1rem;
+        font-weight: 500;
+        text-transform: uppercase;
+    }
 
-.subscribe h5{
-    font-size: 1.9rem;
-}
-.subscribe p{
-    font-size: 1.3rem;
-}
-.footer h3{
-    text-align: left;
-    font-size: 1.5rem;
-}
+    .subscribe h5{
+        font-size: 1.9rem;
+    }
+    .subscribe p{
+        font-size: 1.3rem;
+    }
+    .footer h3{
+        text-align: left;
+        font-size: 1.5rem;
+    } 
 
-
-    
+    .form{
+        width: 40%;
+        
+    }
    
     
 }

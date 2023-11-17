@@ -1,16 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import style from '../../stylesheets/Form.module.css'
 import Button from './Button';
-import {selectCurrentUser} from '../../features/selectors'
+import { useNavigate } from 'react-router-dom';
+import {selectCurrentUser, selectFail} from '../../features/selectors'
+import { signIn, signUp } from '../../features/session/sessionSlice';
+import { CiWarning } from "react-icons/ci";
 
-const AuthForm = ({ about, closingAbout, title, fields, onSubmit }) => {
-  const dispatch = useDispatch();
-  const userNow = useSelector(selectCurrentUser)
+const failStyle = {
+  display: 'flex', 
+  backgroundColor: 'rgb(236,29,57, 0.6)',
+  padding: '.7rem',
+  color: 'rgba(34, 34, 34, 0.9)'
+};
+
+const AuthForm = ({ about, closingAbout, title, fields, authType }) => {
+  const userFail = useSelector(selectFail);
+  const [showFail, setShowFail] = useState(false);
   const [formData, setFormData] = useState(
     fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {})
   );
+
+  const dispatch = useDispatch();
+  const userNow = useSelector(selectCurrentUser);
+  const navigate = useNavigate();
+  useEffect(() => {
+    // Show the fail message when a sign-up fails
+    if (authType === 'signIn' && userFail) {
+      console.log(userFail);
+      setShowFail(true);
+
+      // Set a timeout to hide the fail message after a certain duration
+      const timeoutId = setTimeout(() => {
+        setShowFail(false);
+      }, 9000); // Adjust the duration as needed
+
+      // Cleanup the timeout to avoid memory leaks
+      return () => clearTimeout(timeoutId);
+    }
+  }, [authType, userFail]);
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -19,19 +49,34 @@ const AuthForm = ({ about, closingAbout, title, fields, onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const actionObject = onSubmit(formData);
-    if (actionObject) {
-      console.log(actionObject)
-      dispatch(actionObject);
-      setFormData(fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {}));
-    } else {
-      console.error('onSubmit did not return a valid action object');
+
+    const{name, email, phone, password} = formData;
+    if(authType === 'signUp'){
+      dispatch(
+        signUp({
+          name,
+          email,
+          phone,
+          password,
+        })
+      );
+      
+    }else if(authType === 'signIn'){
+      dispatch(signIn({name, password}));
     }
+  
+    //Reset form data
+    setFormData(fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {}));
+
     
   };
 
   return (
     <div className={style.form}>
+    {showFail &&(<div style={failStyle}>
+        <CiWarning/>
+        <h5>Looks like either your name or password were incorrect. Wanna try again?</h5>
+      </div>)}
       <h2>{title}</h2>
       <p>{about}</p>
       <form onSubmit={handleSubmit}>
@@ -55,8 +100,7 @@ const AuthForm = ({ about, closingAbout, title, fields, onSubmit }) => {
         <p>{closingAbout}</p>
         <Button
         label={title} 
-        type={"submit"}/>
-
+        type="submit"/>
       </form>
       {console.log(userNow)}
     </div>
@@ -65,6 +109,7 @@ const AuthForm = ({ about, closingAbout, title, fields, onSubmit }) => {
 
 AuthForm.propTypes = {
   title: PropTypes.string.isRequired,
+  authType: PropTypes.string.isRequired,
   fields: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -73,7 +118,6 @@ AuthForm.propTypes = {
       required: PropTypes.bool,
     })
   ).isRequired,
-  onSubmit: PropTypes.func.isRequired,
 };
 
 export default AuthForm;
