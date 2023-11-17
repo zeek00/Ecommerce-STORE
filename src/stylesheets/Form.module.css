@@ -1,0 +1,24 @@
+.form p{
+    padding-bottom: 1rem;
+    font-size: 1rem;
+    
+
+}
+
+
+.form h2{
+    font-family: Galano Grotesque;
+    color: rgba(34, 34, 34, 0.9);
+}
+
+.label{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.label input{
+    border-style: none;
+    border-radius: .7rem;
+    padding: .7rem;
+}

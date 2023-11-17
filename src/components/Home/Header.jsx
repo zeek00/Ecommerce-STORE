@@ -26,7 +26,7 @@ const Header= ()=> {
   return (
     <div  className={style.header}>
        {isMobile && <Burger />}
-        <h3>SHOP</h3>
+        <h3>SHOOPP</h3>
         <nav className={style.nav}>
             <Nav className={style.navItem} name={'Home'}/>
             <Nav className={style.navItem} name={'About'}/>
