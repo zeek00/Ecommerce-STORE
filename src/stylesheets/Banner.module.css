@@ -1,0 +1,173 @@
+
+.banner{
+    /* height: 30rem; */
+    display: flex;
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-size: 120%;
+    background-image: url('../assets/hoodie-banner.jpg');
+}
+
+
+
+.bannerText h1{
+    color: rgba(34, 34, 34, 0.80);
+    font-family: Galano Grotesque;
+}
+
+
+
+
+
+@media only screen and (max-width: 480px) {
+    /* Styles for small screens */
+    .banner{
+        /* height: 30rem; */
+        display: flex;
+        background-position: top left;
+        background-repeat: no-repeat;
+        background-size: 150%;
+    }
+    .bannerText{
+        width: 65%;
+
+    }
+    .bannerText, h1 p{
+        padding: 5rem 1rem;
+
+
+    }
+    .bannerText h1{
+        font-size: 1rem;
+    }
+
+    .bannerText p{
+        font-size: .8rem;
+    }
+    
+    
+}
+
+@media only screen and (min-width:480px) and (max-width: 700px) {
+    /* Styles for small screens in landscape */
+    .banner{
+        /* height: 30rem; */
+        display: flex;
+        background-position: top left;
+        background-repeat: no-repeat;
+        background-size: 150%;
+    }
+    .bannerText{
+        width: 65%;
+
+    }
+    .bannerText, h1 p{
+        padding: 5rem 1rem;
+
+
+    }
+    .bannerText h1{
+        font-size: 1rem;
+    }
+
+    .bannerText p{
+        font-size: .8rem;
+    }
+    
+    
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    /* Styles for tablets in portrait */
+    .banner{
+        /* height: 37rem; */
+        display: flex;
+        background-position: top left;
+        background-repeat: no-repeat;
+        background-size: 140%;
+    }
+    .bannerText{
+        width: 65%;
+
+    }
+    .bannerText, h1 p{
+        padding: 7rem 3rem;
+
+
+    }
+    .bannerText h1{
+        font-size: 1.9rem;
+    }
+
+    .bannerText p{
+        font-size: 1.4rem;
+        font-weight: 550;
+    }
+    
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) and (orientation: landscape) {
+    /* Styles for tablets in landscape */
+   
+}
+
+@media only screen and (min-width: 992px) {
+    /* Styles for desktops */
+    .banner{
+        /* height: 37rem; */
+        display: flex;
+        background-position: top left;
+        background-repeat: no-repeat;
+        background-size: 145%;
+
+    }
+    .bannerText{
+        width: 70%;
+        z-index: 4;
+        padding: 0 7rem;
+        margin: 10rem 0;
+    }
+ 
+    .bannerText h1{
+        font-size: 2rem;
+    }
+
+    .bannerText p{
+        font-size: 1.4rem;
+    }
+
+    
+}
+
+@media only screen and (min-width: 1200px) {
+    /* Styles for large desktops */
+   
+    .banner{
+        /* height: 37rem; */
+        display: flex;
+        background-position: top/20% left;
+        background-repeat: no-repeat;
+        background-size: 150%;
+
+    }
+    .bannerText{
+        width: 70%;
+        z-index: 4;
+        padding: 0 7rem;
+        margin: 10rem 0;
+    }
+ 
+    .bannerText h1{
+        font-size: 3rem;
+    }
+
+    .bannerText p{
+        font-size: 1.6rem;
+    }
+    
+
+  }
+  
+  
+
+  
+  

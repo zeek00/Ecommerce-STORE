@@ -5,6 +5,7 @@ const Button = (props)=> {
     const { type, label, color, backgroundColor, borderRadius, width } = props;
     const buttonStyle = {
         color: color || 'white',
+        width: width,
         backgroundColor: backgroundColor || '#222',
         borderRadius: borderRadius || '.7rem',
         padding: '.7rem',

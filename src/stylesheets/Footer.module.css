@@ -3,9 +3,11 @@
     color: rgba(34, 34, 34, 0.60);
     padding: 1rem;
 }
+
 .container{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    text-align: center;
     grid-row-gap: .7rem;
     grid-template-areas: 
         "a b c d"
@@ -179,6 +181,11 @@
         }
         .subscribe p{
             font-size: .8rem;
+            text-align: center;
+        }
+        .subscribe form{
+            display: flex;
+            justify-content: center;
         }
         .footer h3{
             text-align: left;
@@ -282,12 +289,11 @@
 @media only screen and (min-width: 992px) {
     /* Styles for desktops */
    .container{ 
-        grid-template-columns: repeat(8, 1fr);
+        grid-template-columns: repeat(6, 1fr);
         grid-row-gap: .7rem;
         grid-template-areas: 
-            "a a b b c c d d"
-            "f f g g e e e e"
-            
+            "a b c d f g"
+            "e e e e e e" 
         ;
    }
 
@@ -304,11 +310,21 @@
         text-transform: uppercase;
     }
 
+    .subscribe{
+        margin: auto;
+    }
+
     .subscribe h5{
         font-size: 1.9rem;
     }
     .subscribe p{
         font-size: 1.3rem;
+        text-align: center;
+    }
+
+    .subscribe form{
+        display: flex;
+        justify-content: center;
     }
     .footer h3{
         text-align: left;

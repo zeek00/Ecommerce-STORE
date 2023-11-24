@@ -61,6 +61,7 @@ const Footer= ()=> {
             <ul>
                 <li><FaWhatsapp className={style.socialIcon} /><Link className={style.socialLink} >+234 809 368 3423</Link></li>
                 <li><FaPhone className={style.socialIcon} /><Link className={style.socialLink} >+44 798 389 79390</Link></li>
+                <li><FaWhatsapp className={style.socialIcon} /><Link className={style.socialLink} >+234 815 566 7469</Link></li>
             </ul>
         </div>
 
@@ -72,7 +73,7 @@ const Footer= ()=> {
                     <MdOutlineAlternateEmail className={style.icon}/>
                     <input type="email" placeholder='Email Address' />
                 </div>
-                <Button label={'Subscribe'} color={'#fff'} backgroundColor={'rgba(34, 34, 34, 0.6)'} borderRadius={'1.7rem'}/>
+                <Button label='Subscribe' color='#fff' backgroundColor='rgba(34, 34, 34, 0.6)' borderRadius='1.7rem'/>
             </form>
             <p>For details of how we use your information, please see
                 our <span>private policy</span>

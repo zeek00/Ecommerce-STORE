@@ -99,6 +99,7 @@ const AuthForm = ({ about, closingAbout, title, fields, authType }) => {
         ))}
         <p>{closingAbout}</p>
         <Button
+        width={'100%'}
         label={title} 
         type="submit"/>
       </form>
