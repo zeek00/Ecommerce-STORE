@@ -3,9 +3,10 @@ import Button from './Button';
 import style from '../../stylesheets/Box.module.css'
 
 const ActionBox = (props)=> {
-    const {backgroundColor, title, describe,children} = props;
+    const {backgroundColor, children} = props;
     const boxStyle = {
-      backgroundColor: backgroundColor || 'rgb(234,227,201)',
+      backgroundColor: backgroundColor,
+      margin: '2rem auto'
     }
 
   return (

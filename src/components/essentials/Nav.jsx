@@ -3,15 +3,11 @@ import { NavLink } from 'react-router-dom';
 import style from '../../stylesheets/Nav.module.css'
 
 
-const  Nav = ({name, to})=> {
-    const btnStyles = {
-        padding: '.rem auto',
-        color: 'rgba(34, 34, 34)',
-        textDecoration: 'none'
+const  Nav = ({type,name, to})=> {
 
-    }
+    
   return (
-    <NavLink to={to} className={style.nav} style={btnStyles}>{name}</NavLink>
+    <NavLink to={to} className={style.nav}>{name}</NavLink>
   )
 }
 

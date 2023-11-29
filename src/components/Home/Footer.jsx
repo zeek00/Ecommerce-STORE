@@ -75,18 +75,21 @@ const Footer= ()=> {
                 </div>
                 <Button label='Subscribe' color='#fff' backgroundColor='rgba(34, 34, 34, 0.6)' borderRadius='1.7rem'/>
             </form>
-            <p>For details of how we use your information, please see
+            {/* <p>For details of how we use your information, please see
                 our <span>private policy</span>
+            </p> */}
+
+        </div>
+
+        </div>
+        
+        <div className={style.footerFinal} >
+            <p>&copy;2023 SHOOP </p>
+            <p>
+            <span>Private policy</span> | 
+            <span> Terms and conditions</span> 
+
             </p>
-
-        </div>
-
-        </div>
-        <h3>SHOP</h3>
-        <hr />
-        <div >
-            2023 &copy; All rights reserved by zeekdevs
-
         </div>
     </div>
     

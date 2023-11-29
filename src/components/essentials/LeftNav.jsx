@@ -53,24 +53,7 @@ const LeftNav = ({ open }) => {
   return (
     <Ul open={open}>
       {/* Directly placing li elements inside the ul */}
-      <li>
-        <a onClick={() => handleNavigation('/home')} className="nav-link">
-          Home
-        </a>
-      </li>
-
-      <li>
-        <a onClick={() => handleNavigation('/about')} className="nav-link">
-          About
-        </a>
-      </li>
-
-      <li>
-        <a onClick={() => handleNavigation('/portfolio')} className="nav-link">
-          Portfolio
-        </a>
-      </li>
-
+      
       <li>
         <a onClick={() => handleNavigation('/contact')} className="nav-link">
           Contact

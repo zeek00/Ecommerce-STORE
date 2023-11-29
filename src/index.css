@@ -7,12 +7,12 @@
   
 }
 
-#root{
+/* #root{
   display: grid;
-  /* grid-template-rows: 6rem auto 30rem; */
+  grid-template-rows: 6rem auto 30rem;
   height: 100%;
   width: 100%;
-}
+} */
 
 html, body{
   margin: 0;
@@ -30,8 +30,17 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-a.active{
-  /* background-color: crimson; */
+
+a{
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+}
+
+a:active{
+  /* background-color: #dcd0a4; */
+}a:hover{
+  /* background-color: #dcd0a4; */
 }
 
 html {

@@ -104,6 +104,8 @@
 }
 .subscribe form{
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .subscribe h5{
@@ -128,12 +130,27 @@
     font-size: 1.4rem;
 }
 
+
 .form input{
     border: none;
     padding-left: .7rem;
     width: 80%;
     font-size: .8rem;
     font-weight: 200;
+}
+
+.footerFinal{
+    display: flex;
+    justify-content: space-between;
+}
+
+.footerFinal p{
+    color: rgba(34, 34, 34, 0.6);
+}
+
+.footerFinal p span{
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 
@@ -143,7 +160,7 @@
     /* Styles for small screens */
 
     .container{
-        display: grid;
+        display: none;
         grid-template-columns: repeat(4, 1fr);
         grid-row-gap: .7rem;
         grid-template-areas: 
@@ -165,32 +182,36 @@
     }
     .container h4{
         font-size: .8rem;
-        
-        line-height: 2.15rem;
         letter-spacing: 0.025rem;
-        }
+    }
     
-        .container li{
-            font-size: .7rem;
-            font-weight: 500;
-            text-transform: uppercase;
-        }
-    
-        .subscribe h5{
-            font-size: 1.6rem;
-        }
-        .subscribe p{
-            font-size: .8rem;
-            text-align: center;
-        }
-        .subscribe form{
-            display: flex;
-            justify-content: center;
-        }
-        .footer h3{
-            text-align: left;
-            font-size: 1rem;
-        }
+    .container li{
+        font-size: .7rem;
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+
+    .subscribe h5{
+        font-size: 1.6rem;
+    }
+    .subscribe p{
+        font-size: .8rem;
+        text-align: center;
+    }
+    .subscribe form{
+        display: flex;
+        justify-content: center;
+    }
+
+
+    .footer h3{
+        text-align: left;
+        font-size: 1rem;
+    }
+
+    .footerFinal p{
+        font-size: .7rem;
+    }
 }
 
 
@@ -200,88 +221,68 @@
         width: 60%;
         
     }
-    
-    .form input{
-        width: 60%;
-        
+    .container{
+        display: none;
     }
-    .container h4{
-        font-size: .9rem;
-        
-        line-height: 2.25rem;
-        letter-spacing: 0.025rem;
-        }
     
-        .container li{
-            font-size: .8rem;
-            font-weight: 500;
-            text-transform: uppercase;
-        }
-    
-        .subscribe h5{
-            font-size: 1.7rem;
-        }
-        .subscribe p{
-            font-size: .9rem;
-        }
-        .footer h3{
-            text-align: left;
-            font-size: 1rem;
-        }
+    .footer h3{
+        text-align: left;
+        font-size: 1rem;
+    }
 }
 
-@media only screen and (min-width: 700px) and (max-width: 991px) {
+@media only screen and (min-width: 700px) and (max-width: 768px) {
     /* Styles for tablets in portrait */
-    .container h4{
-        font-size: 1rem;
-        
-        line-height: 2.35rem;
-        letter-spacing: 0.025rem;
-        }
+    .container{
+        display: none;
+    }
     
-        .container li{
-            font-size: .9rem;
-            font-weight: 500;
-            text-transform: uppercase;
-        }
-    
-        .subscribe h5{
-            font-size: 1.8rem;
-        }
-        .subscribe p{
-            font-size: 1rem;
-        }
-        .footer h3{
-            text-align: left;
-            font-size: 1.1rem;
-        }
-
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) and (orientation: landscape) {
     /* Styles for tablets in landscape */
+    .container{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 1rem;
+        grid-template-areas: 
+            "a b c d"
+            "f g e e" 
+        ;
+    }
     .container h4{
-        font-size: 1.1rem;
-        
-        line-height: 2.45rem;
+        font-size: 1rem;
         letter-spacing: 0.025rem;
-        }
+    }
+
+    .container li{
+        font-size: .9rem;
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+
+    .subscribe h5{
+        font-size: 1rem;
+    }
+    .subscribe p{
+        font-size: .9rem;
+        text-align: center;
+    }
+
+    .subscribe form{
+        display: flex;
+        justify-content: center;
+    }
+
+    .footerFinal{
+        margin-top: 1rem;
+
+    }
     
-        .container li{
-            font-size: 1rem;
-            font-weight: 500;
-            text-transform: uppercase;
-        }
-    
-        .subscribe h5{
-            font-size: 1.8rem;
-        }
-        .subscribe p{
-            font-size: 1.1rem;
-        }
-        .footer h3{
-            text-align: left;
-            font-size: 1.1rem;
-        }
+
+    .footer h3{
+        text-align: left;
+        font-size: 1rem;
+    }
 
 }
 
@@ -289,23 +290,21 @@
 @media only screen and (min-width: 992px) {
     /* Styles for desktops */
    .container{ 
-        grid-template-columns: repeat(6, 1fr);
-        grid-row-gap: .7rem;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 1rem;
         grid-template-areas: 
-            "a b c d f g"
-            "e e e e e e" 
+            "a b c d"
+            "f g e e" 
         ;
    }
 
    .container h4{
-    font-size: 1.5rem;
-    
-    line-height: 2.45rem;
+    font-size: 1.1rem;
     letter-spacing: 0.025rem;
     }
 
     .container li{
-        font-size: 1rem;
+        font-size: .9rem;
         font-weight: 500;
         text-transform: uppercase;
     }
@@ -315,10 +314,10 @@
     }
 
     .subscribe h5{
-        font-size: 1.9rem;
+        font-size: 1.5rem;
     }
     .subscribe p{
-        font-size: 1.3rem;
+        font-size: 1rem;
         text-align: center;
     }
 
@@ -328,13 +327,17 @@
     }
     .footer h3{
         text-align: left;
-        font-size: 1.5rem;
+        font-size: 1.3rem;
     } 
 
-    .form{
-        width: 40%;
-        
+
+    .footerFinal{
+        margin-top: 1rem;
+
+    }
+
+    .footerFinal p{
+        font-size: 1.3rem;
     }
    
-    
 }

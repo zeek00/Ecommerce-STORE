@@ -5,9 +5,9 @@ import LeftNav
 const BurgerStyle = styled.div`
   width: 2rem;
   height: 2rem;
-  position: fixed;
-  padding-left: .2rem;
-  top: 15px;
+  position: absolute;
+  padding-left: .1rem;
+  top: .6rem;
   left: 20px; /* Adjusted to the left */
   display: flex;
   justify-content: space-around;
