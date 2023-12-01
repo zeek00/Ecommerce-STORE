@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import PostsRoutes from '../../app/routes';
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 
 
@@ -110,11 +110,11 @@ const SignAction =()=> {
         <h3>SHOOP</h3>
         <div className="box">
             <nav>
-            <div tabIndex={0} onClick={handleJoinClick}>
-                    <span>Join</span>
+            <div tabIndex={0} onClick={handleJoinClick} role="button">
+              <span>Join</span>
             </div>
-            <div tabIndex={1} onClick={handleSignInClick}>
-                    <span>Sign In</span>
+            <div tabIndex={1} onClick={handleSignInClick} role="button">
+              <span>Sign In</span>
             </div>
                 
             </nav> 

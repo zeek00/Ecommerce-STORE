@@ -24,7 +24,6 @@ const HeaderWithConditionalRender = () => {
   }else{
     return <Header/>
   }
-  // return isSignAction && isSignInAction && isSignUpAction ? null : <Header />;
 };
 
 export default HeaderWithConditionalRender;

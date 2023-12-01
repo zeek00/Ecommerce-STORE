@@ -86,8 +86,8 @@ const Footer= ()=> {
         <div className={style.footerFinal} >
             <p>&copy;2023 SHOOP </p>
             <p>
-            <span>Private policy</span> | 
-            <span> Terms and conditions</span> 
+            <span>Private policy</span> | {' '}
+            <span>Terms and conditions</span> 
 
             </p>
         </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { FiSearch } from 'react-icons/fi';
 
@@ -54,40 +54,11 @@ const Div = styled.div`
     }
 `;
 
-const Search = ({ open, onClose }) => {
-    // console.log('open:', open);
-    // console.log('typeof onClose:', typeof onClose);
+const Search = ({ open }) => {
+    
     const searchRef = useRef(null);
     const inputRef = useRef(null);
     
-    // useEffect(() => {
-    //     const handleOutsideClick = (event) => {
-    //         event.preventDefault();
-    
-    //         // Check if the searchRef is defined
-    //         if (searchRef.current) {
-    //             // Check if the click is outside the searchRef
-    //             if (!searchRef.current.contains(event.target)) {
-    //                 // Check if the inputRef is defined
-    //                 if (inputRef.current) {
-    //                     // Check if the click is inside the inputRef
-    //                     if (inputRef.current.contains(event.target)) {
-    //                         return;
-    //                     }
-    //                 }
-    
-    //                 // If the click is outside both the search bar and input field, close the search bar
-    //                 onClose();
-    //             }
-    //         }
-    //     };
-    
-    //     document.body.addEventListener('click', handleOutsideClick);
-    
-    //     return () => {
-    //         document.body.removeEventListener('click', handleOutsideClick);
-    //     };
-    // }, [onClose, searchRef, inputRef]);
     return (
         <Div isOpen={open} ref={searchRef}>
             <div>
