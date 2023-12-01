@@ -48,7 +48,7 @@ const Header = () => {
     <>
       <div className={style.header}>
         {isMobile && <Burger />}
-        <h3 onClick={()=>PostsRoutes.root()}>SHOOPP</h3>
+        <h3 onClick={()=>PostsRoutes.root()} tabIndex={0}>SHOOPP</h3>
         <nav className={style.nav}>
           <Nav className={style.navItem} name={'Men'} />
           <Nav className={style.navItem} name={'Accessories'} />

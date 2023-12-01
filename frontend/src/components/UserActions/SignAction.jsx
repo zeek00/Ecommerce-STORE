@@ -110,10 +110,10 @@ const SignAction =()=> {
         <h3>SHOOP</h3>
         <div className="box">
             <nav>
-            <div onClick={handleJoinClick}>
+            <div tabIndex={0} onClick={handleJoinClick}>
                     <span>Join</span>
             </div>
-            <div onClick={handleSignInClick}>
+            <div tabIndex={1} onClick={handleSignInClick}>
                     <span>Sign In</span>
             </div>
                 

@@ -16,7 +16,7 @@ const Div = styled.div`
   width: 80%;
   opacity: ${(props) => (props.isOpen ? '1' : '0')};
   transition: all .5s ease-in-out;
-  transform: ${(props) => (props.isOpen ? 'scaleY(1)' : 'scaleY(1)')};
+  transform: ${(props) => (props.isOpen ? 'scaleY(1)' : 'scaleY(0)')};
   transform-origin: left top;
 
   &:target{
