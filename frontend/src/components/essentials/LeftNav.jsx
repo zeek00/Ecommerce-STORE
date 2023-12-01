@@ -54,11 +54,7 @@ const LeftNav = ({ open }) => {
     <Ul open={open}>
       {/* Directly placing li elements inside the ul */}
       
-      <li>
-        <a onClick={() => handleNavigation('/contact')} className="nav-link">
-          Contact
-        </a>
-      </li>
+      
     </Ul>
   );
 };

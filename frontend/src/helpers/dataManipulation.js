@@ -29,7 +29,7 @@ class DataManipulation {
             }
             
         }
-    }
+    };
 
     sortData(data, category){
         let sortedData = [];
@@ -57,13 +57,13 @@ class DataManipulation {
         // console.log('this is the sorted data: '+sortedData)
 
         return sortedData;
-    }
+    };
 
     sortImages(imageArray, targetArray){
         for (let image of imageArray) {
             targetArray.push(image);
         }
-    }
+    };
 
     mergeData(dataArray){
         let id = 1;
@@ -74,7 +74,7 @@ class DataManipulation {
         // console.log(mergedData)
         return mergedData;
     
-    }
+    };
 }
 
 export default DataManipulation;

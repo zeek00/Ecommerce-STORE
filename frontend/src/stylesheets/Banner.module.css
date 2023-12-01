@@ -1,6 +1,6 @@
 
 .banner{
-    /* height: 30rem; */
+    
     display: flex;
     background-position: top left;
     background-repeat: no-repeat;
@@ -11,8 +11,8 @@
 
 
 .bannerText h1{
+    font-family: Galano Grotesque, sans-serif;
     color: rgba(34, 34, 34, 0.80);
-    font-family: Galano Grotesque;
 }
 
 
@@ -22,7 +22,6 @@
 @media only screen and (max-width: 480px) {
     /* Styles for small screens */
     .banner{
-        /* height: 30rem; */
         display: flex;
         background-position: top left;
         background-repeat: no-repeat;
@@ -51,7 +50,6 @@
 @media only screen and (min-width:480px) and (max-width: 700px) {
     /* Styles for small screens in landscape */
     .banner{
-        /* height: 30rem; */
         display: flex;
         background-position: top left;
         background-repeat: no-repeat;
@@ -80,7 +78,6 @@
 @media only screen and (min-width: 768px) and (max-width: 991px) {
     /* Styles for tablets in portrait */
     .banner{
-        /* height: 37rem; */
         display: flex;
         background-position: top left;
         background-repeat: no-repeat;
@@ -113,7 +110,6 @@
 @media only screen and (min-width: 992px) {
     /* Styles for desktops */
     .banner{
-        /* height: 37rem; */
         display: flex;
         background-position: top left;
         background-repeat: no-repeat;
