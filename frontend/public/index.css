@@ -1,0 +1,53 @@
+
+#root {
+  display: grid;
+  grid-template-rows: 4rem  40rem;
+  height: 100%;
+  width: 100%;
+}
+
+@media only screen and (max-width: 480px) {
+  /* Styles for small screens */
+  #root {
+    display: grid;
+    grid-template-rows: 7rem  51rem;
+    height: 100%;
+    width: 100%;
+  }
+  
+}
+
+@media only screen and (min-width:480px) and (max-width: 700px) {
+  /* Styles for small screens in landscape */
+ 
+  
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  /* Styles for tablets in portrait */
+  #root{
+    grid-template-rows: 7rem  58rem;
+
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) and (orientation: landscape) {
+  /* Styles for tablets in landscape */
+  
+}
+
+@media only screen and (min-width: 992px) {
+  /* Styles for desktops */
+
+  
+
+  
+ 
+  
+}
+
+@media only screen and (min-width: 1200px) {
+  /* Styles for large desktops */
+}
+
+
+

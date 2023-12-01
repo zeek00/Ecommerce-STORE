@@ -1,0 +1,35 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "backend server for ecommerce web app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "backend": "nodemon server.js",
+    "frontend": "npm run start --prefix ../frontend",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "Ecommerce-STORE"
+  },
+  "keywords": [
+    "node",
+    "ecommerce",
+    "react",
+    "express"
+  ],
+  "author": "Isaac Isewede",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.0.1"
+  }
+}
