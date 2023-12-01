@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { startLoading,finishLoading,setError } from '../features/loading/loadingSlice';
+import { startLoading,finishLoading } from '../features/loading/loadingSlice';
 import { addLaptops, addSmartphones } from '../features/electronics/electronicsSlice';
 import { addTops, addMale, addFemale } from '../features/clothing/clothingSlice';
 import { addJewelries } from '../features/jewelries/jewelriesSlice';

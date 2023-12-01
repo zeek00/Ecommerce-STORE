@@ -16,7 +16,6 @@ const SignIn = ()=> {
 
 
   return (
-    <>
     <ActionBox>
         <AuthForm 
             about={"Sign in to shop seamlessly and get great deals"} 
@@ -28,7 +27,6 @@ const SignIn = ()=> {
             <p style={p}>Don't have an account? <Link to='/signup'>Sign Up</Link> </p>
             
     </ActionBox>
-    </>
   )
 }
 

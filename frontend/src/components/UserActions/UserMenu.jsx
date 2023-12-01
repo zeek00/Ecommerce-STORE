@@ -83,7 +83,6 @@ const Div = styled.div`
 `;
 
 const UserMenu = ({ isOpen, onClose }) => {
-  const [access, setAccess] = useState(true);
   const navigate = useNavigate();
   const handleSignInClick = () => {
     navigate(PostsRoutes.signAction.signin());
