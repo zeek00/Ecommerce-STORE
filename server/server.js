@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+app.disable("x-powered-by");
 
 // Import express-session below:
 const session = require("express-session")
