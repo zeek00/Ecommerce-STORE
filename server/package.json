@@ -5,9 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "backend": "nodemon server.js",
+    "server": "nodemon server.js",
     "frontend": "npm run start --prefix ../frontend",
-    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "dev": "concurrently \"npm run server\" \"npm run frontend\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,9 +24,13 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
+    "connect-mongo": "^5.1.0",
     "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "express-session": "^1.17.3"
+    "express-session": "^1.17.3",
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.0.2"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
