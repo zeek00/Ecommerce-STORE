@@ -6,13 +6,16 @@ import SignIn from '../components/UserActions/SignIn';
 import UserMenu from '../components/UserActions/UserMenu';
 import PostsRoutes from './routes';
 import SignAction from '../components/UserActions/SignAction';
+import Home from '../components/Home/Home';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path={`/${PostsRoutes.root()}`} element={<Root />} />
-        <Route path={`/${PostsRoutes.menu()}`} element={<UserMenu />} />
+        <Route path={`/${PostsRoutes.root()}`} element={<Root />} >
+          <Route path={`/${PostsRoutes.root()}`} element={<Home/>}/>
+        </Route>
+
         <Route path={`/${PostsRoutes.signAction.root()}`} element={<SignAction />}>
           <Route path={PostsRoutes.signAction.signup()} element={<SignUp />} />
           <Route path={PostsRoutes.signAction.signin()} element={<SignIn />} />

@@ -96,11 +96,11 @@ const UserMenu = ({ isOpen, onClose }) => {
     <Div isOpen={isOpen}>
       <div className="cont-one">
         <div className="access">
-          <Link onClick={handleSignInClick} to={PostsRoutes.signAction.signin}>
+          <Link onClick={handleSignInClick} to={PostsRoutes.signAction.signin()}>
             <span> Sign In</span>
           </Link>{' '}
           |
-          <Link onClick={handleJoinClick} to={PostsRoutes.signAction.signup}>
+          <Link onClick={handleJoinClick} to={PostsRoutes.signAction.signup()}>
             {' '}
             <span> Join</span>
           </Link>

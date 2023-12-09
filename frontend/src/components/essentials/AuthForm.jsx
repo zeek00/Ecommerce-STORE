@@ -102,6 +102,8 @@ const AuthForm = ({ about, closingAbout, title, fields, authType }) => {
         borderRadius={'0'}
         width={'100%'}
         label={title} 
+        padding={'.7rem'}
+        backgroundColor={'#222'}
         type="submit"/>
       </form>
       {console.log(userNow)}
