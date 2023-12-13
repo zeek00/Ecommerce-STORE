@@ -2,6 +2,8 @@ import React from 'react'
 import ActionBox from '../essentials/ActionBox'
 import AuthForm from '../essentials/AuthForm';
 import { Link } from 'react-router-dom';
+import PostsRoutes from '../../app/routes'
+
 
 const SignUp = ()=> {
     const p ={
@@ -28,8 +30,10 @@ const SignUp = ()=> {
             closingAbout={"By signing up you accept our terms and conditions & privacy policy"}
             authType="signUp"
             />
-            <p style={p}>Already have an account? <Link to={'/signin'}>Sign In</Link> </p>
-            
+            <br/>
+
+            <p style={p}>Already have an account? <Link to={PostsRoutes.signAction.signin()}>Sign In</Link> </p>
+            {}
     </ActionBox>
     </>
   )

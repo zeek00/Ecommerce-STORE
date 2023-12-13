@@ -4,8 +4,9 @@
   
   .logo {
     font-size: 5rem;
-    height: 40vmin;
-    color: crimson;
+    color: #dcd0a4;
+    border-radius: 50%;
+    width: fit-content;
     pointer-events: none;
   }
   

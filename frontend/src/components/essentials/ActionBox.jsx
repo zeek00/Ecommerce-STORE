@@ -6,7 +6,7 @@ const ActionBox = (props)=> {
     const {backgroundColor, children} = props;
     const boxStyle = {
       backgroundColor: backgroundColor,
-      margin: '2rem auto'
+      margin: '0 auto'
     }
 
   return (

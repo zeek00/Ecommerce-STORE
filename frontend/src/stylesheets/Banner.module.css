@@ -1,6 +1,6 @@
 
 .banner{
-    
+    outline: 1px solid red;
     display: flex;
     background-position: top left;
     background-repeat: no-repeat;

@@ -1,6 +1,10 @@
 
 const PostsRoutes =  {
-    root: () => "",
+    home: {
+        root:() => "",
+        home:() => "/home",
+        featured: ()=> "/featured",
+    },
     menu: () => "/menu",
     signAction:{
         root: ()=> "/sign-action",

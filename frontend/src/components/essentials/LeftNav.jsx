@@ -7,16 +7,11 @@ const Ul = styled.ul`
   display: flex;
   flex-flow: row-reverse;
   padding: 0;
+  min-height: 100vh;
 
-  li {
-    margin: 70px auto;
-    width: 50%;
-    
-  }
+ 
   @media (min-width: 999px){
-    li{
-        display: none;
-    }
+    
   }
 
   @media (max-width: 999px) {
@@ -28,7 +23,7 @@ const Ul = styled.ul`
     top: 0;
     left: 0
     height: 100vh;
-    width: 330px;
+    width: 90%;
     padding-top: 3.5rem;
     transition: transform 0.3s ease-in-out;
 

@@ -1,7 +1,6 @@
 
 #root {
   display: grid;
-  grid-template-rows: 4rem  40rem;
   height: 100%;
   width: 100%;
 }
@@ -9,10 +8,10 @@
 @media only screen and (max-width: 480px) {
   /* Styles for small screens */
   #root {
-    display: grid;
-    grid-template-rows: 7rem  51rem;
-    height: 100%;
-    width: 100%;
+    grid-template-rows: 1rem  51rem;
+    z-index: 2;
+    border: 1px solid red;
+    
   }
   
 }
@@ -26,18 +25,24 @@
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   /* Styles for tablets in portrait */
   #root{
-    grid-template-rows: 7rem  58rem;
+    grid-template-rows: 3rem  58rem;
 
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) and (orientation: landscape) {
   /* Styles for tablets in landscape */
-  
+  #root{
+    grid-template-rows: 3rem  58rem;
+
+  }
 }
 
 @media only screen and (min-width: 992px) {
   /* Styles for desktops */
+#root{
+    grid-template-rows: 3rem  58rem;
 
+  }
   
 
   
