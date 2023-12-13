@@ -7,7 +7,8 @@ const selectTops = (state)=>state.clothing.tops;
 const selectFemale = (state)=>state.clothing.female;
 const selectCart = (state) => state.cart.cart;
 const selectFail = (state) => state.session.fail;
-const selectCurrentUser = (state) => state.session.users.find(user => user.isLoggedIn);
+const selectCurrentUser = (state) => state.session.currentUser;
+const selectSessionLoading = (state) => state.session.isLoading;
 
 export {
     selectLoadingState,
@@ -19,5 +20,7 @@ export {
     selectFemale,
     selectCart,
     selectFail,
-    selectCurrentUser
+    selectCurrentUser,
+    selectSessionLoading
+    
 }

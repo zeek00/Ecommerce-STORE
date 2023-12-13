@@ -1,11 +1,19 @@
 require('dotenv').config();
 const express = require("express");
 const app = express();
+const cors = require('cors');
+const apiRouter = require('../server/api')
 const db = require('./database/db');
 const bodyParser = require('body-parser')
 
-// Middleware to parse incoming JSON requests
+// Middleware for parsing request bodies here:
 app.use(bodyParser.json())
+
+//  Middleware for handling CORS requests from index.html
+app.use(cors());
+
+// Middleware for api Routes
+app.use('/api', apiRouter);
 
 // Enable trust for proxy
 app.set('trust proxy', 1)

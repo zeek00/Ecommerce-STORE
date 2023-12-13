@@ -12,8 +12,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path={`/${PostsRoutes.root()}`} element={<Root />} >
-          <Route path={`/${PostsRoutes.root()}`} element={<Home/>}/>
+        <Route path={`/${PostsRoutes.home.root()}`} element={<Root />} >
+          <Route path={`/${PostsRoutes.home.home()}`} element={<Home/>}/>
+          <Route path={`/${PostsRoutes.home.featured()}`} element={<Home/>}/>
         </Route>
 
         <Route path={`/${PostsRoutes.signAction.root()}`} element={<SignAction />}>

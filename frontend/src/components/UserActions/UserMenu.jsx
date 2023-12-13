@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { BsBoxSeam } from 'react-icons/bs';
 import { FaRegUser } from 'react-icons/fa';
@@ -6,6 +7,8 @@ import { BiMessageSquareDots } from 'react-icons/bi';
 import { MdCancel } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import PostsRoutes from '../../app/routes';
+import { selectCurrentUser } from '../../features/selectors';
+import { logOutAsync } from '../../features/session/sessionSlice';
 
 
 const Div = styled.div`
@@ -83,6 +86,8 @@ const Div = styled.div`
 `;
 
 const UserMenu = ({ isOpen, onClose }) => {
+  const userNow = useSelector(selectCurrentUser) !== null;
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleSignInClick = () => {
     navigate(PostsRoutes.signAction.signin());
@@ -90,20 +95,37 @@ const UserMenu = ({ isOpen, onClose }) => {
 
   const handleJoinClick = () => {
     navigate(PostsRoutes.signAction.signup());
+  };  
+  
+  const handleLogoutClick = () => {
+    const confirmLogout = window.confirm('Are you sure you want to logout?');
+    if(confirmLogout){
+      dispatch(logOutAsync())
+    }
+    if(userNow){
+      navigate(PostsRoutes.signAction.signin());
+    }
   };
 
   return (
     <Div isOpen={isOpen}>
       <div className="cont-one">
         <div className="access">
-          <Link onClick={handleSignInClick} to={PostsRoutes.signAction.signin()}>
-            <span> Sign In</span>
-          </Link>{' '}
-          |
-          <Link onClick={handleJoinClick} to={PostsRoutes.signAction.signup()}>
-            {' '}
-            <span> Join</span>
-          </Link>
+          { userNow ? (
+            <Link onClick={handleLogoutClick} to={PostsRoutes.signAction.signin()}>
+              <span> Logout</span>
+            </Link>):(
+            <>
+              <Link onClick={handleSignInClick} to={PostsRoutes.signAction.signin()}>
+              <span> Sign In</span>
+              </Link>{' '}
+              |
+              <Link onClick={handleJoinClick} to={PostsRoutes.signAction.signup()}>
+                {' '}
+                <span> Join</span>
+              </Link>
+            </>)
+          }
         </div>
         <MdCancel onClick={onClose} />
       </div>

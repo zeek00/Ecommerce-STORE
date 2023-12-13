@@ -33,7 +33,7 @@ const SignUp = ()=> {
             <br/>
 
             <p style={p}>Already have an account? <Link to={PostsRoutes.signAction.signin()}>Sign In</Link> </p>
-            
+            {}
     </ActionBox>
     </>
   )

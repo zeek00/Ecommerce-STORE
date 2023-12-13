@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import style from '../../stylesheets/Form.module.css'
+import PostsRoutes from '../../app/routes'
 import Button from './Button';
+import Loading from '../Loading/Loading'
 import { useNavigate } from 'react-router-dom';
-import {selectCurrentUser, selectFail} from '../../features/selectors'
-import { signIn, signUp } from '../../features/session/sessionSlice';
+import {selectCurrentUser, selectFail, selectSessionLoading} from '../../features/selectors'
+import { signInAsync, signUpAsync } from '../../features/session/sessionSlice';
 import { CiWarning } from "react-icons/ci";
 
 const failStyle = {
@@ -16,15 +18,16 @@ const failStyle = {
 };
 
 const AuthForm = ({ about, closingAbout, title, fields, authType }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userNow = useSelector(selectCurrentUser);
   const userFail = useSelector(selectFail);
+  const sessionLoad = useSelector(selectSessionLoading);
   const [showFail, setShowFail] = useState(false);
   const [formData, setFormData] = useState(
     fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {})
   );
-
-  const dispatch = useDispatch();
-  const userNow = useSelector(selectCurrentUser);
-  const navigate = useNavigate();
+  
   useEffect(() => {
     // Show the fail message when a sign-up fails
     if (authType === 'signIn' && userFail) {
@@ -37,77 +40,129 @@ const AuthForm = ({ about, closingAbout, title, fields, authType }) => {
       }, 9000); // Adjust the duration as needed
 
       // Cleanup the timeout to avoid memory leaks
-      return () => clearTimeout(timeoutId);
+      return () =>{ 
+        clearTimeout(timeoutId);
+      };
     }
   }, [authType, userFail]);
 
+  const [passwordError, setPasswordError] = useState('');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+    // Password validation
+    if (name === 'password') {
+      const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{10,}$/;
+
+      if (!passwordRegex.test(value)) {
+        setPasswordError('Password must be at least 10 characters and include letters and at least one number.');
+      } else {
+        setPasswordError('');
+      }
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
     const{name, email, phone, password} = formData;
-    if(authType === 'signUp'){
-      dispatch(
-        signUp({
-          name,
-          email,
-          phone,
-          password,
-        })
-      );
-      
-    }else if(authType === 'signIn'){
-      dispatch(signIn({name, password}));
-    }
-  
-    //Reset form data
-    setFormData(fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {}));
 
+    try {
+      if(authType === 'signUp'){
+        await dispatch(
+          signUpAsync({
+            name,
+            email,
+            phone,
+            password,
+          })
+        );
+      
+      }else if(authType === 'signIn'){
+        await dispatch(signInAsync({email, password}));
+  
+      }
+      if(!sessionLoad){
+        setFormData(fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {}));
+        setShowFail(false);
+
+        if (authType === 'signUp') {
+          navigate(PostsRoutes.home.home());
+        } else if (authType === 'signIn') {
+          navigate(PostsRoutes.home.featured());
+        }
+      } else {
+        // If authentication was not successful, handle accordingly
+        console.log('Authentication failed.');
+      }  
+
+    }catch (error) {
+      console.error('Error during form submission:', error);
+    }
+    
     
   };
 
   return (
-    <div className={style.form}>
-    {showFail &&(<div style={failStyle}>
-        <CiWarning/>
-        <h5>Looks like either your name or password were incorrect. Wanna try again?</h5>
-      </div>)}
-      <h2>{title}</h2>
-      <p>{about}</p>
-      <form onSubmit={handleSubmit}>
-        {fields.map((field) => (
-          <div key={field.name}>
-            <label className={style.label} htmlFor={field.name}>
-              {field.label}
-              <input
-                type={field.type}
-                id={field.name}
-                name={field.name}
-                value={formData[field.name]}
-                onChange={handleInputChange}
-                required={field.required}
-              />
-            </label>
-            <br /> 
-          </div>
-          
-        ))}
-        <p>{closingAbout}</p>
-        <Button
-        borderRadius={'0'}
-        width={'100%'}
-        label={title} 
-        padding={'.7rem'}
-        backgroundColor={'#222'}
-        type="submit"/>
-      </form>
-      {console.log(userNow)}
-    </div>
+    <>
+    {
+      sessionLoad ? <Loading/> : (<div className={style.form}>
+        {showFail &&(<div style={failStyle}>
+            <CiWarning/>
+            <h5>Looks like either your name or password were incorrect. Wanna try again?</h5>
+          </div>)}
+          <h2>{title}</h2>
+          <p>{about}</p>
+          <form onSubmit={handleSubmit}>
+            {fields.map((field) => (
+              <div key={field.name}>
+                <label className={style.label} htmlFor={field.name}>
+                  {field.label}
+                  {field.type === 'password' && (
+                    <>
+                      <input
+                        type={field.type}
+                        id={field.name}
+                        name={field.name}
+                        value={formData[field.name]}
+                        onChange={handleInputChange}
+                        required={field.required}
+                      />
+                      {passwordError && <p style={{ color: 'red' }}>{passwordError}</p>}
+                    </>
+                  )}
+                  {field.type !== 'password' && (
+                    <input
+                      type={field.type}
+                      id={field.name}
+                      name={field.name}
+                      value={formData[field.name]}
+                      onChange={handleInputChange}
+                      required={field.required}
+                    />
+                  )}
+                </label>
+                <br /> 
+              </div>
+              
+            ))}
+            <p>{closingAbout}</p>
+            <Button
+            borderRadius={'0'}
+            width={'100%'}
+            label={title} 
+            padding={'.7rem'}
+            backgroundColor={'#222'}
+            type="submit"/>
+          </form>
+          {console.log(userNow)}
+        </div>)
+    }
+     
+    
+    </>
+    
   );
 };
 
