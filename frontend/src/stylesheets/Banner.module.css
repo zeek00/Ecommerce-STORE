@@ -1,13 +1,18 @@
 
 .banner{
-    outline: 1px solid red;
     display: flex;
-    background-position: top left;
-    background-repeat: no-repeat;
-    background-size: 120%;
-    background-image: url('../assets/hoodie-banner.jpg');
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    margin: 0rem auto;    
+    background-position:  center;
+
+   
 }
 
+.btn{
+    margin: 2rem auto;
+}
 
 
 .bannerText h1{
@@ -21,76 +26,30 @@
 
 @media only screen and (max-width: 480px) {
     /* Styles for small screens */
-    .banner{
-        display: flex;
-        background-position: top left;
-        background-repeat: no-repeat;
-        background-size: 150%;
-    }
-    .bannerText{
-        width: 65%;
-
-    }
-    .bannerText, h1 p{
-        padding: 5rem 1rem;
-
-
-    }
-    .bannerText h1{
-        font-size: 1rem;
-    }
-
-    .bannerText p{
-        font-size: .8rem;
-    }
-    
+   
     
 }
 
 @media only screen and (min-width:480px) and (max-width: 700px) {
     /* Styles for small screens in landscape */
-    .banner{
-        display: flex;
-        background-position: top left;
-        background-repeat: no-repeat;
-        background-size: 150%;
-    }
-    .bannerText{
-        width: 65%;
-
-    }
-    .bannerText, h1 p{
-        padding: 5rem 1rem;
-
-
-    }
-    .bannerText h1{
-        font-size: 1rem;
-    }
-
-    .bannerText p{
-        font-size: .8rem;
-    }
-    
+   
     
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
-    /* Styles for tablets in portrait */
     .banner{
-        display: flex;
-        background-position: top left;
+        
+        background-image: url('../assets/pexels-robin.jpg');
+        background-position: bottom center;
         background-repeat: no-repeat;
-        background-size: 140%;
+        background-size: 120%;
     }
     .bannerText{
-        width: 65%;
-
+        margin: 0 auto;
     }
-    .bannerText, h1 p{
-        padding: 7rem 3rem;
-
-
+    .bannerText h1{
+        text-align: center;
+        color: #fff;
     }
     .bannerText h1{
         font-size: 1.9rem;
@@ -110,25 +69,25 @@
 @media only screen and (min-width: 992px) {
     /* Styles for desktops */
     .banner{
-        display: flex;
-        background-position: top left;
+        background-image: url('../assets/pexels-tembela-bohle-1884581.jpg');
         background-repeat: no-repeat;
-        background-size: 145%;
-
+        background-size: 100%;
     }
     .bannerText{
-        width: 70%;
-        z-index: 4;
-        padding: 0 7rem;
-        margin: 10rem 0;
+        margin: 0 auto;
+
     }
- 
+    
     .bannerText h1{
-        font-size: 2rem;
+        text-align: center;
+        color: #fff;
+        font-size: 2.5rem;
+        text-shadow: .04rem .04rem .4rem #000;
     }
 
     .bannerText p{
         font-size: 1.4rem;
+        font-weight: 550;
     }
 
     
@@ -137,28 +96,7 @@
 @media only screen and (min-width: 1200px) {
     /* Styles for large desktops */
    
-    .banner{
-        /* height: 37rem; */
-        display: flex;
-        background-position: top/20% left;
-        background-repeat: no-repeat;
-        background-size: 150%;
-
-    }
-    .bannerText{
-        width: 70%;
-        z-index: 4;
-        padding: 0 7rem;
-        margin: 10rem 0;
-    }
- 
-    .bannerText h1{
-        font-size: 3rem;
-    }
-
-    .bannerText p{
-        font-size: 1.6rem;
-    }
+    
     
 
   }
