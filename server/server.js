@@ -3,7 +3,6 @@ const express = require("express");
 const app = express();
 const cors = require('cors');
 const apiRouter = require('../server/api')
-const db = require('./database/db');
 const bodyParser = require('body-parser')
 
 // Middleware for parsing request bodies here:

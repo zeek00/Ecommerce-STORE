@@ -124,9 +124,13 @@ export const sessionSlice = createSlice({
           id: uuidv4()
         };
         state.users.push(newUser);
+        state.currentUser = action.payload;
         state.fail = false;
         state.isLoading = false;
 
+      })
+      .addCase(signUpAsync.rejected, (state) => {
+        state.fail = true;
       })
       .addCase(signInAsync.pending, (state) => {
         state.isLoading = true;
@@ -143,9 +147,12 @@ export const sessionSlice = createSlice({
             };
           });
         }
+        state.currentUser = action.payload; //sets the current user
         state.isLoading = false;
 
-        state.currentUser = action.payload; //sets the current user
+      })
+      .addCase(signInAsync.rejected, (state) => {
+        state.fail = true;
       })
       .addCase(editUserAsync.pending, (state) => {
         state.isLoading = true;
@@ -160,6 +167,9 @@ export const sessionSlice = createSlice({
         }
         state.isLoading = false; // Clear loading state
         state.currentUser = action.payload
+      })
+      .addCase(editUserAsync.rejected, (state) => {
+        state.fail = true;
       })
       .addCase(logOutAsync.pending, (state) => {
         state.isLoading = true;
