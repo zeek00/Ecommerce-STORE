@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import style from '../../stylesheets/Form.module.css'
+import styled from 'styled-components';
 import PostsRoutes from '../../app/routes'
 import Button from './Button';
 import Loading from '../Loading/Loading'
@@ -16,6 +17,12 @@ const failStyle = {
   padding: '.7rem',
   color: 'rgba(34, 34, 34, 0.9)'
 };
+
+const Input = styled.input`
+  background:  ${(props)=> (props.showFail ? 'rgb(236,29,57, 0.6)' : '')} 
+
+
+`;
 
 const AuthForm = ({ about, closingAbout, title, fields, authType }) => {
   const dispatch = useDispatch();
@@ -34,9 +41,9 @@ const AuthForm = ({ about, closingAbout, title, fields, authType }) => {
       console.log(userFail);
       setShowFail(true);
 
-      // Set a timeout to hide the fail message after a certain duration
+      //Set a timeout to hide the fail message after a certain duration
       const timeoutId = setTimeout(() => {
-        setShowFail(false);
+        setShowFail(false)
       }, 9000); // Adjust the duration as needed
 
       // Cleanup the timeout to avoid memory leaks
@@ -67,10 +74,10 @@ const AuthForm = ({ about, closingAbout, title, fields, authType }) => {
     e.preventDefault();
 
     const{name, email, phone, password} = formData;
-
+    let actionResult;
     try {
       if(authType === 'signUp'){
-        await dispatch(
+        actionResult = await dispatch(
           signUpAsync({
             name,
             email,
@@ -78,24 +85,36 @@ const AuthForm = ({ about, closingAbout, title, fields, authType }) => {
             password,
           })
         );
+        if(signUpAsync.fulfilled.match(actionResult)){
+          setFormData(fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {}));
+          navigate(PostsRoutes.home.home());
+        }
+
       
       }else if(authType === 'signIn'){
-        await dispatch(signInAsync({email, password}));
-  
-      }
-      if(!sessionLoad){
-        setFormData(fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {}));
-        setShowFail(false);
-
-        if (authType === 'signUp') {
-          navigate(PostsRoutes.home.home());
-        } else if (authType === 'signIn') {
+        console.log('we here')
+        console.log(sessionLoad)
+        actionResult = await dispatch(signInAsync({email, password}));
+        if (signInAsync.fulfilled.match(actionResult)) {
+          setFormData(fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {}));
           navigate(PostsRoutes.home.featured());
         }
-      } else {
-        // If authentication was not successful, handle accordingly
-        console.log('Authentication failed.');
-      }  
+      }
+      // if(sessionLoad === false){
+      //   setFormData(fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {}));
+      //   // setShowFail(false);
+
+      //   if (authType === 'signUp' && !userFail) {
+      //     navigate(PostsRoutes.home.home());
+      //   } else if (authType === 'signIn' && userFail === false ) {
+      //     console.log('we here now')
+      //     console.log(userFail)
+      //     navigate(PostsRoutes.home.featured());
+      //   }
+      // } else {
+      //   // If authentication was not successful, handle accordingly
+      //   console.log('Authentication failed.');
+      // }  
 
     }catch (error) {
       console.error('Error during form submission:', error);
@@ -121,7 +140,8 @@ const AuthForm = ({ about, closingAbout, title, fields, authType }) => {
                   {field.label}
                   {field.type === 'password' && (
                     <>
-                      <input
+                      <Input
+                        showFail={showFail}
                         type={field.type}
                         id={field.name}
                         name={field.name}
@@ -133,7 +153,8 @@ const AuthForm = ({ about, closingAbout, title, fields, authType }) => {
                     </>
                   )}
                   {field.type !== 'password' && (
-                    <input
+                    <Input
+                      showFail={showFail}
                       type={field.type}
                       id={field.name}
                       name={field.name}

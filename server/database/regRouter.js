@@ -1,7 +1,9 @@
 const express = require('express');
 const User = require('./schemas/Registeration');
 const db = require('./db');
+const bcrypt = require('bcrypt');
 const regRouter = express.Router();
+
 
 
 regRouter.param('id', async (req, res, next, id) => {
@@ -30,12 +32,16 @@ regRouter.post('/signup', async (req, res) => {
           return res.status(400).json({ error: 'Username already exists' });
         }
         
+        // Hashing process
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+
         // create a new user object
         const newUser = new User({
             name,
             email,
             phone,
-            password,
+            password: hashedPassword,
             datereg: new Date() 
         });
 
@@ -53,15 +59,21 @@ regRouter.post('/signin', async (req, res) => {
       const { email, password } = req.body;
   
       // Find the user by email and password (consider hashing passwords in a real-world scenario)
-      const user = await User.findOne({ email, password });
+      const user = await User.findOne({ email });
   
       if (!user) {
         return res.status(401).json({ error: 'Invalid credentials' });
       }
+      
+      const passwordValidation = await bcrypt.compare(password, user.password);
+      if(!passwordValidation){
+        return res.status(401).json({ error: 'Invalid credentials' });
+      }
+      
 
       user.isLoggedIn = true;
       await user.save();
-  
+      
       res.json(user);
     } catch (error) {
       console.error(error);
