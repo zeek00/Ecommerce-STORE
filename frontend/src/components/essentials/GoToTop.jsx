@@ -7,15 +7,15 @@ const Top = styled.div`
     
     .go-to-top-button{
         position: absolute;
-        bottom: -390px;
-        font-size: 3rem;
+        bottom: -230px;
+        font-size: 2.1rem;
         color: #222;
-        right: 3rem; 
+        right: 1.7rem; 
         transition: bottom 0.7s ease-out;
         cursor: pointer;
     }
     .go-to-top-button.visible {
-        bottom: -350px; /* Slide in when visible */
+        bottom: -190px; /* Slide in when visible */
     }
 
     .go-to-top-button:hover {
