@@ -4,9 +4,9 @@ import Button from '../essentials/Button'
 // import bannerImg from '../../assets/hoodie-banner.jpg'
 
 const btnProps = [
-  {color:'#333',backgroundColor:'#dcd0a4',padding:'.5rem', label:'shop men', borderRadius:'0', textTransform:'uppercase', shadow:'.04rem .04rem .4rem #dcd0a4', fontWeight:'600'},
-  {color:'#333',backgroundColor:'#dcd0a4',padding:'.5rem', label:'shop acessories', borderRadius:'0', textTransform:'uppercase', shadow:'.04rem .04rem .4rem #dcd0a4', fontWeight:'600'},
-  {color:'#333',backgroundColor:'#dcd0a4',padding:'.5rem', label:'shop women', borderRadius:'0', textTransform:'uppercase', shadow:'.04rem .04rem .4rem #dcd0a4', fontWeight:'600'},
+  {id:1, color:'#333',backgroundColor:'#dcd0a4',padding:'.5rem', label:'shop men', borderRadius:'0', textTransform:'uppercase', shadow:'.04rem .04rem .4rem #dcd0a4', fontWeight:'600'},
+  {id:2, color:'#333',backgroundColor:'#dcd0a4',padding:'.5rem', label:'shop electronics', borderRadius:'0', textTransform:'uppercase', shadow:'.04rem .04rem .4rem #dcd0a4', fontWeight:'600'},
+  {id:3, color:'#333',backgroundColor:'#dcd0a4',padding:'.5rem', label:'shop women', borderRadius:'0', textTransform:'uppercase', shadow:'.04rem .04rem .4rem #dcd0a4', fontWeight:'600'},
 
 
 ]
@@ -24,6 +24,7 @@ const Banner = ()=> {
         {
           btnProps.map(item=>(
             <Button 
+              key={item.id}
               borderRadius={item.borderRadius}
               padding={item.padding}
               label={item.label}

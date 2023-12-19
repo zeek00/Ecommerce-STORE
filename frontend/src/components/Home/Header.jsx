@@ -57,7 +57,7 @@ const Header = () => {
         <h3 onClick={() => PostsRoutes.root()} onKeyDown={handleKeyDown} tabIndex={0} role="button">SHOOPP</h3>
         <nav className={style.nav}>
           <Nav className={style.navItem} name={'Men'} />
-          <Nav className={style.navItem} name={'Accessories'} />
+          <Nav className={style.navItem} name={'Electronics'} />
           <Nav className={style.navItem} name={'Women'} />
         </nav>
         <div className={style.actionbtn}>

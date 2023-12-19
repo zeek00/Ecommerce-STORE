@@ -1,16 +1,21 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { selectFemale, selectLaptops, selectMale, selectElectronics } from '../../features/selectors';
+import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import style from '../../stylesheets/Nav.module.css'
+import PostsRoutes from '../../app/routes';
 
 const Ul = styled.ul`
   list-style: none;
   display: flex;
   flex-flow: row-reverse;
   padding: 0;
-  min-height: 100vh;
+  height: 100vh;
 
  
   @media (min-width: 999px){
+    display: none;
     
   }
 
@@ -38,18 +43,53 @@ const Ul = styled.ul`
   }
 `;
 
-const LeftNav = ({ open }) => {
+const LeftNav = ({open}) => {
   const navigate = useNavigate();
+  const male = useSelector(selectMale);
+  const female = useSelector(selectFemale);
+  const electronics = useSelector(selectElectronics);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
-  const handleNavigation = (path) => {
-    navigate(path);
+  const categories = {
+    men: [...new Set(male.map(item => item.category))],
+    women: [...new Set(female.map(item => item.category))],
+    electronics: [...new Set(electronics.map(item => item.category))],
   };
+
+  const handleClick = (category) => {
+    setSelectedCategory(category);
+  };
+
+  const handleCatClick = (category) =>{
+    navigate(`/category/${category}`);
+  }
+
 
   return (
     <Ul open={open}>
-      {/* Directly placing li elements inside the ul */}
-      
-      
+        <nav className={style.lnav}>
+          <button name='men' tabIndex={0} onClick={()=> handleClick('men')}>
+            MEN
+          </button>
+          <span>|</span>
+          <button name='electronics' tabIndex={1} onClick={()=> handleClick('electronics')}>
+            ELECTRONICS
+          </button>  
+          <span>|</span>
+          <button name='women' tabIndex={1} onClick={()=> handleClick('women')}>
+            WOMEN
+          </button>
+          
+        </nav> 
+        <div className={style.outlet}>
+          {selectedCategory && (
+            <ul>
+              {categories[selectedCategory].map((item, index) => (
+                <li onClick={()=>handleCatClick(item)} key={index}>{item}</li>
+              ))}
+            </ul>
+          )}  
+        </div>    
     </Ul>
   );
 };

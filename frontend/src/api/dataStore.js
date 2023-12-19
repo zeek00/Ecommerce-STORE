@@ -1,46 +1,28 @@
-import { React, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { startLoading,finishLoading } from '../features/loading/loadingSlice';
-import { addLaptops, addSmartphones } from '../features/electronics/electronicsSlice';
-import { addTops, addMale, addFemale } from '../features/clothing/clothingSlice';
-import { addJewelries } from '../features/jewelries/jewelriesSlice';
+import { addElectronics } from '../features/electronics/electronicsSlice';
+import { addMale, addFemale } from '../features/clothing/clothingSlice';
 import {
-    selectSmartphones, 
-    selectLaptops,
-    selectLoadingState,
-    selectJewelries,
-    selectTops,
+    selectElectronics,
     selectMale,
     selectFemale
 } from '../features/selectors';
-import Loading from '../components/Loading/Loading';
 import url from './url';
 import {
-    getLaptops,
-    getSmartphones,
-    getJewelery,
-    getTops,
+    getElectronics,
     getMale,
     getFemale
 
 } from './dataFetch';
-import Electronics from '../features/electronics/Electronics';
-import Jewelries from '../features/jewelries/Jewelries';
-import Clothing from '../features/clothing/Clothing';
+
 
 const DataStore = () => {
-    const saveSmartphones = useSelector(selectSmartphones);
-    const saveLaptops = useSelector(selectLaptops);
-    const saveJewelries = useSelector(selectJewelries);
-    const saveTops = useSelector(selectTops)
+    const saveElectronics = useSelector(selectElectronics);
     const saveMale = useSelector(selectMale)
     const saveFemale = useSelector(selectFemale)
-    const isLoading = useSelector(selectLoadingState);
     const dispatch = useDispatch();
-    const [laptops, setLaptops] = useState(saveLaptops);
-    const [smartphones, setSmartphones] = useState(saveSmartphones);
-    const [jewelries, setJewelries] = useState(saveJewelries);
-    const [tops, setTops] = useState(saveTops);
+    const [electronics, setElectronics] = useState(saveElectronics);
     const [male, setMale] = useState(saveMale);
     const [female, setFemale] = useState(saveFemale);
 
@@ -48,10 +30,7 @@ const DataStore = () => {
     useEffect(()=>{
         dispatch(startLoading())
         setTimeout(()=>{
-            getLaptops(url.laptops, dispatch, setLaptops, addLaptops);
-            getSmartphones(url.smartphones, dispatch, setSmartphones, addSmartphones);
-            getJewelery(url.jewelry, dispatch, setJewelries, addJewelries);
-            getTops(url.tops, dispatch, setTops, addTops);
+            getElectronics(url.electronics, dispatch, setElectronics, addElectronics);
             getMale(url.male, dispatch, setMale, addMale);
             getFemale(url.female, dispatch, setFemale, addFemale);
             dispatch(finishLoading());
@@ -61,14 +40,7 @@ const DataStore = () => {
     }, [dispatch])
 
 
-    return (
-        <div>
-            {isLoading && <Loading />}
-            <Electronics laptops={laptops} smartphones={smartphones} />
-            <Jewelries jewelries={jewelries} />
-            <Clothing tops={tops} male={male} female={female} />
-        </div>
-    );
+    return null;
 
 }
 

@@ -7,23 +7,39 @@ import UserMenu from '../components/UserActions/UserMenu';
 import PostsRoutes from './routes';
 import SignAction from '../components/UserActions/SignAction';
 import Home from '../components/Home/Home';
+import LeftNav from '../components/essentials/LeftNav';
+import SideMenu from '../components/UserActions/SideMenu';
+import DataStore from '../api/dataStore';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path={`/${PostsRoutes.home.root()}`} element={<Root />} >
-          <Route path={`/${PostsRoutes.home.home()}`} element={<Home/>}/>
-          <Route path={`/${PostsRoutes.home.featured()}`} element={<Home/>}/>
-        </Route>
+    <>
+      <DataStore />
+      <Router>
+        <Routes>
+          <Route path={`/${PostsRoutes.home.root()}`} element={<Root />} >
+            <Route path={`/${PostsRoutes.home.root()}`} element={<Home/>}/>
+          </Route>
 
-        <Route path={`/${PostsRoutes.signAction.root()}`} element={<SignAction />}>
-          <Route path={PostsRoutes.signAction.signup()} element={<SignUp />} />
-          <Route path={PostsRoutes.signAction.signin()} element={<SignIn />} />
-        </Route>
+          <Route  element={<LeftNav />}>
+            <Route path={PostsRoutes.leftnav.men()} element={<SideMenu men={true} />} />
+            <Route path={PostsRoutes.leftnav.women()} element={<SideMenu women={true}/>} />
+          </Route>
 
-      </Routes>
-    </Router>
+          <Route path='/data'>
+            {/* <Route path='data/clothing' element={<Clothing/>} /> */}
+
+          </Route>
+
+          <Route path={`/${PostsRoutes.signAction.root()}`} element={<SignAction />}>
+            <Route path={PostsRoutes.signAction.signup()} element={<SignUp />} />
+            <Route path={PostsRoutes.signAction.signin()} element={<SignIn />} />
+          </Route>
+
+        </Routes>
+      </Router>
+    </>
+    
   );
 }
 

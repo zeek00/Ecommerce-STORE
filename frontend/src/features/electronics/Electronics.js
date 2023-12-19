@@ -9,7 +9,7 @@ const Electronics = (props) => {
             {laptops.length > 0 ? laptops.map(item=>{
                 return (
                     <li key={item.id}>
-                        {item.title}
+                        {item.category}
 
                     </li>
                 )
@@ -17,7 +17,7 @@ const Electronics = (props) => {
             {smartphones.length > 0 ? smartphones.map(item=>{
                 return (
                     <li key={item.id}>
-                        {item.title}
+                        {item.category}
 
                     </li>
                 )
