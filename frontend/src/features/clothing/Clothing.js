@@ -1,26 +1,16 @@
-import { React, useEffect, useState } from 'react'
+import { React} from 'react'
 
 const Clothing = (props) => {
-    const {tops, male, female} = props
+    const {male, female} = props
     
 
     return (
         <div>
-            {tops.length > 0 ? tops.map(item=>{
-
-                return (
-                    <li key={item.id}>
-                        {item.title}
-
-                    </li>
-                )
-            }): console.log()}
-            
             {male.length > 0 ? male.map(item=>{
 
                 return (
                     <li key={item.id}>
-                        {item.title}
+                        {item.category}
 
                     </li>
                 )
@@ -30,13 +20,11 @@ const Clothing = (props) => {
 
             return (
                 <li key={item.id}>
-                    {item.title}
+                    {item.category}
 
                 </li>
             )
-            }): console.log()}
-
-            
+            }): console.log()} 
         </div>
     );
 

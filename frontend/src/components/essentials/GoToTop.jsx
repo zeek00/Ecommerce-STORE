@@ -34,6 +34,15 @@ const Top = styled.div`
     }
   }
 
+  @media only screen and (min-width: 480px) and (max-width: 768px) {
+    .go-to-top-button{
+      bottom: -90px;
+    }
+    .go-to-top-button.visible {
+      bottom: -40px; /* Slide in when visible */
+    }
+  }
+
 `;
 
 

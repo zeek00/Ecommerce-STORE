@@ -6,7 +6,6 @@ const Div = styled.div`
     background: rgba(34, 34, 34, 0.8);
     position: absolute;
     width: 100%;
-    top:4rem;
     display: ${(props) => (props.isOpen ? 'flex' : 'none')};
     justify-content: center;
     align-items: center;

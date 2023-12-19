@@ -1,8 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState ={
-    smartphones: [],
-    laptops: []
+    electronics: []
 
 }
 
@@ -10,11 +9,8 @@ const options = {
     name: 'electronics',
     initialState,
     reducers:{    
-        addSmartphones(state,action){
-            state.smartphones = action.payload
-       },
-       addLaptops(state, action){
-           state.laptops = action.payload
+        addElectronics(state,action){
+            state.electronics = action.payload
        }
     }
 }
@@ -22,5 +18,5 @@ const options = {
 
 
 export const electronicsSlice = createSlice(options)
-export const {addSmartphones, addLaptops} = electronicsSlice.actions
+export const {addElectronics} = electronicsSlice.actions
 export default electronicsSlice.reducer;

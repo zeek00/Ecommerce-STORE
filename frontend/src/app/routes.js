@@ -10,6 +10,14 @@ const PostsRoutes =  {
         root: ()=> "/sign-action",
         signin: ()=> "/sign-action/signin",
         signup: ()=> "/sign-action/signup"
+    },
+    leftnav:{
+        root: ()=>"/lnav",
+        men: ()=> "/lnav/men",
+        women: ()=> "/lnav/women",
+        electronics: ()=> "/lnav/electronics"
+
+
     }
     
     
