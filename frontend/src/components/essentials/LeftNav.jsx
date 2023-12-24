@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { selectFemale, selectLaptops, selectMale, selectElectronics } from '../../features/selectors';
+import { selectFemale, selectMale, selectElectronics } from '../../features/selectors';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import style from '../../stylesheets/Nav.module.css'

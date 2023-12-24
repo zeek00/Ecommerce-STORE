@@ -10,6 +10,10 @@ import Home from '../components/Home/Home';
 import LeftNav from '../components/essentials/LeftNav';
 import SideMenu from '../components/UserActions/SideMenu';
 import DataStore from '../api/dataStore';
+import Men from '../components/products/Men';
+import Women from '../components/products/Women';
+import Electronics from '../components/products/Electronics';
+import LikedItems from '../components/UserActions/LikedItems';
 
 function App() {
   return (
@@ -19,6 +23,10 @@ function App() {
         <Routes>
           <Route path={`/${PostsRoutes.home.root()}`} element={<Root />} >
             <Route path={`/${PostsRoutes.home.root()}`} element={<Home/>}/>
+            <Route path={`/${PostsRoutes.products.male()}`} element={<Men/>}/>
+            <Route path={`/${PostsRoutes.products.female()}`} element={<Women/>}/>
+            <Route path={`/${PostsRoutes.products.electronics()}`} element={<Electronics/>}/>
+            <Route path={`/${PostsRoutes.products.likedItems()}`} element={<LikedItems/>}/>
           </Route>
 
           <Route  element={<LeftNav />}>

@@ -4,6 +4,7 @@ import { MdOutlineAlternateEmail } from "react-icons/md";
 import Button from '../essentials/Button';
 import { FaInstagram, FaTwitter, FaFacebook, FaWhatsapp, FaPhone } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import GoToTopButton from '../essentials/GoToTop';
 
 const Footer= ()=> {
     

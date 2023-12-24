@@ -87,7 +87,7 @@ const AuthForm = ({ about, closingAbout, title, fields, authType }) => {
         );
         if(signUpAsync.fulfilled.match(actionResult)){
           setFormData(fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {}));
-          navigate(PostsRoutes.home.home());
+          navigate(PostsRoutes.home.root());
         }
 
       
@@ -97,7 +97,7 @@ const AuthForm = ({ about, closingAbout, title, fields, authType }) => {
         actionResult = await dispatch(signInAsync({email, password}));
         if (signInAsync.fulfilled.match(actionResult)) {
           setFormData(fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {}));
-          navigate(PostsRoutes.home.featured());
+          navigate(PostsRoutes.home.root());
         }
       }
       // if(sessionLoad === false){

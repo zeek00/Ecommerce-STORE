@@ -1,9 +1,16 @@
 const express = require('express');
+const session = require('express-session');
 const User = require('./schemas/Registeration');
 const db = require('./db');
 const bcrypt = require('bcrypt');
 const regRouter = express.Router();
 
+regRouter.use(session({
+  secret: process.env.SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge: 60000 } // Set the session timeout in milliseconds (e.g., 1 minute)
+}));
 
 
 regRouter.param('id', async (req, res, next, id) => {
@@ -47,6 +54,10 @@ regRouter.post('/signup', async (req, res) => {
 
         await newUser.save();
     
+        req.session.user = newUser;
+        newUser.isLoggedIn = true;
+        await newUser.save();
+        
         res.json(newUser);
     } catch (error) {
         console.error(error);
@@ -70,7 +81,7 @@ regRouter.post('/signin', async (req, res) => {
         return res.status(401).json({ error: 'Invalid credentials' });
       }
       
-
+      req.session.user = user;
       user.isLoggedIn = true;
       await user.save();
       
@@ -109,7 +120,8 @@ regRouter.post('/logout', async (req, res) => {
       if (!loggedInUser) {
         return res.status(404).json({ error: 'No logged-in user found' });
       }
-  
+
+      req.session.destroy();
       loggedInUser.isLoggedIn = false;
       await loggedInUser.save();
   

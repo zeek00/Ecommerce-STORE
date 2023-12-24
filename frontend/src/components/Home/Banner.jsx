@@ -1,6 +1,8 @@
 import React from 'react'
 import style from '../../stylesheets/Banner.module.css'
 import Button from '../essentials/Button'
+import { useNavigate } from 'react-router-dom'
+import PostsRoutes from '../../app/routes'
 // import bannerImg from '../../assets/hoodie-banner.jpg'
 
 const btnProps = [
@@ -13,6 +15,26 @@ const btnProps = [
 
 
 const Banner = ()=> {
+const navigate = useNavigate()
+  const handleClick = (category)=>{
+    switch (category) {
+      case 'shop men':
+          navigate(PostsRoutes.products.male())
+          break;
+      case 'shop women':
+          navigate(PostsRoutes.products.female())
+          break;
+      case 'shop electronics':
+          navigate(PostsRoutes.products.electronics())
+          break;
+      default:
+          navigate(PostsRoutes.home.root())
+          break;
+  }
+    
+
+  }
+
   return (
     <div className={style.banner}>
       <div className={style.bannerText}>
@@ -24,7 +46,9 @@ const Banner = ()=> {
         {
           btnProps.map(item=>(
             <Button 
+              onClick={()=>handleClick(item.label.toLowerCase())}
               key={item.id}
+              margin='0 0.9rem'
               borderRadius={item.borderRadius}
               padding={item.padding}
               label={item.label}

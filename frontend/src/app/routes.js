@@ -18,6 +18,12 @@ const PostsRoutes =  {
         electronics: ()=> "/lnav/electronics"
 
 
+    },
+    products:{
+        male: ()=>"products/male",
+        female: ()=>"products/female",
+        electronics: ()=>"products/electronics",
+        likedItems: ()=>"products/likes",
     }
     
     
