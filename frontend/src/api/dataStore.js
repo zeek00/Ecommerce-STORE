@@ -4,9 +4,9 @@ import { startLoading,finishLoading } from '../features/loading/loadingSlice';
 import { addElectronics } from '../features/electronics/electronicsSlice';
 import { addMale, addFemale } from '../features/clothing/clothingSlice';
 import {
-    selectElectronics,
-    selectMale,
-    selectFemale
+selectElectronics,
+selectMale,
+selectFemale
 } from '../features/selectors';
 import url from './url';
 import {

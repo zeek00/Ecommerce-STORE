@@ -38,7 +38,6 @@
 }
 
 
-
 .actionbtn{
     grid-area: a;
     /* outline: 1px solid blue; */
@@ -53,6 +52,8 @@
 .link{
     font-size: 1.5rem;
     padding: .2rem .6rem;
+    border: none;
+    background: none;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -69,6 +70,23 @@
     font-size: 2rem;
 }
 
+.heart{
+    position: absolute;
+    color: rgba(34, 34, 34, 0.9);
+    font-size: 2rem;
+}
+
+.count{
+    position: relative;
+    font-weight: 900;
+    color: red;
+    width: .7rem;
+    height: .7rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: .9rem;
+}
 
 
 
@@ -97,6 +115,14 @@
    
     
     .icon{
+        /* display: flex; */
+        /* border: 1px solid blue; */
+        color: rgba(34, 34, 34);
+        /* margin: .1rem 1rem; */
+        font-size: 1.9rem;
+        font-weight: 500;
+    }
+    .heart{
         /* display: flex; */
         /* border: 1px solid blue; */
         color: rgba(34, 34, 34);
@@ -184,6 +210,10 @@
         font-size: 1.4rem;
         
     }
+    .heart{
+        font-size: 1.4rem;
+        
+    }
     
     
     
@@ -203,6 +233,10 @@
     .icon{
         font-size: 1.4rem;
     }
+
+    .heart{
+            font-size: 1.4rem;
+        }
 
     
 

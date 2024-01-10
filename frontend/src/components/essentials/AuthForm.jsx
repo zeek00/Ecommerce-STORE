@@ -5,7 +5,7 @@ import style from '../../stylesheets/Form.module.css'
 import styled from 'styled-components';
 import PostsRoutes from '../../app/routes'
 import Button from './Button';
-import Loading from '../Loading/Loading'
+import Loading from '../loading/Loading'
 import { useNavigate } from 'react-router-dom';
 import {selectCurrentUser, selectFail, selectSessionLoading} from '../../features/selectors'
 import { signInAsync, signUpAsync } from '../../features/session/sessionSlice';
@@ -38,18 +38,12 @@ const AuthForm = ({ about, closingAbout, title, fields, authType }) => {
   useEffect(() => {
     // Show the fail message when a sign-up fails
     if (authType === 'signIn' && userFail) {
-      console.log(userFail);
       setShowFail(true);
 
       //Set a timeout to hide the fail message after a certain duration
-      const timeoutId = setTimeout(() => {
-        setShowFail(false)
-      }, 9000); // Adjust the duration as needed
-
-      // Cleanup the timeout to avoid memory leaks
-      return () =>{ 
-        clearTimeout(timeoutId);
-      };
+      
+    }else{
+      setShowFail(false)
     }
   }, [authType, userFail]);
 
@@ -87,34 +81,20 @@ const AuthForm = ({ about, closingAbout, title, fields, authType }) => {
         );
         if(signUpAsync.fulfilled.match(actionResult)){
           setFormData(fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {}));
-          navigate(PostsRoutes.home.root());
+          navigate(PostsRoutes.signAction.signin());
         }
 
       
       }else if(authType === 'signIn'){
-        console.log('we here')
-        console.log(sessionLoad)
         actionResult = await dispatch(signInAsync({email, password}));
         if (signInAsync.fulfilled.match(actionResult)) {
           setFormData(fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {}));
-          navigate(PostsRoutes.home.root());
+          console.log(PostsRoutes.home.home());
+          navigate(PostsRoutes.home.home());
+
         }
       }
-      // if(sessionLoad === false){
-      //   setFormData(fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {}));
-      //   // setShowFail(false);
-
-      //   if (authType === 'signUp' && !userFail) {
-      //     navigate(PostsRoutes.home.home());
-      //   } else if (authType === 'signIn' && userFail === false ) {
-      //     console.log('we here now')
-      //     console.log(userFail)
-      //     navigate(PostsRoutes.home.featured());
-      //   }
-      // } else {
-      //   // If authentication was not successful, handle accordingly
-      //   console.log('Authentication failed.');
-      // }  
+      
 
     }catch (error) {
       console.error('Error during form submission:', error);
@@ -126,7 +106,8 @@ const AuthForm = ({ about, closingAbout, title, fields, authType }) => {
   return (
     <>
     {
-      sessionLoad ? <Loading/> : (<div className={style.form}>
+      sessionLoad ? <Loading/> : (
+      <div className={style.form}>
         {showFail &&(<div style={failStyle}>
             <CiWarning/>
             <h5>Looks like either your name or password were incorrect. Wanna try again?</h5>
@@ -177,7 +158,7 @@ const AuthForm = ({ about, closingAbout, title, fields, authType }) => {
             backgroundColor={'#222'}
             type="submit"/>
           </form>
-          {console.log(userNow)}
+          {/* {console.log(userNow)} */}
         </div>)
     }
      

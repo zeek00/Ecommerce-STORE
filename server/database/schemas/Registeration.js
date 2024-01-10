@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
 const { Schema } = mongoose;
 
 const regSchema = new Schema({
-   name: String,
+   name: { type: String, default: null },
    email: { type: String, unique: true },
    phone: Number,
    password: String,
    datereg: { type: Date, default: Date.now },
+   token: {type: String},
    isLoggedIn: { type: Boolean, default: false },
 
 });

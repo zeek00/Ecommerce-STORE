@@ -6,6 +6,7 @@ const PostsRoutes =  {
         featured: ()=> "/featured",
     },
     menu: () => "/menu",
+    liked: () => "products/liked",
     signAction:{
         root: ()=> "/sign-action",
         signin: ()=> "/sign-action/signin",
@@ -20,8 +21,8 @@ const PostsRoutes =  {
 
     },
     products:{
-        male: ()=>"products/male",
-        female: ()=>"products/female",
+        male: ()=>"products/men",
+        female: ()=>"products/women",
         electronics: ()=>"products/electronics",
         likedItems: ()=>"products/likes",
     }

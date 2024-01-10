@@ -1,5 +1,4 @@
 import React from 'react'
-import Button from './Button';
 import style from '../../stylesheets/Box.module.css'
 
 const ActionBox = (props)=> {

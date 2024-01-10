@@ -32,35 +32,52 @@ const Liked = styled.div`
 
 
 
-function LikedItems({savedItems}) {
+const LikedItems = (props)=> {
+    const {savedItems} = props
+    console.log(savedItems);
     const user = useSelector(selectCurrentUser) !== null;
+    console.log(user);
     const navigate = useNavigate();
     const handleClick = () => {
         navigate(PostsRoutes.signAction.signin());
     };
-    console.log(user)
+    // console.log(user)
   return (
-    <ul>
-        {savedItems?savedItems.map((savedItem) => (
-          <li key={savedItem.id}>{savedItem.title}</li>
-        )):(<Liked>
-            <div>
-                <GiHeartMinus className='icon'/>
-                <h2>You have no Saved Items</h2>
-                    {user ? (<></>):( 
-                    <Button
-                    onClick={handleClick}
-                    borderRadius='0'
-                    label='SIGN IN'
-                    width='100%'
-                    
-                    />)}
-            </div>
-                
-            
-            </Liked>)}
-      </ul>
-  )
-}
 
-export default LikedItems
+        <Liked>
+            {
+                savedItems ? 
+                (<>
+                    {
+                        savedItems ? 
+                            savedItems.map((savedItem) => (
+                                <li key={savedItem.id}>{savedItem.title}</li>)
+                            )
+                        :
+                        (<div>
+                            <GiHeartMinus className='icon'/>
+                            <h2>You have no Saved Items</h2>
+                        </div>)
+
+                    }
+                
+                </>)
+                :
+                (<div>
+                    <GiHeartMinus className='icon'/>
+                    <h2>Logging to view</h2>
+                         
+                    <Button
+                        onClick={handleClick}
+                        borderRadius='0'
+                        label='SIGN IN'
+                        width='100%'
+                    />
+                </div>)
+            }
+
+        </Liked>
+    );
+};
+
+export default LikedItems;

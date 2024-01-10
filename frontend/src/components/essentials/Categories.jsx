@@ -29,13 +29,12 @@ const Category = styled.div`
 const Categories = (props) => {
 
   const selectedCategory = props.selectedCategory 
-  console.log(selectedCategory);
   return (
     <Category>
         {selectedCategory && (
             <div>
                 {selectedCategory.map((item, index)=>(
-                    <Link className='link' to={`/products/${props.category}/${item}`} key={index}>{item}</Link>
+                    <Link className='link' to={`${item}`} key={index}>{item}</Link>
                 ))}
             </div>
         )}

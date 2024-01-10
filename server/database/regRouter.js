@@ -1,100 +1,179 @@
 const express = require('express');
-const session = require('express-session');
 const User = require('./schemas/Registeration');
-const db = require('./db');
+require('./db');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const regRouter = express.Router();
+const verifyToken = require('../middleware/auth')
 
-regRouter.use(session({
-  secret: process.env.SECRET,
-  resave: false,
-  saveUninitialized: true,
-  cookie: { maxAge: 60000 } // Set the session timeout in milliseconds (e.g., 1 minute)
-}));
-
-
-regRouter.param('id', async (req, res, next, id) => {
-    try {
-      const user = await User.findById(id);
-  
-      if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-      }
-      req.user = user;
-      next();
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  });
 
 
 regRouter.post('/signup', async (req, res) => {
-    try {
-        const { name, email, phone, password } = req.body;
-    
-        // Check if the email already exists
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-          return res.status(400).json({ error: 'Username already exists' });
-        }
-        
-        // Hashing process
-        const hashedPassword = await bcrypt.hash(password, 10);
+  try {
+      const { name, email, phone, password } = req.body;
+  
+      if (!(email && password && name && phone)) {
+        res.status(400).send("All input is required");
+      }
+
+      // Check if the email already exists
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        return res.status(409).send('email already exists. Please Login');
+      }
+      
+      // Hashing process
+      const hashedPassword = await bcrypt.hash(password, 10);
 
 
-        // create a new user object
-        const newUser = new User({
-            name,
-            email,
-            phone,
-            password: hashedPassword,
-            datereg: new Date() 
-        });
+      // create a new user object
+      const newUser = await User.create({
+          name,
+          email: email.toLowerCase(),
+          phone,
+          password: hashedPassword,
+          datereg: new Date() 
+      });
 
-        await newUser.save();
-    
-        req.session.user = newUser;
-        newUser.isLoggedIn = true;
-        await newUser.save();
-        
-        res.json(newUser);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Sign-up failed' });
-    }
+      newUser.isLoggedIn = false;
+      await newUser.save();
+      res.json(newUser);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Sign-up failed' });
+  }
 });
 
 regRouter.post('/signin', async (req, res) => {
-    try {
-      const { email, password } = req.body;
-  
-      // Find the user by email and password (consider hashing passwords in a real-world scenario)
-      const user = await User.findOne({ email });
-  
-      if (!user) {
-        return res.status(401).json({ error: 'Invalid credentials' });
-      }
-      
-      const passwordValidation = await bcrypt.compare(password, user.password);
-      if(!passwordValidation){
-        return res.status(401).json({ error: 'Invalid credentials' });
-      }
-      
+  try {
+    const { email, password } = req.body;
+    
+    if (!(email && password)) {
+      res.status(400).send("All input is required");
+    }
+
+    // Find the user by email 
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+    const passwordValidation = await bcrypt.compare(password, user.password);
+
+    if (user && passwordValidation) {
+      // Create token
+      const token = jwt.sign(
+        { userId: user._id, email },
+        process.env.TOKEN_KEY,
+        { expiresIn: "2h" }
+      );
+      user.token = token;
       req.session.user = user;
       user.isLoggedIn = true;
       await user.save();
-      
-      res.json(user);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Sign-in failed' });
+
     }
+
+    if(!passwordValidation){
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+    // await user.save();
+    
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Sign-in failed: Bad credentials!' });
+  }
 });
+
+regRouter.post('/logout', async (req, res) => {
+  try {
+    const loggedInUser = await User.findOne({ isLoggedIn: true });
+
+    if (!loggedInUser) {
+      return res.status(404).json({ error: 'No logged-in user found' });
+    }
+
+    req.session.destroy();
+    loggedInUser.isLoggedIn = false;
+    await loggedInUser.save();
+
+    res.json({ message: 'Logout successful' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Logout failed' });
+  }
+});
+
+regRouter.use(verifyToken);
+
+regRouter.param('id', async (req, res, next, id) => {
+  try {
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    req.user = user;
+    next();
+  } catch (error) {
+    next(error);
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+regRouter.get('/users', async (req, res) => {
+  try {
+    // Verify the user's token before proceeding
+    // This ensures that only authenticated users can access this route
+
+    // Fetch all users from the database
+    const allUsers = await User.find();
+
+    // Get information about the currently authenticated user
+    const authenticatedUser = req.session.user;
+
+    // Return list of all users and information about the authenticated user
+    res.json({
+      allUsers,
+      authenticatedUser,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+regRouter.get('/users/:id', verifyToken, async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
 
 regRouter.put('/users/edit/:id', async (req, res) => {
     try {
+      const userId = req.user._id;
+
+      if (req.params.id !== userId.toString()) {
+        return res.status(403).json({ error: 'Unauthorized: You are not allowed to edit this user' });
+      }
       const userToUpdate = req.user;
+
       const updatedUserData = req.body;
   
       // Update user data
@@ -113,24 +192,7 @@ regRouter.put('/users/edit/:id', async (req, res) => {
     }
 });
 
-regRouter.post('/logout', async (req, res) => {
-    try {
-      const loggedInUser = await User.findOne({ isLoggedIn: true });
-  
-      if (!loggedInUser) {
-        return res.status(404).json({ error: 'No logged-in user found' });
-      }
 
-      req.session.destroy();
-      loggedInUser.isLoggedIn = false;
-      await loggedInUser.save();
-  
-      res.json({ message: 'Logout successful' });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Logout failed' });
-    }
-  });
   
 
     

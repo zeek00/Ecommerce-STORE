@@ -49,7 +49,7 @@ const Burger = () => {
         <div />
         <div />
       </BurgerStyle>
-      <LeftNav open={open} />
+      <LeftNav open={open} setOpen={setOpen} />
     </>
   );
 };

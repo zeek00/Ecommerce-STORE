@@ -5,8 +5,8 @@ import { FiShoppingCart, FiSearch } from "react-icons/fi";
 import Burger from '../essentials/Burger';
 import Nav from '../essentials/Nav';
 import { Link, useNavigate } from 'react-router-dom';
-import Search from '../UserActions/Search';
-import UserMenu from '../UserActions/UserMenu';
+import Search from '../useractions/Search';
+import UserMenu from '../useractions/UserMenu';
 import PostsRoutes from '../../app/routes';
 
 const Header = () => {
@@ -14,6 +14,7 @@ const Header = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 999);
   const [searchOpen, setSearchOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [count, setCount] = useState(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -56,7 +57,7 @@ const Header = () => {
     <>
       <div className={style.header}>
         {isMobile && <Burger />}
-        <h3 onClick={() => PostsRoutes.home.root()} onKeyDown={handleKeyDown} tabIndex={0} role="button">SHOOPP</h3>
+        <h3 onClick={() => navigate(PostsRoutes.home.home())} onKeyDown={handleKeyDown} tabIndex={0} role="button">SHOOPP</h3>
         <nav className={style.nav}>
           <Nav to={PostsRoutes.products.male()} className={style.navItem} name={'Men'} />
           <Nav to={PostsRoutes.products.electronics()} className={style.navItem} name={'Electronics'} />
@@ -64,13 +65,14 @@ const Header = () => {
         </nav>
         <div className={style.actionbtn}>
           <Link to className={style.link}>
-            <FiSearch onClick={handleOpen} className={style.icon} role="button" tabIndex={0} />
+            <FiSearch onClick={handleOpen} className={style.icon}  />
           </Link>
           <Link to className={style.link}>
-            <FaRegUser onClick={handleUserOpen} className={style.icon} role="button" tabIndex={0} />
+            <FaRegUser onClick={handleUserOpen} className={style.icon}   />
           </Link>
           <Link to={PostsRoutes.products.likedItems()} className={style.link}>
-            <FaRegHeart className={style.icon} role="button" tabIndex={0} />
+            <FaRegHeart className={style.heart}  />
+            <p className={style.count}>{count}</p>
           </Link>
           <Link to className={style.link}>
             <FiShoppingCart className={style.icon} />

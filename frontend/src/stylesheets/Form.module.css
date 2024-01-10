@@ -7,10 +7,16 @@
     padding-bottom: 1rem;
     text-align: center;
     font-size: 1rem;
+    color: #333;
+    font-weight: 500;
     
 
 }
 
+.form form p{
+    color: #333;
+
+}
 
 .form h2{
     font-family: Galano Grotesque, sans-serif;

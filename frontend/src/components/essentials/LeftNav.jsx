@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { selectFemale, selectMale, selectElectronics } from '../../features/selectors';
-import { Outlet, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import style from '../../stylesheets/Nav.module.css'
 import PostsRoutes from '../../app/routes';
@@ -43,27 +41,32 @@ const Ul = styled.ul`
   }
 `;
 
-const LeftNav = ({open}) => {
+const LeftNav = ({open, setOpen}) => {
   const navigate = useNavigate();
-  const male = useSelector(selectMale);
-  const female = useSelector(selectFemale);
-  const electronics = useSelector(selectElectronics);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-
-  const categories = {
-    men: [...new Set(male.map(item => item.category))],
-    women: [...new Set(female.map(item => item.category))],
-    electronics: [...new Set(electronics.map(item => item.category))],
-  };
+  
 
   const handleClick = (category) => {
-    setSelectedCategory(category);
+    switch(category){
+      case 'men':
+        navigate(PostsRoutes.products.male());
+        setOpen(false);
+      break;
+      case 'women':
+        navigate(PostsRoutes.products.female());
+        setOpen(false);
+      break;
+      case 'electronics':
+        navigate(PostsRoutes.products.electronics());
+        setOpen(false);
+      break;
+      default:
+        navigate(PostsRoutes.home.root());
+        setOpen(false);
+      break;
+    }
   };
 
-  const handleCatClick = (category) =>{
-    navigate(`/category/${category}`);
-  }
-
+  
 
   return (
     <Ul open={open}>
@@ -71,25 +74,15 @@ const LeftNav = ({open}) => {
           <button name='men' tabIndex={0} onClick={()=> handleClick('men')}>
             MEN
           </button>
-          <span>|</span>
           <button name='electronics' tabIndex={1} onClick={()=> handleClick('electronics')}>
             ELECTRONICS
           </button>  
-          <span>|</span>
           <button name='women' tabIndex={1} onClick={()=> handleClick('women')}>
             WOMEN
           </button>
           
         </nav> 
-        <div className={style.outlet}>
-          {selectedCategory && (
-            <ul>
-              {categories[selectedCategory].map((item, index) => (
-                <li onClick={()=>handleCatClick(item)} key={index}>{item}</li>
-              ))}
-            </ul>
-          )}  
-        </div>    
+        
     </Ul>
   );
 };

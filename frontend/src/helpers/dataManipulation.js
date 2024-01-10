@@ -75,6 +75,8 @@ class DataManipulation {
         return mergedData;
     
     };
-}
+    
+      
+};
 
 export default DataManipulation;
