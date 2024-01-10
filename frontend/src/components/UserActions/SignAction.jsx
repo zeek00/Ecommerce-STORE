@@ -136,7 +136,7 @@ const SignAction =()=> {
     };
   return (
     <Div>
-        <h3 onClick={handleClick} tabIndex={0} role="button">SHOOPP</h3>
+        <h3 onClick={handleClick} onKeyDown={(e) => e.key === 'Enter' && handleClick()} tabIndex={0} role="button">SHOOPP</h3>
         <div className="box">
           <nav>
             <div tabIndex={0} onClick={handleJoinClick} role="button">
