@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { FiSearch } from 'react-icons/fi';
 
 const Div = styled.div`
-    background: rgba(34, 34, 34, 0.8);
+    background: rgba(34, 34, 34);
     position: absolute;
     width: 100%;
     display: ${(props) => (props.isOpen ? 'flex' : 'none')};

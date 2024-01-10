@@ -19,5 +19,8 @@ const options = {
 }
 
 export const clothingSlice = createSlice(options);
-export const {addMale, addFemale} = clothingSlice.actions
+export const {addMale, addFemale} = clothingSlice.actions;
+export const filterMale = (query, male) => Object.values(male).filter(item => item.category.toLowerCase().includes(query.toLowerCase()));
+export const filterFemale = (query, female) => Object.values(female).filter(item => item.category.toLowerCase().includes(query.toLowerCase()));
+
 export default clothingSlice.reducer;

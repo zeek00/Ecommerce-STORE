@@ -1,15 +1,17 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Root from '../components/Home/Root';
-import SignUp from '../components/UserActions/SignUp';
-import SignIn from '../components/UserActions/SignIn';
-import UserMenu from '../components/UserActions/UserMenu';
+import Root from '../components/home/Root';
+import SignUp from '../components/useractions/SignUp';
+import SignIn from '../components/useractions/SignIn';
 import PostsRoutes from './routes';
-import SignAction from '../components/UserActions/SignAction';
-import Home from '../components/Home/Home';
-import LeftNav from '../components/essentials/LeftNav';
-import SideMenu from '../components/UserActions/SideMenu';
+import SignAction from '../components/useractions/SignAction';
+import Home from '../components/home/Home';
 import DataStore from '../api/dataStore';
+import Men from '../components/products/Men';
+import Women from '../components/products/Women';
+import Electronics from '../components/products/Electronics';
+import LikedItems from '../components/useractions/LikedItems';
+import FilteredProduct from '../components/products/FilteredProducts';
 
 function App() {
   return (
@@ -17,18 +19,19 @@ function App() {
       <DataStore />
       <Router>
         <Routes>
+
           <Route path={`/${PostsRoutes.home.root()}`} element={<Root />} >
-            <Route path={`/${PostsRoutes.home.root()}`} element={<Home/>}/>
-          </Route>
-
-          <Route  element={<LeftNav />}>
-            <Route path={PostsRoutes.leftnav.men()} element={<SideMenu men={true} />} />
-            <Route path={PostsRoutes.leftnav.women()} element={<SideMenu women={true}/>} />
-          </Route>
-
-          <Route path='/data'>
-            {/* <Route path='data/clothing' element={<Clothing/>} /> */}
-
+            <Route path={`/${PostsRoutes.home.home()}`} element={<Home/>}/>
+            <Route path={`/${PostsRoutes.products.male()}`} element={<Men/>}>
+              <Route path={":category"} element={<FilteredProduct/>}/>
+            </Route>
+            <Route path={`/${PostsRoutes.products.female()}`} element={<Women />}>
+              <Route path={":category"} element={<FilteredProduct/>}/>
+            </Route>
+            <Route path={`/${PostsRoutes.products.electronics()}`} element={<Electronics/>}>
+              <Route path={":category"} element={<FilteredProduct/>}/>
+            </Route>
+            <Route path={`/${PostsRoutes.products.likedItems()}`} element={<LikedItems savedItems={[]}/>}/>
           </Route>
 
           <Route path={`/${PostsRoutes.signAction.root()}`} element={<SignAction />}>

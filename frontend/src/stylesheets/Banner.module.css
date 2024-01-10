@@ -17,6 +17,7 @@
 .bannerText h1{
     font-family: Galano Grotesque, sans-serif;
     color: rgba(34, 34, 34, 0.80);
+    cursor: pointer;
 }
 
 

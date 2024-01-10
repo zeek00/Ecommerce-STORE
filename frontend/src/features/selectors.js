@@ -15,6 +15,5 @@ export {
     selectFail,
     selectCurrentUser,
     selectSessionLoading,
-    selectElectronics
-    
-}
+    selectElectronics  
+};

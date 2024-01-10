@@ -19,4 +19,6 @@ const options = {
 
 export const electronicsSlice = createSlice(options)
 export const {addElectronics} = electronicsSlice.actions
+export const filterElectronics = (query, electronics) => Object.values(electronics).filter(item => item.category.toLowerCase().includes(query.toLowerCase()));
+
 export default electronicsSlice.reducer;

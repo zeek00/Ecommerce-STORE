@@ -11,6 +11,7 @@ const Div = styled.div`
  
   h3{
     margin: 3rem auto;
+    cursor: pointer;
     text-align: center;
     font-family: 'Galano Grotesque';
     font-size: 2rem;
@@ -122,30 +123,33 @@ const SignAction =()=> {
     const navigate = useNavigate();
 
     const handleSignInClick = () => {
-        console.log("Handle Sign In Click");
-        navigate(PostsRoutes.signAction.signin());
-      };
+      console.log("Handle Sign In Click");
+      navigate(PostsRoutes.signAction.signin());
+    };
     
-      const handleJoinClick = () => {
-        console.log("Handle Join In Click");
-        navigate(PostsRoutes.signAction.signup());
-      };
+    const handleJoinClick = () => {
+      console.log("Handle Join In Click");
+      navigate(PostsRoutes.signAction.signup());
+    };
+    const handleClick= () => {
+      navigate('/');      
+    };
   return (
     <Div>
-        <h3>SHOOP</h3>
+        <h3 onClick={handleClick} tabIndex={0} role="button">SHOOPP</h3>
         <div className="box">
-            <nav>
-              <div tabIndex={0} onClick={handleJoinClick} role="button">
-                Join
-              </div>
-              <span>|</span>
-              <div tabIndex={1} onClick={handleSignInClick} role="button">
-                Sign In
-              </div>  
-            </nav> 
-            <div className="outlet">
-                <Outlet />
-            </div>       
+          <nav>
+            <div tabIndex={0} onClick={handleJoinClick} role="button">
+              Join
+            </div>
+            <span>|</span>
+            <div tabIndex={1} onClick={handleSignInClick} role="button">
+              Sign In
+            </div>  
+          </nav> 
+          <div className="outlet">
+              <Outlet />
+          </div>       
         </div>
         <div className="footer">
         Privacy Policy | Terms and Conditions

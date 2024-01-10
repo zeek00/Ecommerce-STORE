@@ -9,8 +9,6 @@
     justify-content: center;
     padding: .5rem;
     text-transform: uppercase;
-    /* align-items: center;
-    justify-content: center; */
     border-left: .85px solid #dcd0a4;
     border-right: .85px solid #dcd0a4;
 
@@ -28,46 +26,29 @@
 
 .lnav{
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    align-content: center;
+    gap: 3rem;
     text-align: center;
     /* outline: 1px solid crimson; */
     
 }
 .lnav button:hover{
-    border-bottom: 2px solid #dcd0a4;  
-    border-right: none;
-    border-left: none;
+    background-color: #dcd0a4;
+    
 
   }
 
-.lnav span{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    color: #ccc;
-}
+
 
 .lnav button{
     font-size: 1.2rem;
     color: rgba(34, 34, 34);
     font-weight: 600;
-    background: none;
-    border: none;
+    padding: 2rem;
+    border: 1px solid #dcd0a4
+
     
-}
-
-.outlet ul{
-    padding: 1rem;
-    list-style: none;
-}
-
-.outlet li{
-    margin: 2.4rem auto;
-    padding: 1.7rem;
-    border-radius: .4rem;
-    text-transform: uppercase;
-    background-color: #dcd0a4;
-    font-weight: 700;
 }
 
 

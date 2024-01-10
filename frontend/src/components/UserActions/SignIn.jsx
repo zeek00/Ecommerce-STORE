@@ -6,7 +6,8 @@ import PostsRoutes from '../../app/routes'
 
 const SignIn = ()=> {
     const p ={
-        textAlign: 'center'
+      textAlign: 'center',
+      color: '#333'
     }
 
     

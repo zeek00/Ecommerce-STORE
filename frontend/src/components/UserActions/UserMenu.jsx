@@ -102,7 +102,7 @@ const UserMenu = ({ isOpen, onClose }) => {
     if(confirmLogout){
       dispatch(logOutAsync())
     }
-    if(userNow){
+    if(userNow === null ){
       navigate(PostsRoutes.signAction.signin());
     }
   };
