@@ -45,19 +45,14 @@ const Header = () => {
     }, 4000)
   }
 
-  const handleKeyDown = (event) => {
-    // Check if the Enter key is pressed (key code 13)
-    if (event.keyCode === 13) {
-      PostsRoutes.home.root();
-    }
-  };
+ 
 
 
   return (
     <>
       <div className={style.header}>
         {isMobile && <Burger />}
-        <h3 onClick={() => navigate(PostsRoutes.home.home())} onKeyDown={handleKeyDown} tabIndex={0} role="button">SHOOPP</h3>
+        <Link className={style.logo} to={PostsRoutes.home.home()}>SHOOPP</Link>
         <nav className={style.nav}>
           <Nav to={PostsRoutes.products.male()} className={style.navItem} name={'Men'} />
           <Nav to={PostsRoutes.products.electronics()} className={style.navItem} name={'Electronics'} />

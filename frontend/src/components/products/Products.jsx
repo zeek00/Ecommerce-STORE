@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import style from '../../stylesheets/Products.module.css'
 import { useSelector } from 'react-redux';
 import { selectLoadingState, selectCurrentUser } from '../../features/selectors';
@@ -15,12 +15,13 @@ const Products = ({subCategory, category, filteredCategory}) => {
     const [savedItems, setSavedItems] = useState([]);
     const user = useSelector(selectCurrentUser) !== null;
 
+    
     const handleClick = (item) => {
+        console.log(item);
         // Check if the item is already in the savedItems list
         if (!savedItems.some((savedItem) => savedItem.id === item.id)) {
           // If not, add it to the savedItems list
           setSavedItems((prevSavedItems) => [...prevSavedItems, item]);
-          console.log(savedItems)
         }
 
     };
@@ -64,7 +65,8 @@ const Products = ({subCategory, category, filteredCategory}) => {
                                     </div>
                                 </div>
                             )) }
-
+                            <LikedItems savedItems={savedItems} />
+{console.log(savedItems)}
                         </div>
 
                         

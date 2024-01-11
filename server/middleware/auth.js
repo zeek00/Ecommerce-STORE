@@ -9,12 +9,12 @@ const verifyToken = (req, res, next) => {
   }
   try {
     const decoded = jwt.verify(token, process.env.TOKEN_KEY);
-    req.user = decoded;
+    req.session.user = decoded;
   } catch (err) {
     console.error("Error verifying token:", err);
     return res.status(401).send("Invalid Token");
   }
-  if (!req.session || !req.session.user || !req.session.user.token) {
+  if (!req.session || !req.session.user) {
     console.error("User session or token is missing");
     return res.status(403).send("User session or token is missing");
   }
