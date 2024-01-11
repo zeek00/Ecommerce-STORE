@@ -62,6 +62,7 @@ regRouter.post('/signin', async (req, res) => {
 
     if (user && passwordValidation) {
       // Create token
+      
       const token = jwt.sign(
         { userId: user._id, email },
         process.env.TOKEN_KEY,
@@ -129,8 +130,16 @@ regRouter.get('/users', async (req, res) => {
     // This ensures that only authenticated users can access this route
 
     // Fetch all users from the database
-    const allUsers = await User.find();
-
+   const allUsers = 
+    await User.find({}, 'name email token')
+    .then(users => {
+      // Users with only name and email fields
+      return users;
+    })
+  .catch(err => {
+    console.error(err);
+    // Handle the error
+  });
     // Get information about the currently authenticated user
     const authenticatedUser = req.session.user;
 
@@ -145,7 +154,7 @@ regRouter.get('/users', async (req, res) => {
   }
 });
 
-regRouter.get('/users/:id', verifyToken, async (req, res) => {
+regRouter.get('/users/:id', async (req, res) => {
   try {
     const userId = req.params.id;
 

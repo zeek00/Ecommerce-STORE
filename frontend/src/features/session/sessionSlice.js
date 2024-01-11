@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 // Async Thunk for fetching all users
 export const fetchAllUsersAsync = createAsyncThunk('', async (_, thunkAPI) => {
   try{
-    const response = await axios.get('http://localhost:4050/api/reg/users', {
+    const response = await axios.get(`http://localhost:4050/api/reg/users`, {
       headers:{
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${process.env.TOKEN_KEY}`

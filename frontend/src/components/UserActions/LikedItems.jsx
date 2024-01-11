@@ -11,8 +11,8 @@ import PostsRoutes from '../../app/routes';
 const Liked = styled.div`
 
     display: flex;
-    height: 100vh;
-    justify-content: center;
+    height: 80vh;
+    justify-content: space-around;
     flex-direction: column;
 
     div{
@@ -20,7 +20,7 @@ const Liked = styled.div`
         flex-direction: column;
         gap: 1rem;
         align-items: center;
-        margin: 1rem auto;
+        margin: 0 auto;
         padding: .7rem;
         text-align: center;
     }
@@ -32,8 +32,7 @@ const Liked = styled.div`
 
 
 
-const LikedItems = (props)=> {
-    const {savedItems} = props
+const LikedItems = ({savedItems})=> {
     console.log(savedItems);
     const user = useSelector(selectCurrentUser) !== null;
     console.log(user);
@@ -46,7 +45,7 @@ const LikedItems = (props)=> {
 
         <Liked>
             {
-                savedItems ? 
+                user ? 
                 (<>
                     {
                         savedItems ? 

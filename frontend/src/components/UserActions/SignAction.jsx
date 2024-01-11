@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import PostsRoutes from '../../app/routes';
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, Link } from "react-router-dom";
 
 
 
@@ -9,7 +9,9 @@ const Div = styled.div`
   text-align: center;
   height: 100vh;
  
-  h3{
+  .link{
+    display: flex;
+    justify-content: center;
     margin: 3rem auto;
     cursor: pointer;
     text-align: center;
@@ -43,16 +45,19 @@ const Div = styled.div`
     background: none;
   }
 
-  nav div {
+  nav .div {
     padding: 1rem;
     width: 100%;
+    color: #333;
+    font-weight: 600;
+    text-transform: uppercase;
   }
 
-  nav div:hover:nth-child(1){
+  nav .div:hover:nth-child(1){
     border-right: none;
   }
 
-  .box nav div:hover{
+  .box nav .div:hover{
     border-bottom: 2px solid #dcd0a4;  
     border-right: none;
     border-left: none;
@@ -120,32 +125,19 @@ const Div = styled.div`
 
 
 const SignAction =()=> {
-    const navigate = useNavigate();
 
-    const handleSignInClick = () => {
-      console.log("Handle Sign In Click");
-      navigate(PostsRoutes.signAction.signin());
-    };
-    
-    const handleJoinClick = () => {
-      console.log("Handle Join In Click");
-      navigate(PostsRoutes.signAction.signup());
-    };
-    const handleClick= () => {
-      navigate('/');      
-    };
   return (
     <Div>
-        <h3 onClick={handleClick} onKeyDown={(e) => e.key === 'Enter' && handleClick()} tabIndex={0} role="button">SHOOPP</h3>
+        <Link className='link' to={PostsRoutes.home.home()}>SHOOPP</Link>
         <div className="box">
           <nav>
-            <div tabIndex={0} onClick={handleJoinClick} role="button">
+            <Link to={PostsRoutes.signAction.signup()} className='div'>
               Join
-            </div>
+            </Link>
             <span>|</span>
-            <div tabIndex={1} onClick={handleSignInClick} role="button">
+            <Link to={PostsRoutes.signAction.signin()} className='div'>
               Sign In
-            </div>  
+            </Link>  
           </nav> 
           <div className="outlet">
               <Outlet />

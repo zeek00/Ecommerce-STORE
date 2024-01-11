@@ -31,7 +31,7 @@ function App() {
             <Route path={`/${PostsRoutes.products.electronics()}`} element={<Electronics/>}>
               <Route path={":category"} element={<FilteredProduct/>}/>
             </Route>
-            <Route path={`/${PostsRoutes.products.likedItems()}`} element={<LikedItems savedItems={[]}/>}/>
+            <Route path={`/${PostsRoutes.products.likedItems()}`} element={<LikedItems />}/>
           </Route>
 
           <Route path={`/${PostsRoutes.signAction.root()}`} element={<SignAction />}>

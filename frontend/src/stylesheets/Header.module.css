@@ -15,7 +15,7 @@
 }
 
 
-.header h3{
+.header .logo{
     display: flex;
     flex-direction: column;
     /* outline: 1px solid green; */
