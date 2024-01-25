@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { selectCurrentUser } from '../../features/selectors'
 import { useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Button from '../essentials/Button';
 import { GiHeartMinus } from "react-icons/gi";
 import styled from 'styled-components';
@@ -106,7 +106,7 @@ const LikedItems = ()=> {
                 user ? 
                 (<div className='main'>
                     {
-                        !data.length === 0 ? 
+                        data.length === 0 ? 
                             (<div className='noUserBox'>
                                 <GiHeartMinus className='icon'/>
                                 <h2>You have no Saved Items</h2>
