@@ -11,7 +11,6 @@ import DataManipulation from '../../helpers/dataManipulation';
 
 const Liked = styled.div`
     display: flex;
-    border: 1px solid green;
     overflow: auto;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
@@ -54,7 +53,6 @@ const Liked = styled.div`
         display: flex;
         margin-left: 1rem;
         flex-direction: column;
-        border-bottom: 1px solid #ccc;
     }.userBox img{
         object-fit: cover;
         width: 150px;
@@ -62,6 +60,10 @@ const Liked = styled.div`
     }.userBox li{
         list-style-type: none;
         text-transform: uppercase;
+        font-weight: 600;
+
+    }.userBox p{
+        color: #333;
         font-weight: 600;
     }
 
@@ -75,7 +77,6 @@ const LikedItems = ()=> {
     const user = useSelector(selectCurrentUser);
 
     useEffect(()=>{
-        console.log('fetching')
         const fetchData = async () => {
             const d = new DataManipulation();
             if (user) {
@@ -115,8 +116,10 @@ const LikedItems = ()=> {
                         :
                         data.map(savedItem => (
                             <div className='userBox'>
-                                <img src={savedItem.images[0]} alt="" />
-                                <li key={savedItem.id}>{savedItem.title}</li>
+                                <li key={savedItem.id}>
+                                    <img src={savedItem.images[0]} alt="" />
+                                    <p>{savedItem.title}</p>
+                                </li>
                             </div>
                             )
                         )
