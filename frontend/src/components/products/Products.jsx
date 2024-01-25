@@ -1,30 +1,48 @@
 import React, { useState, useEffect } from 'react'
 import style from '../../stylesheets/Products.module.css'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectLoadingState, selectCurrentUser } from '../../features/selectors';
-import Loading from '../loading/Loading';
-import { Link, Routes, Route } from 'react-router-dom';
+import Loading from '../home/loading/Loading';
+import { Link} from 'react-router-dom';
 import { IoHeartCircleSharp } from "react-icons/io5";
-import LikedItems from '../useractions/LikedItems';
 import FilteredProduct from './FilteredProducts';
-import PostsRoutes from '../../app/routes';
+import { savedItemsAsync } from '../../features/session/sessionSlice';
 
 
 const Products = ({subCategory, category, filteredCategory}) => {
     const loading = useSelector(selectLoadingState);
+    const user = useSelector(selectCurrentUser);
     const [savedItems, setSavedItems] = useState([]);
-    const user = useSelector(selectCurrentUser) !== null;
 
+    const dispatch = useDispatch();
+
+    useEffect(()=>{
+        const intervalId = setInterval(() => {
+            if (user && savedItems) {
+                dispatch(savedItemsAsync(savedItems));
+            }
+        }, 20000);
+      
+        return () => clearInterval(intervalId);           
+    }, [user, savedItems, dispatch])
     
-    const handleClick = (item) => {
-        console.log(item);
-        // Check if the item is already in the savedItems list
-        if (!savedItems.some((savedItem) => savedItem.id === item.id)) {
-          // If not, add it to the savedItems list
-          setSavedItems((prevSavedItems) => [...prevSavedItems, item]);
+   const handleClick = (item) => {
+        const itemAlreadySaved = savedItems.find(savedItem => savedItem.id === item.id);
+      
+        if (!itemAlreadySaved && user) {
+            // create a new object with the updated savedItems
+            const updatedSavedItems = [ ...savedItems, item];
+            if(!updatedSavedItems.token && !updatedSavedItems.id){
+                updatedSavedItems.token = user.token;
+                updatedSavedItems.id = user._id;
+            }
+            setSavedItems(updatedSavedItems );
+            console.log(updatedSavedItems)
         }
-
-    };
+        
+        
+      
+    }
 
     let categoryName;
 
@@ -45,9 +63,6 @@ const Products = ({subCategory, category, filteredCategory}) => {
 
     return (
         <>
-            <Routes>
-                <Route path={PostsRoutes.products.likedItems()} element={<LikedItems savedItems={savedItems} />} />
-            </Routes>
             { loading ? (<Loading />) :
                 (
                     subCategory ?(<FilteredProduct filterBy={filteredCategory}/>): (
@@ -65,8 +80,7 @@ const Products = ({subCategory, category, filteredCategory}) => {
                                     </div>
                                 </div>
                             )) }
-                            <LikedItems savedItems={savedItems} />
-{console.log(savedItems)}
+                            
                         </div>
 
                         

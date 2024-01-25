@@ -26,9 +26,8 @@ const Category = styled.div`
 
 
 
-const Categories = (props) => {
+const Categories = ({selectedCategory}) => {
 
-  const selectedCategory = props.selectedCategory 
   return (
     <Category>
         {selectedCategory && (

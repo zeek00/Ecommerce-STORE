@@ -154,10 +154,40 @@ regRouter.get('/users', async (req, res) => {
   }
 });
 
-regRouter.get('/users/:id', async (req, res) => {
+regRouter.post('/users/:id', async (req, res) => {
   try {
     const userId = req.params.id;
 
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Extract titles of existing items
+    const existingTitles = user.savedItems.map(item => item.title);
+
+    // Filter out items from req.body that already exist
+    const newItems = Object.entries(req.body).reduce((acc, [key, value]) => {
+      if (!existingTitles.includes(value.title)) {
+        acc[key] = value;
+      }
+      return acc;
+    }, {});
+
+    // Add only the new items to savedItems
+    user.savedItems.push(...Object.values(newItems));
+
+    await user.save();
+    return res.status(201).send('Items saved to user');
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to save items to user' });
+  }
+});
+
+regRouter.get('/users/:id', async (req, res) => {
+  try {
+    const userId = req.params.id;
     const user = await User.findById(userId);
 
     if (!user) {

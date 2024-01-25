@@ -1,3 +1,6 @@
+import axios from "axios";
+import {URL} from "../config";
+ 
 class DataManipulation {
     async getData(url, sort){
         if(sort){
@@ -74,6 +77,34 @@ class DataManipulation {
         // console.log(mergedData)
         return mergedData;
     
+    };
+    async getSavedItemsForUser (id, token){
+        if(id){
+            try{
+                const headers = new Headers({
+                    'Content-Type': 'application/json',
+                    'Authorization': token,
+                });
+                
+              
+                const response = await fetch(`${URL}/users/${id}`, {
+                    method: 'GET',
+                    headers: headers,
+                });
+
+                if(!response.ok){
+                    throw new Error("Request failed code: " + response.status);
+                }
+                const user = await response.json();
+                return user.savedItems;
+            }
+            catch(err) {
+                console.error(`Error in getSavedItemsForUser: ${err.message}`);
+                console.log(JSON.stringify(err.message));
+            }
+    
+        }
+
     };
     
       

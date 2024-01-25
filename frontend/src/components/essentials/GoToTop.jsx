@@ -6,15 +6,15 @@ import styled from 'styled-components';
 const Top = styled.div`
   .go-to-top-button{
     position: absolute;
-    bottom: -230px;
+    transform: translateY(-200px);
     font-size: 2.1rem;
     color: #222;
     right: 1.7rem; 
-    transition: bottom 0.7s ease-out;
+    transition: transform 0.7s ease-out;
     cursor: pointer;
   }
   .go-to-top-button.visible {
-    bottom: -190px; /* Slide in when visible */
+    transform: translateY(-160px);
   }
 
   .go-to-top-button:hover {
@@ -26,8 +26,9 @@ const Top = styled.div`
 
   }
   @media only screen and (max-width: 480px) {
+    display: none;
     .go-to-top-button{
-      bottom: -90px;
+      transform: translateY(-90px);
     }
     .go-to-top-button.visible {
       bottom: -40px; /* Slide in when visible */
@@ -36,10 +37,10 @@ const Top = styled.div`
 
   @media only screen and (min-width: 480px) and (max-width: 768px) {
     .go-to-top-button{
-      bottom: -90px;
+      transform: translateY(-90px);
     }
     .go-to-top-button.visible {
-      bottom: -40px; /* Slide in when visible */
+    transform: translateY(-40px);
     }
   }
 

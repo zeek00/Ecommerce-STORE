@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import {URL} from "../../config";
 import { v4 as uuidv4 } from 'uuid';
 
 
 // Async Thunk for fetching all users
-export const fetchAllUsersAsync = createAsyncThunk('', async (_, thunkAPI) => {
+export const fetchAllUsersAsync = createAsyncThunk('session/fetchAllUsersAsync', async (_, thunkAPI) => {
   try{
-    const response = await axios.get(`http://localhost:4050/api/reg/users`, {
+    const response = await axios.get(`${URL}/users`, {
       headers:{
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${process.env.TOKEN_KEY}`
@@ -22,10 +23,42 @@ export const fetchAllUsersAsync = createAsyncThunk('', async (_, thunkAPI) => {
   }
 });
 
+// Async Thunk for fetching a users savedItems
+export const savedItemsAsync = createAsyncThunk('session/savedItemsAsync', async (userData, thunkAPI) => {
+  try{
+    if(userData.id){
+      const entries = Object.entries(userData);
+
+      const sortedEntries = entries
+        .filter(([key]) => key !== 'id' && key !== 'token')
+        .sort(([keyA], [keyB]) => keyA - keyB);
+      
+      // Step 3: Create a new object from the sorted array
+      const sortedObject = Object.fromEntries(sortedEntries);
+      const response = await axios.post(`${URL}/users/${userData.id}`, sortedObject, {
+      headers:{
+        'Content-Type': 'application/json',
+        'Authorization': userData.token
+      },
+    });
+    
+    const data = response.data;
+    return data;
+  }else {
+    console.error('Error during fetch all users: Logged in user not found.');
+    throw new Error('Logged in user not found.');
+  }
+
+  }catch (error){
+    console.error('Error during fetch all users:', error);
+    throw error;
+  }
+});
+
 // Async Thunk for signing up
 export const signUpAsync = createAsyncThunk('session/signUpAsync', async (userData, thunkAPI) => {
   try {
-    const response = await axios.post('http://localhost:4050/api/reg/signup', userData);
+    const response = await axios.post(`${URL}/signup`, userData);
 
     return response.data;
   } catch (error) {
@@ -38,7 +71,7 @@ export const signUpAsync = createAsyncThunk('session/signUpAsync', async (userDa
 // Async Thunk for signing in
 export const signInAsync = createAsyncThunk('session/signInAsync', async (userData, thunkAPI) => {
   try {
-    const response = await axios.post('http://localhost:4050/api/reg/signin', userData);
+    const response = await axios.post(`${URL}/signin`, userData);
 
     return response.data;
   } catch (error) {
@@ -52,7 +85,7 @@ export const editUserAsync = createAsyncThunk('session/editUserAsync', async (us
   try {
     const loggedInUser = thunkAPI.getState().session.users.find(user => user.isLoggedIn);
     if (loggedInUser) {
-      const response = await axios.put(`http://localhost:4050/api/reg/users/edit/${loggedInUser.id}`, userData);
+      const response = await axios.put(`${URL}/users/edit/${loggedInUser.id}`, userData);
 
       return response.data;
     }
@@ -67,9 +100,8 @@ export const editUserAsync = createAsyncThunk('session/editUserAsync', async (us
 export const logOutAsync = createAsyncThunk('session/logOutAsync', async (_, thunkAPI) => {
   try {
     const loggedInUser = thunkAPI.getState().session.users.currentUser !== null;
-    console.log(loggedInUser);
     if (loggedInUser) {
-      await axios.post('http://localhost:4050/api/reg/logout');
+      await axios.post(`${URL}/logout`);
     }
   } catch (error) {
     console.error('Error during logout:', error);
@@ -80,6 +112,7 @@ export const logOutAsync = createAsyncThunk('session/logOutAsync', async (_, thu
 
 const initialState = {
   users: [],
+  savedItems: [],
   fail: false,
   isLoading: false,
   currentUser: null
@@ -95,11 +128,28 @@ export const sessionSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(fetchAllUsersAsync.fulfilled, (state, action) => {
-       console.log(action.payload.allUsers);
+       state.users.push(action.payload.allUsers);
+
       })
       .addCase(fetchAllUsersAsync.rejected, (state) => {
         state.fail = true;
         state.isLoading = false;
+      })
+      .addCase(savedItemsAsync.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(savedItemsAsync.fulfilled, (state, action) => {
+        const items = Array.isArray(action.payload) ? [...action.payload] : { ...action.payload };
+
+        //append to the existing savedItems array
+        state.savedItems = state.savedItems.concat(items);
+    
+        state.fail = false;
+        state.isLoading = false;
+
+      })
+      .addCase(savedItemsAsync.rejected, (state) => {
+        state.fail = true;
       })
       .addCase(signUpAsync.pending, (state) => {
         state.isLoading = true;

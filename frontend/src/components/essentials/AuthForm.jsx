@@ -5,7 +5,7 @@ import style from '../../stylesheets/Form.module.css'
 import styled from 'styled-components';
 import PostsRoutes from '../../app/routes'
 import Button from './Button';
-import Loading from '../loading/Loading'
+import Loading from '../home/loading/Loading'
 import { useNavigate } from 'react-router-dom';
 import {selectCurrentUser, selectFail, selectSessionLoading} from '../../features/selectors'
 import { signInAsync, signUpAsync } from '../../features/session/sessionSlice';

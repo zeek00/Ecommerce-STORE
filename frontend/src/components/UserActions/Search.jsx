@@ -4,7 +4,8 @@ import { FiSearch } from 'react-icons/fi';
 
 const Div = styled.div`
     background: rgba(34, 34, 34);
-    position: absolute;
+    position: relative;
+    top: 4rem;
     width: 100%;
     display: ${(props) => (props.isOpen ? 'flex' : 'none')};
     justify-content: center;
