@@ -1,4 +1,7 @@
 .header{
+    position: fixed;
+    width: 100%;
+    top: 0;
     display: grid;
     z-index: 1;
     grid-template-columns: repeat(6, 1fr);
@@ -15,7 +18,7 @@
 }
 
 
-.header .logo{
+.logo{
     display: flex;
     flex-direction: column;
     /* outline: 1px solid green; */
@@ -99,28 +102,24 @@
 @media only screen and (max-width: 480px) {
     /* Styles for small screens */
     .header{
-        grid-gap: .7rem;
+        grid-gap: 0.1rem;
         grid-template-areas: 
-        "l a a a a a";
+        "l l l a a a";
         height: 3rem;
         background-color: rgb(234,227,201);
         
     }
-    .header h3{
-        line-height: 1.3;
-        font-size: 1rem;
-        margin-left: 4rem;
-    
+    .logo{
+        align-items: center;
     }
-   
     
     .icon{
         /* display: flex; */
         /* border: 1px solid blue; */
         color: rgba(34, 34, 34);
         /* margin: .1rem 1rem; */
-        font-size: 1.9rem;
-        font-weight: 500;
+        font-size: 1.2rem;
+        font-weight: 900;
     }
     .heart{
         /* display: flex; */

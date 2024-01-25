@@ -1,40 +1,35 @@
  
-#root {
+/* #root {
   height: 100%;
   width: 100%;
-}
+} */
 
 @media only screen and (max-width: 480px) {
-  #root {
+  /* #root {
     grid-template-rows: 1rem  51rem;
     z-index: 2;    
-  }
-  
-}
-
-@media only screen and (min-width:480px) and (max-width: 700px) {
- 
+  } */
   
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
-  #root{
+  /* #root{
     grid-template-rows: 3rem  58rem;
 
-  }
+  } */
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) and (orientation: landscape) {
-  #root{
+  /* #root{
     grid-template-rows: 3rem  58rem;
 
-  }
+  } */
 }
 
 @media only screen and (min-width: 992px) {
-#root{
+/* #root{
     grid-template-rows: 3rem  58rem;
 
-  }
+  } */
   
 
   
@@ -46,4 +41,4 @@
 }
 
 
- */
+

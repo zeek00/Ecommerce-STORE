@@ -8,7 +8,7 @@ const BurgerStyle = styled.div`
   position: absolute;
   padding-left: .1rem;
   top: .6rem;
-  left: ${({ open }) => (open ? "1rem" : "1rem")}; /* Adjusted to the left */
+  left: ${({ open }) => (open ? "1rem" : ".9rem")}; /* Adjusted to the left */
   display: flex;
   justify-content: space-around;
   flex-flow: column nowrap;

@@ -8,9 +8,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import Search from '../useractions/Search';
 import UserMenu from '../useractions/UserMenu';
 import PostsRoutes from '../../app/routes';
+import { selectCurrentUser } from '../../features/selectors'
+import { useSelector } from 'react-redux'
 
 const Header = () => {
   const navigate = useNavigate()
+  const user = useSelector(selectCurrentUser);
+  const userId = user ? user._id : null;
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 999);
   const [searchOpen, setSearchOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -45,6 +49,10 @@ const Header = () => {
     }, 4000)
   }
 
+  const handleClick = ()=>{
+    if (user) navigate(`${PostsRoutes.products.likedItems()}/${userId}`);
+    
+  }
  
 
 
@@ -65,9 +73,8 @@ const Header = () => {
           <Link to className={style.link}>
             <FaRegUser onClick={handleUserOpen} className={style.icon}   />
           </Link>
-          <Link to={PostsRoutes.products.likedItems()} className={style.link}>
-            <FaRegHeart className={style.heart}  />
-            <p className={style.count}>{count}</p>
+          <Link onClick={handleClick} to={PostsRoutes.products.likedItems()} className={style.link}>
+            <FaRegHeart className={style.icon}  />
           </Link>
           <Link to className={style.link}>
             <FiShoppingCart className={style.icon} />

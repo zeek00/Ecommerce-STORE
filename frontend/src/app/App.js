@@ -22,16 +22,18 @@ function App() {
 
           <Route path={`/${PostsRoutes.home.root()}`} element={<Root />} >
             <Route path={`/${PostsRoutes.home.home()}`} element={<Home/>}/>
-            <Route path={`/${PostsRoutes.products.male()}`} element={<Men/>}>
+            <Route path={`/${PostsRoutes.products.male()}/*`} element={<Men/>}>
               <Route path={":category"} element={<FilteredProduct/>}/>
             </Route>
-            <Route path={`/${PostsRoutes.products.female()}`} element={<Women />}>
+            <Route path={`/${PostsRoutes.products.female()}/*`} element={<Women />}>
               <Route path={":category"} element={<FilteredProduct/>}/>
             </Route>
-            <Route path={`/${PostsRoutes.products.electronics()}`} element={<Electronics/>}>
+            <Route path={`/${PostsRoutes.products.electronics()}/*`} element={<Electronics/>}>
               <Route path={":category"} element={<FilteredProduct/>}/>
             </Route>
-            <Route path={`/${PostsRoutes.products.likedItems()}`} element={<LikedItems />}/>
+            <Route path={`/${PostsRoutes.products.likedItems()}/`} element={<LikedItems />}>
+              <Route path={`:userId`} element={<LikedItems />} />
+            </Route>
           </Route>
 
           <Route path={`/${PostsRoutes.signAction.root()}`} element={<SignAction />}>

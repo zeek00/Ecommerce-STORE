@@ -1,35 +1,50 @@
-import React, {useState} from 'react';
-import { Link, Routes, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import React, {useState, useEffect} from 'react';
+import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import style from '../../stylesheets/Products.module.css' 
 import { selectCurrentUser } from '../../features/selectors';
 import { IoHeartCircleSharp } from "react-icons/io5";
-import LikedItems from '../useractions/LikedItems';
-import PostsRoutes from '../../app/routes';
+import { savedItemsAsync } from '../../features/session/sessionSlice';
 
 
 
 const FilteredProduct = ({filterBy}) => {
   
-    console.log(filterBy);
+    const user = useSelector(selectCurrentUser);
     const [savedItems, setSavedItems] = useState([]);
-    const user = useSelector(selectCurrentUser) !== null;
 
-    const handleClick = (item) => {
-        // Check if the item is already in the savedItems list
-        if (!savedItems.some((savedItem) => savedItem.id === item.id)) {
-            // If not, add it to the savedItems list
-            setSavedItems((prevSavedItems) => [...prevSavedItems, item]);
-            console.log(savedItems)
+    const dispatch = useDispatch();
+
+    useEffect(()=>{
+        const intervalId = setInterval(() => {
+            if (user && savedItems) {
+                dispatch(savedItemsAsync(savedItems));
+            }
+        }, 20000);
+      
+        return () => clearInterval(intervalId);           
+    }, [user, savedItems, dispatch])
+    
+   const handleClick = (item) => {
+        const itemAlreadySaved = savedItems.find(savedItem => savedItem.id === item.id);
+      
+        if (!itemAlreadySaved && user) {
+            const updatedSavedItems = [ ...savedItems, item];
+            if(!updatedSavedItems.token && !updatedSavedItems.id){
+                updatedSavedItems.token = user.token;
+                updatedSavedItems.id = user._id;
+            }
+            setSavedItems(updatedSavedItems );
+            console.log(updatedSavedItems)
         }
-
-};
+        
+        
+      
+    }
 
   return ( 
         <>
-            <Routes>
-                <Route path={PostsRoutes.products.likedItems()} element={<LikedItems savedItems={savedItems} />} />
-            </Routes>
+
             {filterBy ? (
                 <div className={style.container}>
                     {filterBy.map(item=>(
@@ -44,7 +59,6 @@ const FilteredProduct = ({filterBy}) => {
                             
                                 <p>£{item.price}</p>
                             </div>
-                            <LikedItems savedItems={savedItems} />
 
                         </div>
                     )) }

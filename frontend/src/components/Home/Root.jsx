@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import styled from 'styled-components';
 import HeaderWithConditionalRender from "./HeaderWithConditionalRender";
 import FooterWithConditionalRender from "./FooterWithConditionalRender";
+import GoToTopButton from "../essentials/GoToTop";
 
 const Main = styled.main`
     overflow: auto;
@@ -21,6 +22,8 @@ export default function Root() {
                 <Outlet />
             </Main>
             <FooterWithConditionalRender/>
+            <GoToTopButton />
+
         </>
     )
 }

@@ -8,6 +8,7 @@ const regSchema = new Schema({
    password: String,
    datereg: { type: Date, default: Date.now },
    token: {type: String},
+   savedItems: {type: Array},
    isLoggedIn: { type: Boolean, default: false },
 
 });
