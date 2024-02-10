@@ -53,6 +53,7 @@ const Div = styled.div`
     display: flex;
     padding: 1rem;
     font-size: 1.4rem;
+    color: #333;
   }
 
   .action:hover{
@@ -129,18 +130,24 @@ const UserMenu = ({ isOpen, onClose }) => {
         </div>
         <MdCancel onClick={onClose} />
       </div>
-      <div className="action">
-        <FaRegUser />
-        <span>My Account</span>
-      </div>
-      <div className="action">
-        <BsBoxSeam />
-        <span>My Orders</span>
-      </div>
-      <div className="action">
-        <BiMessageSquareDots />
-        <span>Contact Preferences</span>
-      </div>
+      <Link to={PostsRoutes.coming()}>
+        <div className="action">
+          <FaRegUser />
+          <span>My Account</span>
+        </div>
+      </Link>
+      <Link to={PostsRoutes.coming()}>  
+        <div className="action">
+          <BsBoxSeam />
+          <span>My Orders</span>
+        </div>
+      </Link>
+      <Link to={PostsRoutes.coming()}>
+        <div className="action">
+          <BiMessageSquareDots />
+          <span>Contact Preferences</span>
+        </div>
+      </Link>
     </Div>
   );
 };

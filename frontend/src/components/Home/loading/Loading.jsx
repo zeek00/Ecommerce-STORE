@@ -3,17 +3,18 @@ import { CgSpinner } from 'react-icons/cg';
 import styled from 'styled-components';
 
 const Load = styled.div`
-    height: 100vh;
+    height: ${(props)=> props.height ? props.height: '100vh'};    
   
     .logo {
         display: flex;
         justify-content: center;
-        margin: 5rem auto;
+        margin: 5rem auto 0 auto;
         font-size: 5rem;
         color: #dcd0a4;
         border-radius: 50%;
         width: fit-content;
         pointer-events: none;
+        height: fit-content;
     }
     
     @media (prefers-reduced-motion: no-preference) {
@@ -34,10 +35,10 @@ const Load = styled.div`
   
 `;
 
-const Loading = ()=> {
+const Loading = (props)=> {
 
     return(
-        <Load>
+        <Load {...props}>
             <CgSpinner className="logo" alt="logo" />
         </Load>
     )

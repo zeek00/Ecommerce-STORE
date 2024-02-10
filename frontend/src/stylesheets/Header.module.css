@@ -80,15 +80,21 @@
 }
 
 .count{
-    position: relative;
-    font-weight: 900;
-    color: red;
-    width: .7rem;
-    height: .7rem;
+    position: absolute;
+    bottom: 1.5rem;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: .9rem;
+    background-color: #dcd0a4;
+    border: 1px solid rgba(0,0,0,0.2);
+    color: #333;
+    font-size: .7rem;
+    font-weight: 900;
+    width: .9rem;
+    height: .9rem;
+    border-radius: 50%;
+    
 }
 
 
@@ -173,19 +179,7 @@
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
     /* Styles for tablets in portrait */
-    /* .header{
-        display: grid;
-        grid-template-columns: repeat(12, 1fr);
-        text-align: center;
-        grid-row-gap: .7rem;
-        grid-template-areas: 
-        "l n n n n n n a a a a a";
-        border: 1px solid black;
-        /* display: flex;
-        padding: .9rem 0; 
-        background-color: rgb(234,227,201);
-        
-    } */
+   
     .header{
         display: grid;
         grid-template-columns: repeat(6, 1fr);
@@ -213,6 +207,9 @@
         font-size: 1.4rem;
         
     }
+    .count{
+        bottom: 1.9rem;
+    }
     
     
     
@@ -234,8 +231,12 @@
     }
 
     .heart{
-            font-size: 1.4rem;
-        }
+        font-size: 1.4rem;
+    }
+
+    .count{
+        bottom: 1.9rem;
+    }
 
     
 
