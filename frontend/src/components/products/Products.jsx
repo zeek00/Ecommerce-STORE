@@ -7,6 +7,7 @@ import { Link} from 'react-router-dom';
 import { IoHeartCircleSharp } from "react-icons/io5";
 import FilteredProduct from './FilteredProducts';
 import { useSavedItems } from './saveLikedHook';
+import PostsRoutes from '../../app/routes';
 
 const Products = ({subCategory, category, filteredCategory}) => {
     const loading = useSelector(selectLoadingState);
@@ -44,7 +45,7 @@ const Products = ({subCategory, category, filteredCategory}) => {
                                     <div className={style.product}>
                                         <img src={item.images[0]} alt="" />
                                         <div>
-                                            <Link className={style.title}>{item.title}</Link>
+                                            <Link to={`/${item.title}`} className={style.title}>{item.title}</Link>
                                             <IoHeartCircleSharp onClick={()=>handleClick(item)} className={style.icon}/>
                                         </div>
                                         <p>£{item.price}</p>

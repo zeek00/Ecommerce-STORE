@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const StyledButton = styled.button`
+const StyledButton = styled.a`
   
   color: ${({ color }) => color ? color : '#fff'};
   width: ${({ width }) => width ?  width: 'fit-content'};
   background-color: ${({ backgroundColor }) => backgroundColor ? backgroundColor : '#222'};
   font-weight: ${({ fontWeight }) => fontWeight ? fontWeight : '500'};
   border-style: none;
+  text-align: center;
   text-transform: ${({ textTransform }) => textTransform ? textTransform : 'capitalize'}; 
   cursor: pointer;
   margin: ${({ margin }) => margin ? margin : '0 auto'};
@@ -29,7 +30,7 @@ const Button = (props) => {
   const { type, label } = props;
 
   return (
-    <StyledButton type={type} {...props}>
+    <StyledButton href={props.href} type={type} {...props}>
       {label}
     </StyledButton>
   );

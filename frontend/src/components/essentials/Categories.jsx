@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 const Category = styled.div`
     div{
-        border: 1px solid #ccc;
+        border: 1.4px solid #dcd0a4;
         border-top: none;
         display: flex;
         flex-wrap: wrap;
@@ -14,13 +14,17 @@ const Category = styled.div`
     }
     .link{
         color: #333;
-        border-radius: .7rem;
+        border-radius: .2rem;
         font-size: .7rem;
         font-weight: 600;
         margin: 1rem 2rem 1rem 0;
         background-color: #d5d5d5;
         padding: .4rem;
     }
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+        margin-top: 1rem;
+    }
+
 
 `;
 

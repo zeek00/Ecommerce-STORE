@@ -18,7 +18,7 @@ const Header = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 999);
   const [searchOpen, setSearchOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [count, setCount] = useState(null);
+  const [count, setCount] = useState(1);
 
   useEffect(() => {
     const handleResize = () => {
@@ -60,7 +60,7 @@ const Header = () => {
     <>
       <div className={style.header}>
         {isMobile && <Burger />}
-        <Link className={style.logo} to={PostsRoutes.home.home()}>SHOOPP</Link>
+        <Link className={style.logo} to={PostsRoutes.home.root()}>SHOOPP</Link>
         <nav className={style.nav}>
           <Nav to={PostsRoutes.products.male()} className={style.navItem} name={'Men'} />
           <Nav to={PostsRoutes.products.electronics()} className={style.navItem} name={'Electronics'} />
@@ -78,6 +78,9 @@ const Header = () => {
           </Link>
           <Link to className={style.link}>
             <FiShoppingCart className={style.icon} />
+            <span className={style.count}>
+              {count}
+            </span>
           </Link>
         </div>
       </div>

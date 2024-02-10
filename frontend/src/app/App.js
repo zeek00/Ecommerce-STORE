@@ -12,6 +12,8 @@ import Women from '../components/products/Women';
 import Electronics from '../components/products/Electronics';
 import LikedItems from '../components/useractions/LikedItems';
 import FilteredProduct from '../components/products/FilteredProducts';
+import Items from '../components/products/Items';
+import ComingSoon from '../components/essentials/ComingSoon';
 
 function App() {
   return (
@@ -21,20 +23,32 @@ function App() {
         <Routes>
 
           <Route path={`/${PostsRoutes.home.root()}`} element={<Root />} >
-            <Route path={`/${PostsRoutes.home.home()}`} element={<Home/>}/>
+            <Route path={`/${PostsRoutes.home.root()}`} element={<Home/>}/>
             <Route path={`/${PostsRoutes.products.male()}/*`} element={<Men/>}>
-              <Route path={":category"} element={<FilteredProduct/>}/>
+              <Route path=":category" element={<FilteredProduct/>}/>
+
+
             </Route>
             <Route path={`/${PostsRoutes.products.female()}/*`} element={<Women />}>
-              <Route path={":category"} element={<FilteredProduct/>}/>
+              <Route path=":category" element={<FilteredProduct/>}/>
+
+
+              
             </Route>
             <Route path={`/${PostsRoutes.products.electronics()}/*`} element={<Electronics/>}>
-              <Route path={":category"} element={<FilteredProduct/>}/>
+              <Route path=":category" element={<FilteredProduct/>}/>
+
+
             </Route>
+    
             <Route path={`/${PostsRoutes.products.likedItems()}/`} element={<LikedItems />}>
-              <Route path={`:userId`} element={<LikedItems />} />
+              <Route path=":userId" element={<LikedItems />} />
             </Route>
+
+            <Route path=":itemName" element={<Items/>}/>
+            <Route path={PostsRoutes.coming()} element={<ComingSoon/>} />
           </Route>
+
 
           <Route path={`/${PostsRoutes.signAction.root()}`} element={<SignAction />}>
             <Route path={PostsRoutes.signAction.signup()} element={<SignUp />} />

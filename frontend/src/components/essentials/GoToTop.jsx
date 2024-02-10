@@ -37,10 +37,10 @@ const Top = styled.div`
 
   @media only screen and (min-width: 480px) and (max-width: 768px) {
     .go-to-top-button{
-      transform: translateY(-90px);
+      transform: translateY(-170px);
     }
     .go-to-top-button.visible {
-    transform: translateY(-40px);
+    transform: translateY(-120px);
     }
   }
 

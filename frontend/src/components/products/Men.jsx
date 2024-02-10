@@ -4,7 +4,6 @@ import { selectMale } from '../../features/selectors';
 import style from '../../stylesheets/Products.module.css'
 import Categories from '../essentials/Categories';
 import Products from './Products';
-import GoToTopButton from '../essentials/GoToTop';
 import { filterMale } from '../../features/clothing/clothingSlice';
 import {useParams } from "react-router-dom";
 
@@ -13,7 +12,6 @@ const Men = ()=> {
     const male = useSelector(selectMale);
     const {category} = useParams();
     const filteredMale = category ? filterMale(category, male) : Object.values(male)
-
     const maleCategories = male ? [...new Set(male.map(item => item.category))] : [];
 
   return (

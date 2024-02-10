@@ -2,8 +2,7 @@
 const PostsRoutes =  {
     home: {
         root:() => "",
-        home:() => "/home",
-        featured: ()=> "/featured",
+        home:() => "/",
     },
     menu: () => "/menu",
     liked: () => "products/liked",
@@ -25,7 +24,8 @@ const PostsRoutes =  {
         female: ()=>"products/women",
         electronics: ()=>"products/electronics",
         likedItems: ()=>"products/likes",
-    }
+    },
+    coming: ()=>"coming-soon"
     
     
 }
