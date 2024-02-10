@@ -28,9 +28,9 @@ regRouter.post('/signup', async (req, res) => {
 
       // create a new user object
       const newUser = await User.create({
-          name,
-          email: email.toLowerCase(),
-          phone,
+          name: name.toString(),
+          email: email.toString().toLowerCase(),
+          phone: Number(phone),
           password: hashedPassword,
           datereg: new Date() 
       });
