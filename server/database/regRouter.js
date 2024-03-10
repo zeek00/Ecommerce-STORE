@@ -1,5 +1,6 @@
 const express = require('express');
 const User = require('./schemas/Registeration');
+const Cart = require('./schemas/Cart');
 require('./db');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -10,37 +11,86 @@ const verifyToken = require('../middleware/auth')
 
 regRouter.post('/signup', async (req, res) => {
   try {
-      const { name, email, phone, password } = req.body;
-  
-      if (!(email && password && name && phone)) {
-        res.status(400).send("All input is required");
-      }
+    const { name, email, phone, password } = req.body;
 
-      // Check if the email already exists
-      const existingUser = await User.findOne({ email });
-      if (existingUser) {
-        return res.status(409).send('email already exists. Please Login');
-      }
+    if (!(email && password && name && phone)) {
+      const error = new Error();
+      error.code = 400;
+      error.message = 'All input is required';
+      throw error;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if(!emailRegex.test(email.toString())){
+      const error = new Error();
+      error.code = 400;
+      error.message = 'Invalid Email format';
+      throw error;
+    }
+
+    const phoneNumberRegex = /^\d{10,}$/;
+
+    if(!phoneNumberRegex.test(phone.toString())){
+      const error = new Error();
+      error.code = 400;
+      error.message = 'Invalid Phone format';
+      throw error;
+    }
+
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+    if(!passwordRegex.test(password.toString())){
+      const error = new Error();
+      error.code = 400;
+      error.message = 'Password should contain a capital letter a number and at least 8 characters.';
+      throw error;
+    }
+    // Check if the email already exists
+    const existingUser = await User.findOne({ email: email.toString() });
+    if (existingUser) {
       
-      // Hashing process
-      const hashedPassword = await bcrypt.hash(password, 10);
+      const error = new Error();
+      error.code = 409;
+      error.message = 'Email already exists. Please Login'
+      throw error
+    }
 
+    const existingPhone = await User.findOne({ phone: Number(phone) });
 
-      // create a new user object
-      const newUser = await User.create({
-          name: name.toString(),
-          email: email.toString().toLowerCase(),
-          phone: Number(phone),
-          password: hashedPassword,
-          datereg: new Date() 
-      });
+    if (existingPhone) {
+      const error = new Error();
+      error.code = 409;
+      error.message = 'Phone number already exists. Please Modify';
+      throw error
+    }
 
-      newUser.isLoggedIn = false;
-      await newUser.save();
-      res.json(newUser);
-  } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Sign-up failed' });
+    // Hashing process
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    
+
+    // create a new user object
+    const newUser = await User.create({
+        name: name.toString(),
+        email: email.toString().toLowerCase(),
+        phone: Number(phone),
+        password: hashedPassword,
+        role: "user",
+        datereg: new Date()
+    });
+    const newCartItem = await Cart.create({
+      _id: newUser._id,
+      items: []
+    });
+    await newUser.save();
+    await newCartItem.save();
+    res.json(newUser);
+}catch (error) {
+    console.error(error.message);
+    res.status(error.code || 500).json({
+      message: error.message || 'Internal Server Error',
+    });
   }
 });
 
@@ -49,20 +99,33 @@ regRouter.post('/signin', async (req, res) => {
     const { email, password } = req.body;
     
     if (!(email && password)) {
-      res.status(400).send("All input is required");
+      const error = new Error();
+      error.code = 400;
+      error.message = 'All input is required';
+      throw error;
     }
 
     // Find the user by email 
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      const error = new Error();
+      error.code = 401;
+      error.message = 'Email does not exist';
+      throw error;
     }
+
     const passwordValidation = await bcrypt.compare(password, user.password);
 
+    if(!passwordValidation){
+      const error = new Error();
+      error.code = 401;
+      error.message = 'Password Incorrect';
+      throw error;    
+    }
+    
     if (user && passwordValidation) {
       // Create token
-      
       const token = jwt.sign(
         { userId: user._id, email },
         process.env.TOKEN_KEY,
@@ -70,41 +133,28 @@ regRouter.post('/signin', async (req, res) => {
       );
       user.token = token;
       req.session.user = user;
-      user.isLoggedIn = true;
       await user.save();
+      res.json({
+        accessToken: token,
+        user:{
+          _id: user._id,
+          email: user.email,
+          name: user.name,
+          role: user.role,
+          savedItems: user.savedItems
+        }
+      });
 
     }
-
-    if(!passwordValidation){
-      return res.status(401).json({ error: 'Invalid credentials' });
-    }
-    // await user.save();
     
-    res.json(user);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Sign-in failed: Bad credentials!' });
+    console.error(error.message);
+    res.status(error.code || 500).json({
+      message: error.message || 'Internal Server Error',
+    });
   }
 });
 
-regRouter.post('/logout', async (req, res) => {
-  try {
-    const loggedInUser = await User.findOne({ isLoggedIn: true });
-
-    if (!loggedInUser) {
-      return res.status(404).json({ error: 'No logged-in user found' });
-    }
-
-    req.session.destroy();
-    loggedInUser.isLoggedIn = false;
-    await loggedInUser.save();
-
-    res.json({ message: 'Logout successful' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Logout failed' });
-  }
-});
 
 regRouter.use(verifyToken);
 
@@ -113,44 +163,44 @@ regRouter.param('id', async (req, res, next, id) => {
     const user = await User.findById(id);
 
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      const error = new Error();
+      error.code = 404;
+      error.message = 'User with id not found';
+      throw error;  
     }
     req.user = user;
     next();
   } catch (error) {
     next(error);
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
-regRouter.get('/users', async (req, res) => {
+regRouter.get('/user', async (req, res) => {
   try {
-    // Verify the user's token before proceeding
-    // This ensures that only authenticated users can access this route
+    const users = await User.find({}, 'name email token');
+    
+    // If no users are found, throw a custom error
+    if (!users || users.length === 0) {
+      const error = new Error();
+      error.message = 'User not found';
+      error.code = 404;
+      throw error;
+    }
 
-    // Fetch all users from the database
-   const allUsers = 
-    await User.find({}, 'name email token')
-    .then(users => {
-      // Users with only name and email fields
-      return users;
-    })
-  .catch(err => {
-    console.error(err);
-    // Handle the error
-  });
     // Get information about the currently authenticated user
     const authenticatedUser = req.session.user;
 
     // Return list of all users and information about the authenticated user
     res.json({
-      allUsers,
+      users,
       authenticatedUser,
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error(error.message);
+    res.status(error.code || 500).json({
+      message: error.message || 'Internal Server Error',
+    });
   }
 });
 
@@ -160,7 +210,10 @@ regRouter.post('/users/:id', async (req, res) => {
 
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      const error = new Error();
+      error.message = 'User not found';
+      error.code = 404;
+      throw error;
     }
 
     // Extract titles of existing items
@@ -180,8 +233,10 @@ regRouter.post('/users/:id', async (req, res) => {
     await user.save();
     return res.status(201).send('Items saved to user');
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to save items to user' });
+    console.error(error.message);
+    res.status(error.code || 500).json({
+      message: error.message || 'Internal Server Error',
+    });
   }
 });
 
@@ -191,13 +246,27 @@ regRouter.get('/users/:id', async (req, res) => {
     const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      const error = new Error();
+      error.message = 'User not found';
+      error.code = 404;
+      throw error;
     }
 
-    res.json(user);
+    res.json(
+      {
+        _id: user._id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+        savedItems: user.savedItems
+      }
+    );
+
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error(error.message);
+    res.status(error.code || 500).json({
+      message: error.message || 'Internal Server Error',
+    });
   }
 });
 
@@ -209,7 +278,10 @@ regRouter.put('/users/edit/:id', async (req, res) => {
       const userId = req.user._id;
 
       if (req.params.id !== userId.toString()) {
-        return res.status(403).json({ error: 'Unauthorized: You are not allowed to edit this user' });
+        const error = new Error();
+        error.message = 'Unauthorized: You are not allowed to edit this user';
+        error.code = 403;
+        throw error;
       }
       const userToUpdate = req.user;
 
@@ -226,8 +298,10 @@ regRouter.put('/users/edit/:id', async (req, res) => {
   
       res.json(userToUpdate);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Edit user failed' });
+      console.error(error.message);
+      res.status(error.code || 500).json({
+        message: error.message || 'Internal Server Error',
+      });
     }
 });
 

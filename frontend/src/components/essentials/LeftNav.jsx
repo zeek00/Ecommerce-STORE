@@ -5,6 +5,7 @@ import style from '../../stylesheets/Nav.module.css'
 import PostsRoutes from '../../app/routes';
 
 const Ul = styled.ul`
+
   list-style: none;
   display: flex;
   flex-flow: row-reverse;
@@ -24,7 +25,7 @@ const Ul = styled.ul`
     position: fixed;
     transform: ${({ open }) => (open ? 'translateX(0)' : 'translateX(-100%)')};
     top: 0;
-    left: 0
+    left: 0;
     height: 100vh;
     width: 90%;
     padding-top: 3.5rem;

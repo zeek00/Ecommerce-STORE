@@ -1,121 +1,27 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-import {URL} from "../../config";
+import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
+import 
+{
+  fetchUserDataAsync,
+  fetchAllUsersAsync,
+  savedItemsAsync,
+  signUpAsync,
+  signInAsync,
+  editUserAsync,
+  logOutAsync
+} from './dataThunks';
 
 
 // Async Thunk for fetching all users
-export const fetchAllUsersAsync = createAsyncThunk('session/fetchAllUsersAsync', async (_, thunkAPI) => {
-  try{
-    const response = await axios.get(`${URL}/users`, {
-      headers:{
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.TOKEN_KEY}`
-      },
-    });
-
-    const data = response.data;
-    return data;
-
-  }catch (error){
-    console.error('Error during fetch all users:', error);
-    throw error;
-  }
-});
-
-// Async Thunk for fetching a users savedItems
-export const savedItemsAsync = createAsyncThunk('session/savedItemsAsync', async (userData, thunkAPI) => {
-  try{
-    if(userData.id){
-      const entries = Object.entries(userData);
-
-      const sortedEntries = entries
-        .filter(([key]) => key !== 'id' && key !== 'token')
-        .sort(([keyA], [keyB]) => keyA - keyB);
-      
-      // Step 3: Create a new object from the sorted array
-      const sortedObject = Object.fromEntries(sortedEntries);
-      const response = await axios.post(`${URL}/users/${userData.id}`, sortedObject, {
-      headers:{
-        'Content-Type': 'application/json',
-        'Authorization': userData.token
-      },
-    });
-    
-    const data = response.data;
-    return data;
-  }else {
-    console.error('Error during fetch all users: Logged in user not found.');
-    throw new Error('Logged in user not found.');
-  }
-
-  }catch (error){
-    console.error('Error during fetch all users:', error);
-    throw error;
-  }
-});
-
-// Async Thunk for signing up
-export const signUpAsync = createAsyncThunk('session/signUpAsync', async (userData, thunkAPI) => {
-  try {
-    const response = await axios.post(`${URL}/signup`, userData);
-
-    return response.data;
-  } catch (error) {
-    console.error('Error during sign-up:', error);
-
-    throw error;
-  }
-});
-
-// Async Thunk for signing in
-export const signInAsync = createAsyncThunk('session/signInAsync', async (userData, thunkAPI) => {
-  try {
-    const response = await axios.post(`${URL}/signin`, userData);
-
-    return response.data;
-  } catch (error) {
-    console.error('Error during sign-in:', error);
-    throw error;
-  }
-});
-
-// Async Thunk for editing user
-export const editUserAsync = createAsyncThunk('session/editUserAsync', async (userData, thunkAPI) => {
-  try {
-    const loggedInUser = thunkAPI.getState().session.users.find(user => user.isLoggedIn);
-    if (loggedInUser) {
-      const response = await axios.put(`${URL}/users/edit/${loggedInUser.id}`, userData);
-
-      return response.data;
-    }
-  } catch (error) {
-    console.error('Error during user edit:', error);
-
-    throw error;
-  }
-});
-
-// Async Thunk for logging out
-export const logOutAsync = createAsyncThunk('session/logOutAsync', async (_, thunkAPI) => {
-  try {
-    const loggedInUser = thunkAPI.getState().session.users.currentUser !== null;
-    if (loggedInUser) {
-      await axios.post(`${URL}/logout`);
-    }
-  } catch (error) {
-    console.error('Error during logout:', error);
-
-    throw error;
-  }
-});
 
 const initialState = {
   users: [],
   savedItems: [],
   fail: false,
   isLoading: false,
-  currentUser: null
+  currentUser: null,
+  token: null,
+  error: null
 };
 
 export const sessionSlice = createSlice({
@@ -124,6 +30,20 @@ export const sessionSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(fetchUserDataAsync.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchUserDataAsync.fulfilled, (state, action) => {
+        const {accessToken, user} = action.payload;
+        state.token = accessToken;
+        state.userData = user;
+        state.isLoading = false;
+      })
+      .addCase(fetchUserDataAsync.rejected, (state) => {
+        state.isLoading = false;
+        state.userData = {};
+        state.token = null;
+      })
       .addCase(fetchAllUsersAsync.pending, (state) => {
         state.isLoading = true;
       })
@@ -143,7 +63,6 @@ export const sessionSlice = createSlice({
 
         //append to the existing savedItems array
         state.savedItems = state.savedItems.concat(items);
-    
         state.fail = false;
         state.isLoading = false;
 
@@ -164,26 +83,24 @@ export const sessionSlice = createSlice({
         state.isLoading = false;
 
       })
-      .addCase(signUpAsync.rejected, (state) => {
+      .addCase(signUpAsync.rejected, (state, action) => {
+        state.error = action.payload;
         state.fail = true;
       })
       .addCase(signInAsync.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(signInAsync.fulfilled, (state, action) => {
-        const loggedInUserIndex = state.users.length > 0
-          ? state.users.findIndex(user => user._id === action.payload._id)
-          : -1
-        ;
-        if (loggedInUserIndex !== -1) {
-          state.users[loggedInUserIndex].isLoggedIn = true;
-        }
-        state.currentUser = action.payload; //sets the current user
-        state.isLoading = false;
+        const {accessToken, user} = action.payload;
+            state.token = accessToken;
+            state.currentUser = user;
+            state.isLoading = false;
 
       })
-      .addCase(signInAsync.rejected, (state) => {
-        state.fail = true;
+      .addCase(signInAsync.rejected, (state, action) => {
+        state.error = action.payload;
+        state.isLoading = false;
+
       })
       .addCase(editUserAsync.pending, (state) => {
         state.isLoading = true;

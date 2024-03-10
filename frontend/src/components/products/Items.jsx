@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import {useParams } from "react-router-dom";
 import { useSelector } from 'react-redux';
-import Loading from '../home/loading/Loading';
+import Loading from '../essentials/Loading';
 import { selectElectronics, selectFemale, selectMale } from '../../features/selectors';
 import Item from './Item';
 
@@ -25,12 +25,11 @@ const Items = ()=> {
         return () => clearTimeout(timeoutId);
     }, [male, female, electronics]);
     const filteredItem = allItems.find(item=> item.title === decodeURI(itemName));
-    console.log(filteredItem)
+    // console.log(filteredItem)
 
   return (
     <div>
-        {isLoading ? <Loading /> : filteredItem && <Item item={filteredItem} />}
-
+      {isLoading ? <Loading /> : filteredItem && <Item item={filteredItem} />}
     </div>
   )
 }

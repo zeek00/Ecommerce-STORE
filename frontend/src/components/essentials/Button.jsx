@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
-const StyledButton = styled.a`
+
+const StyledButton = styled.button`
   
   color: ${({ color }) => color ? color : '#fff'};
   width: ${({ width }) => width ?  width: 'fit-content'};
@@ -14,7 +16,7 @@ const StyledButton = styled.a`
   margin: ${({ margin }) => margin ? margin : '0 auto'};
   box-shadow: ${({ shadow }) => shadow ? shadow : 'none'};
   border-radius: ${({ borderRadius }) => borderRadius ? borderRadius : '.7rem'};
-  padding: ${({ padding }) => padding ? padding : '.7rem'};
+  padding: ${({ padding }) => padding ? padding : '.5rem'};
   font-size: ${({ fontSize }) => fontSize ? fontSize : '.9rem'};
   /* Add more styles as needed */
   &:hover {
@@ -24,13 +26,24 @@ const StyledButton = styled.a`
 
 
   }
+  @media only screen and (min-width:480px) and (max-width: 700px) {
+    padding: ${({ smPadding }) => smPadding ? smPadding : '.4rem'};
+
+  }
 `;
 
+
+
 const Button = (props) => {
-  const { type, label } = props;
+  const { type, label, to } = props;
+  const navigate = useNavigate();
+
+  const handleClick = ()=>{
+    navigate(to);
+  }
 
   return (
-    <StyledButton href={props.href} type={type} {...props}>
+    <StyledButton onClick={handleClick} href={props.href} type={type} {...props}>
       {label}
     </StyledButton>
   );

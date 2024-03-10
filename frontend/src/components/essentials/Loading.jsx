@@ -3,8 +3,10 @@ import { CgSpinner } from 'react-icons/cg';
 import styled from 'styled-components';
 
 const Load = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-content : center;
     height: ${(props)=> props.height ? props.height: '100vh'};    
-  
     .logo {
         display: flex;
         justify-content: center;

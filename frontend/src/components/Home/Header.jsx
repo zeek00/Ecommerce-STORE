@@ -8,18 +8,23 @@ import { Link, useNavigate } from 'react-router-dom';
 import Search from '../useractions/Search';
 import UserMenu from '../useractions/UserMenu';
 import PostsRoutes from '../../app/routes';
-import { selectCurrentUser } from '../../features/selectors'
+import { selectCurrentUser, selectCount } from '../../features/selectors'
 import { useSelector } from 'react-redux'
 
 const Header = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const user = useSelector(selectCurrentUser);
+  const count = useSelector(selectCount);
   const userId = user ? user._id : null;
+  const [isVisible, setIsVisible] = useState(false);
+
+  console.log(count);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 999);
   const [searchOpen, setSearchOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [count, setCount] = useState(1);
-
+  const [cartCount, setCartCount] = useState(null);
+  
+console.log(cartCount)
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 999);
@@ -35,6 +40,34 @@ const Header = () => {
 
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+
+      setIsVisible(scrollY > documentHeight - windowHeight - 300);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  useEffect(()=> {
+    setCartCount(count);
+
+  }, [count])
+
   const handleOpen = ()=>{
     setSearchOpen(!searchOpen)
     setTimeout(()=>{
@@ -44,13 +77,21 @@ const Header = () => {
 
   const handleUserOpen = ()=>{
     setUserMenuOpen(!userMenuOpen)
+    scrollToTop()
     setTimeout(()=>{
       setUserMenuOpen(false)
     }, 4000)
   }
 
-  const handleClick = ()=>{
+  const handleLIikedClick = ()=>{
+    scrollToTop()
     if (user) navigate(`${PostsRoutes.products.likedItems()}/${userId}`);
+    
+  }
+
+  const handleCartClick = ()=>{
+    scrollToTop()
+    if (user) navigate(`${PostsRoutes.products.cart()}`);
     
   }
  
@@ -73,14 +114,19 @@ const Header = () => {
           <Link to className={style.link}>
             <FaRegUser onClick={handleUserOpen} className={style.icon}   />
           </Link>
-          <Link onClick={handleClick} to={PostsRoutes.products.likedItems()} className={style.link}>
+          <Link onClick={handleLIikedClick} to={PostsRoutes.products.likedItems()} className={style.link}>
             <FaRegHeart className={style.icon}  />
           </Link>
-          <Link to className={style.link}>
+          <Link onClick={handleCartClick} to={PostsRoutes.products.cart()} className={style.link}>
             <FiShoppingCart className={style.icon} />
-            <span className={style.count}>
-              {count}
-            </span>
+            {
+              cartCount && (
+                <span className={style.count}>
+                  {cartCount}
+                </span>
+              )   
+            }
+            
           </Link>
         </div>
       </div>

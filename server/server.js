@@ -4,8 +4,7 @@ const app = express();
 const cors = require('cors');
 const apiRouter = require('../server/api')
 const sessionMiddleware = require('./middleware/session');
-const verifyToken = require('./middleware/auth');
-
+require('./utilities/cleanUpExpFIles');
 
 const allowedOrigins = ['http://localhost:3000', 'https://yourproductionapp.com'];
 

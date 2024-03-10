@@ -1,15 +1,10 @@
 
 const PostsRoutes =  {
+
+    coming: ()=>"coming-soon",
     home: {
         root:() => "",
         home:() => "/",
-    },
-    menu: () => "/menu",
-    liked: () => "products/liked",
-    signAction:{
-        root: ()=> "/sign-action",
-        signin: ()=> "/sign-action/signin",
-        signup: ()=> "/sign-action/signup"
     },
     leftnav:{
         root: ()=>"/lnav",
@@ -19,14 +14,19 @@ const PostsRoutes =  {
 
 
     },
+    menu: () => "/menu",
     products:{
         male: ()=>"products/men",
         female: ()=>"products/women",
         electronics: ()=>"products/electronics",
         likedItems: ()=>"products/likes",
+        cart: ()=>"products/cart",
     },
-    coming: ()=>"coming-soon"
-    
-    
+    signAction:{
+        root: ()=> "/sign-action",
+        signin: ()=> "/sign-action/signin",
+        signup: ()=> "/sign-action/signup"
+    },
+     
 }
 export default PostsRoutes

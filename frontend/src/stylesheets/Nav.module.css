@@ -1,5 +1,4 @@
 
-
 .nav{
     color: rgba(34, 34, 34);
     text-decoration: none;
@@ -30,7 +29,15 @@
     align-content: center;
     gap: 3rem;
     text-align: center;
-    /* outline: 1px solid crimson; */
+    
+}
+.lnav button{
+    font-size: 1.2rem;
+    color: rgba(34, 34, 34);
+    font-weight: 600;
+    border: none;
+    padding: 2rem;
+
     
 }
 .lnav button:hover{
@@ -41,15 +48,7 @@
 
 
 
-.lnav button{
-    font-size: 1.2rem;
-    color: rgba(34, 34, 34);
-    font-weight: 600;
-    padding: 2rem;
-    border: 1px solid #dcd0a4
 
-    
-}
 
 
 
@@ -70,12 +69,7 @@
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
     /* Styles for tablets in portrait */
-    .nav{
-        color: rgba(34, 34, 34);
-        /* padding: .3rem; */
-        /* border: 1px solid red; */
-        text-decoration: none;
-    }
+    
     
     
     
@@ -89,12 +83,7 @@
 @media only screen and (min-width: 992px) {
     /* Styles for desktops */
   
-    nav{
-        color: rgba(34, 34, 34);
-        /* padding: .3rem; */
-        /* border: 1px solid red; */
-        text-decoration: none;
-    }
+    
 
     
    

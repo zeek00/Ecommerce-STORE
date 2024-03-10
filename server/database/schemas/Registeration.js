@@ -6,11 +6,10 @@ const regSchema = new Schema({
    email: { type: String, unique: true },
    phone: Number,
    password: String,
+   role: String,
    datereg: { type: Date, default: Date.now },
    token: {type: String},
    savedItems: {type: Array},
-   isLoggedIn: { type: Boolean, default: false },
-
 });
 
 

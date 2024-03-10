@@ -9,9 +9,28 @@ const Main = styled.main`
     overflow: auto;
     scrollbar-width: thin;
     scrollbar-color: transparent transparent;
-    &::-webkit-scrollbar {
-        width: 0; /* Adjust as needed */
-      }
+   
+    @media only screen and (max-width: 480px) {
+        margin-top: 3rem;
+        
+    }
+
+    @media only screen and (min-width: 768px) and (max-width: 991px) and (orientation: landscape) {
+        margin-top: 4rem;
+        
+        
+    }
+    
+    @media only screen and (min-width: 992px) and (max-width: 1024px)  {
+        margin-top: 5rem;
+        
+        
+
+    }
+    @media only screen and (min-width: 1200px) {
+        margin-top: 4rem;
+    }
+      
 `;
 
 export default function Root() {

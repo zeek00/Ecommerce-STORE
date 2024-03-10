@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 const Category = styled.div`
     div{
+        
         border: 1.4px solid #dcd0a4;
         border-top: none;
         display: flex;

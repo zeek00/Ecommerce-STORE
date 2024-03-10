@@ -2,76 +2,75 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import style from '../../stylesheets/Form.module.css'
-import styled from 'styled-components';
 import PostsRoutes from '../../app/routes'
 import Button from './Button';
-import Loading from '../home/loading/Loading'
+import Loading from './Loading'
 import { useNavigate } from 'react-router-dom';
-import {selectCurrentUser, selectFail, selectSessionLoading} from '../../features/selectors'
-import { signInAsync, signUpAsync } from '../../features/session/sessionSlice';
-import { CiWarning } from "react-icons/ci";
+import { selectSessionLoading, selectSessionError } from '../../features/selectors'
+import { signInAsync, signUpAsync } from '../../features/session/dataThunks';
+import Warning from './Warning';
 
-const failStyle = {
-  display: 'flex', 
-  backgroundColor: 'rgb(236,29,57, 0.6)',
-  padding: '.7rem',
-  color: 'rgba(34, 34, 34, 0.9)'
-};
-
-const Input = styled.input`
-  background:  ${(props)=> (props.showFail ? 'rgb(236,29,57, 0.6)' : '')} 
-
-
-`;
 
 const AuthForm = ({ about, closingAbout, title, fields, authType }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userNow = useSelector(selectCurrentUser);
-  const userFail = useSelector(selectFail);
+  const sessionError = useSelector(selectSessionError);
+  
   const sessionLoad = useSelector(selectSessionLoading);
-  const [showFail, setShowFail] = useState(false);
   const [formData, setFormData] = useState(
     fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {})
   );
-  
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     // Show the fail message when a sign-up fails
-    if (authType === 'signIn' && userFail) {
-      setShowFail(true);
+    
+    const timeoutId = setTimeout(() => {
+      if(error){
+        setError(null)
+      }
 
-      //Set a timeout to hide the fail message after a certain duration
-      
-    }else{
-      setShowFail(false)
-    }
-  }, [authType, userFail]);
+    }, 4000);
 
-  const [passwordError, setPasswordError] = useState('');
+    return () => {
+      clearTimeout(timeoutId);
+    };
+
+  }, [error]);
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+    // Phone Validation
+    if(name === 'phone'){
+      if(value.length < 10 ){
+        setError('Phone must be at least 10 digits.');
+      } else {
+        setError(null);
+      }
+    }
     // Password validation
     if (name === 'password') {
       const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{10,}$/;
 
       if (!passwordRegex.test(value)) {
-        setPasswordError('Password must be at least 10 characters and include letters and at least one number.');
+        setError('Password must be at least 8 characters and include a capiatal letter and at least one number.');
       } else {
-        setPasswordError('');
+        setError(null);
       }
     }
+    
   };
 
   const handleSubmit = async(e) => {
     e.preventDefault();
 
     const{name, email, phone, password} = formData;
-    let actionResult;
-    try {
+    try{
       if(authType === 'signUp'){
-        actionResult = await dispatch(
+        
+        let result = await dispatch(
           signUpAsync({
             name,
             email,
@@ -79,26 +78,27 @@ const AuthForm = ({ about, closingAbout, title, fields, authType }) => {
             password,
           })
         );
-        if(signUpAsync.fulfilled.match(actionResult)){
+        if(signUpAsync.rejected.match(result)){
+          setError(sessionError.message) 
+        }
+        if(signUpAsync.fulfilled.match(result)){
           setFormData(fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {}));
           navigate(PostsRoutes.signAction.signin());
         }
-
-      
       }else if(authType === 'signIn'){
-        actionResult = await dispatch(signInAsync({email, password}));
-        if (signInAsync.fulfilled.match(actionResult)) {
+        let result = await dispatch(signInAsync({email, password}));
+        if(signInAsync.rejected.match(result)){
+          setError(sessionError.message) 
+        }
+        if (signInAsync.fulfilled.match(result)) {
           setFormData(fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {}));
-          console.log(PostsRoutes.home.home());
           navigate(PostsRoutes.home.home());
-
         }
       }
-      
-
-    }catch (error) {
-      console.error('Error during form submission:', error);
+    }catch(err){
+      console.log(err)
     }
+      
     
     
   };
@@ -108,10 +108,7 @@ const AuthForm = ({ about, closingAbout, title, fields, authType }) => {
     {
       sessionLoad ? <Loading/> : (
       <div className={style.form}>
-        {showFail &&(<div style={failStyle}>
-            <CiWarning/>
-            <h5>Looks like either your name or password were incorrect. Wanna try again?</h5>
-          </div>)}
+        {error && <Warning bgColor={'rgba(255, 23, 55, 0.45)'} error={error}/>}
           <h2>{title}</h2>
           <p>{about}</p>
           <form onSubmit={handleSubmit}>
@@ -119,10 +116,9 @@ const AuthForm = ({ about, closingAbout, title, fields, authType }) => {
               <div key={field.name}>
                 <label className={style.label} htmlFor={field.name}>
                   {field.label}
-                  {field.type === 'password' && (
+                  {field.type === error && (
                     <>
-                      <Input
-                        showFail={showFail}
+                      <input
                         type={field.type}
                         id={field.name}
                         name={field.name}
@@ -130,12 +126,10 @@ const AuthForm = ({ about, closingAbout, title, fields, authType }) => {
                         onChange={handleInputChange}
                         required={field.required}
                       />
-                      {passwordError && <p style={{ color: 'red' }}>{passwordError}</p>}
                     </>
                   )}
-                  {field.type !== 'password' && (
-                    <Input
-                      showFail={showFail}
+                  {field.type !== error && (
+                    <input
                       type={field.type}
                       id={field.name}
                       name={field.name}
