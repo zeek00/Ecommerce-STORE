@@ -112,7 +112,7 @@ console.log(cartCount)
             <FiSearch onClick={handleOpen} className={style.icon}  />
           </Link>
           <Link to className={style.link}>
-            <FaRegUser onClick={handleUserOpen} className={style.icon}   />
+            <FaRegUser onClick={handleUserOpen} className={style.icon} />
           </Link>
           <Link onClick={handleLIikedClick} to={PostsRoutes.products.likedItems()} className={style.link}>
             <FaRegHeart className={style.icon}  />
