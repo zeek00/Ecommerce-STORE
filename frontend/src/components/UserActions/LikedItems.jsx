@@ -1,42 +1,26 @@
 import React, {useState, useEffect} from 'react'
 import { selectCurrentUser } from '../../features/selectors'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import Button from '../essentials/Button';
 import { GiHeartMinus } from "react-icons/gi";
 import styled from 'styled-components';
 import PostsRoutes from '../../app/routes';
 import DataManipulation from '../../helpers/dataManipulation';
+import Loading from '../essentials/Loading';
+import { getToken } from '../../helpers/helperFunctions';
 
 
 const Liked = styled.div`
     display: flex;
+    justify-content: ${(user)=> user ? 'start' : 'center'};
     overflow: auto;
+    gap: 0.9rem;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
-  ::-webkit-scrollbar{
-    width: 0.2rem;
-  
-  
-  
-  }
-  ::-webkit-scrollbar-track{
-    background: rgba(234,227,201, 0.5);
-  
-  }
-  ::-webkit-scrollbar-thumb{
-    background: #dcd0a4;
-  
-  }
-  ::-webkit-scrollbar-thumb:hover{
-    background: #dcd0a4;
-  
-  }
     padding: 1rem auto;
     height: 100vh;
-    justify-content: space-around;
     flex-direction: column;
     .noUserBox{
         display: flex;
@@ -66,6 +50,19 @@ const Liked = styled.div`
         color: #333;
         font-weight: 600;
     }
+    ::-webkit-scrollbar{
+        width: 0.2rem;
+      }
+      ::-webkit-scrollbar-track{
+        background: rgba(234,227,201, 0.5);
+      }
+      ::-webkit-scrollbar-thumb{
+        background: #dcd0a4; 
+      }
+      ::-webkit-scrollbar-thumb:hover{
+        background: #dcd0a4;
+      }
+   
 
 `;
 
@@ -75,13 +72,16 @@ const LikedItems = ()=> {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const user = useSelector(selectCurrentUser);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(()=>{
         const fetchData = async () => {
             const d = new DataManipulation();
             if (user) {
               try {
-                const savedItems = await d.getSavedItemsForUser(user._id, user.token);
+                const accessToken = getToken()    
+                const savedItems = await d.getSavedItemsForUser(user._id, accessToken);
                 setData(savedItems);
               } catch (error) {
                 console.error(`Error fetching saved items: ${error.message}`);
@@ -92,10 +92,8 @@ const LikedItems = ()=> {
         };
             fetchData();
            
-    }, [user])
+    }, [dispatch, user])
   
-    console.log(data);
-    const navigate = useNavigate();
     
     const handleClick = () => {
         navigate(PostsRoutes.signAction.signin());
@@ -103,7 +101,9 @@ const LikedItems = ()=> {
   return (
 
         <Liked>
+            
             {
+                
                 user ? 
                 (<div className='main'>
                     {
@@ -114,9 +114,11 @@ const LikedItems = ()=> {
                             </div>)
 
                         :
+                        loading ? <Loading/>
+                        :
                         data.map(savedItem => (
-                            <div className='userBox'>
-                                <li key={savedItem.id}>
+                            <div key ={savedItem.price} className='userBox'>
+                                <li>
                                     <img src={savedItem.images[0]} alt="" />
                                     <p>{savedItem.title}</p>
                                 </li>

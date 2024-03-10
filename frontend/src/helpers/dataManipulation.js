@@ -1,5 +1,4 @@
-import axios from "axios";
-import {URL} from "../config";
+import {REGURL} from "../config";
  
 class DataManipulation {
     async getData(url, sort){
@@ -87,7 +86,7 @@ class DataManipulation {
                 });
                 
               
-                const response = await fetch(`${URL}/users/${id}`, {
+                const response = await fetch(`${REGURL}/users/${id}`, {
                     method: 'GET',
                     headers: headers,
                 });

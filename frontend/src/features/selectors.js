@@ -3,8 +3,13 @@ const selectElectronics = (state) => state.electronics.electronics;
 const selectMale = (state)=>state.clothing.male;
 const selectFemale = (state)=>state.clothing.female;
 const selectCart = (state) => state.cart.cart;
+const selectCartError = (state) => state.cart.error;
+const selectCount = (state) => state.cart.count;
+const selectMessage = (state) => state.cart.message;
 const selectFail = (state) => state.session.fail;
 const selectCurrentUser = (state) => state.session.currentUser;
+const selectCurrentUserToken = (state) => state.session.token;
+const selectSessionError = (state) => state.session.error;
 const selectSessionLoading = (state) => state.session.isLoading;
 
 export {
@@ -15,5 +20,11 @@ export {
     selectFail,
     selectCurrentUser,
     selectSessionLoading,
-    selectElectronics  
+    selectElectronics,
+    selectCurrentUserToken,
+    selectSessionError,
+    selectCartError,
+    selectMessage,
+    selectCount
+
 };

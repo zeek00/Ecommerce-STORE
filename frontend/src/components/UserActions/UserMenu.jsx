@@ -8,13 +8,14 @@ import { MdCancel } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import PostsRoutes from '../../app/routes';
 import { selectCurrentUser } from '../../features/selectors';
-import { logOutAsync } from '../../features/session/sessionSlice';
+import { logOutAsync } from '../../features/session/dataThunks';
 
 
 const Div = styled.div`
   position: absolute;
-  top: 3rem;
+  top: auto;
   right: 0rem;
+  z-index: 20;
   background: rgb(248, 249, 250);
   width: 80%;
   opacity: ${(props) => (props.isOpen ? '1' : '0')};
@@ -69,6 +70,8 @@ const Div = styled.div`
 
   @media only screen and (max-width: 480px) {
     /* Styles for small screens */
+    top: 3rem;
+
   }
 
   @media only screen and (min-width: 768px) and (max-width: 991px) {

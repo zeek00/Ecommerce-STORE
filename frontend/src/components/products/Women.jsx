@@ -17,7 +17,7 @@ const Women = ()=> {
   return (
     <>
         <h2 className={style.h2}>Women's wear</h2>
-        <Categories type={'female'} category={'women'} selectedCategory={femaleCategories}/>
+        <Categories category={'women'} selectedCategory={femaleCategories}/>
         <Products subCategory={category} filteredCategory={filteredFemale} category='female'/>
     </>
   )

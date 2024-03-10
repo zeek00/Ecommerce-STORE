@@ -1,18 +1,18 @@
 .footer{
-    bottom: 0;
-    background-color: rgb(234,227,201);
+    position: static;
+    background-color: rgb(242,242,242);
     color: rgba(34, 34, 34, 0.60);
-    padding: 1rem;
 }
 
 .container{
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    padding: 1rem 0;
+    grid-template-columns: repeat(3, 1fr);
     text-align: center;
     grid-row-gap: .7rem;
     grid-template-areas: 
-        "a b c d"
-         "f g e e"
+        "a b c"
+        "d f g"
         
     ;
 }
@@ -24,7 +24,7 @@
 .container h4{
     text-transform: uppercase;
     font-size: .6rem;
-    color: rgba(34, 34, 34, 0.60);
+    color: #222;
     font-style: normal;
     font-weight: 700;
     line-height: 1.45rem;
@@ -38,7 +38,7 @@
 .container li{
     font-size: .5rem;
     font-weight: 500;
-    text-transform: uppercase;
+    text-transform: capitalize;
 }
 
 .categories{
@@ -60,7 +60,23 @@
 }
 
 .subscribe{
-    grid-area: e;
+    background: rgb(234,227,201);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+.subscribe h4{
+    text-transform: uppercase;
+    color: rgba(34, 34, 34, 0.60);
+
+}
+
+.subscribe p{
+    color: rgba(34, 34, 34, 0.60);
+    font-size: 0.9rem;
+    padding: 0.4rem;
 }
 
 .socials{
@@ -73,12 +89,17 @@
 
 .socials ul{
     display: flex;
+    width: 20%;
     flex-direction: column;
+    margin: 0 auto;
+}
+.socials li{
+    display: flex;
 }
 
 .socialIcon{
     font-size: 1.3rem;
-    margin-bottom: -.4rem;
+    margin: -.1rem 0 -.4rem 0;
     padding: .2rem;
 }
 
@@ -103,11 +124,6 @@
 .copy{
     grid-area: h;
 }
-.subscribe form{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 .subscribe h5{
     font-size: .9rem;
@@ -120,15 +136,34 @@
     text-decoration: underline;
 }
 
+.hr {
+    display: flex;
+    margin: 1rem 0;
+    border-style: solid;
+    border-top-width: 0.00rem;
+    color: rgba(34, 34, 34, 0.60);
+    width: 60%;
+}
+.subscribe form{
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    
+
+}
+
+.subscribe span{
+    font-size: 0.8rem;
+    cursor: pointer;
+}
 .form{
     display: flex;
     background-color: #fff;
-    width: fit-content;
     padding: .5rem 0 .2rem .7rem;
-    border-radius: 1rem;
-    margin-right: .7rem;
+    /* margin-right: .7rem; */
     color: rgba(34, 34, 34, 0.60);
     font-size: 1.4rem;
+    width: 70%;
 }
 
 
@@ -139,18 +174,35 @@
     font-size: .8rem;
     font-weight: 200;
 }
+.form input:focus{
+    
+    outline: none;
+    
+}
 
 .footerFinal{
     display: flex;
+    border-top: 0.5px solid rgba(34, 34, 34, 0.1);
     justify-content: space-between;
+    padding: 0.7rem 0;
 }
 
 .footerFinal p{
     color: rgba(34, 34, 34, 0.6);
+    font-weight: 500;
+    font-size: .8rem;
 }
 
 .footerFinal p span{
     text-decoration: underline;
+    cursor: pointer;
+}
+.links{
+    display: flex;
+    gap: 2rem;
+}
+
+.links span{
     cursor: pointer;
 }
 
@@ -171,14 +223,24 @@
             
         ;
     }
+    
+    .subscribe form{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: .7rem;
+        width: 100%;
+        
+    }
+   
 
     .form{
-        width: 60%;
+        width: 80%;
         
     }
     
     .form input{
-        width: 60%;
+        width: 100%;
         
     }
     .container h4{
@@ -189,7 +251,6 @@
     .container li{
         font-size: .7rem;
         font-weight: 500;
-        text-transform: uppercase;
     }
 
     .subscribe h5{
@@ -199,9 +260,10 @@
         font-size: .8rem;
         text-align: center;
     }
-    .subscribe form{
-        display: flex;
-        justify-content: center;
+  
+    .hr {
+        
+        width: 80%;
     }
 
 
@@ -232,7 +294,7 @@
     }
 }
 
-@media only screen and (min-width: 700px) and (max-width: 768px) {
+@media only screen and (min-width: 700px) and (max-width: 767px) {
     /* Styles for tablets in portrait */
     .container{
         display: none;
@@ -243,11 +305,10 @@
     /* Styles for tablets in landscape */
     .container{
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
         grid-gap: 1rem;
         grid-template-areas: 
-            "a b c d"
-            "f g e e" 
+            "a b c"
+            "d f g" 
         ;
     }
     .container h4{
@@ -258,7 +319,6 @@
     .container li{
         font-size: .9rem;
         font-weight: 500;
-        text-transform: uppercase;
     }
 
     .subscribe h5{
@@ -269,10 +329,6 @@
         text-align: center;
     }
 
-    .subscribe form{
-        display: flex;
-        justify-content: center;
-    }
 
     .footerFinal{
         margin-top: 1rem;
@@ -291,11 +347,10 @@
 @media only screen and (min-width: 992px) {
     /* Styles for desktops */
    .container{ 
-        grid-template-columns: repeat(4, 1fr);
-        grid-gap: 1rem;
+        grid-gap: 2rem;
         grid-template-areas: 
-            "a b c d"
-            "f g e e" 
+            "a b c"
+            "d f g"
         ;
    }
 
@@ -307,25 +362,18 @@
     .container li{
         font-size: .9rem;
         font-weight: 500;
-        text-transform: uppercase;
     }
 
-    .subscribe{
-        margin: auto;
-    }
 
     .subscribe h5{
         font-size: 1.5rem;
     }
     .subscribe p{
-        font-size: 1rem;
+        font-size: 0.8rem;
         text-align: center;
     }
 
-    .subscribe form{
-        display: flex;
-        justify-content: center;
-    }
+   
     .footer h3{
         text-align: left;
         font-size: 1.3rem;
@@ -338,7 +386,7 @@
     }
 
     .footerFinal p{
-        font-size: 1.3rem;
+        font-size: 0.8rem;
     }
    
 }

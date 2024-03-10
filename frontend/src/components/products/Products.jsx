@@ -2,12 +2,11 @@ import React from 'react'
 import style from '../../stylesheets/Products.module.css'
 import { useSelector } from 'react-redux';
 import { selectLoadingState, selectCurrentUser } from '../../features/selectors';
-import Loading from '../home/loading/Loading';
+import Loading from '../essentials/Loading';
 import { Link} from 'react-router-dom';
 import { IoHeartCircleSharp } from "react-icons/io5";
 import FilteredProduct from './FilteredProducts';
 import { useSavedItems } from './saveLikedHook';
-import PostsRoutes from '../../app/routes';
 
 const Products = ({subCategory, category, filteredCategory}) => {
     const loading = useSelector(selectLoadingState);

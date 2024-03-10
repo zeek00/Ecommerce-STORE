@@ -1,5 +1,5 @@
 import React from 'react'
-import  Loading from '../home/loading/Loading'
+import  Loading from './Loading'
 import styled from 'styled-components'
 
 const Div = styled.div`
