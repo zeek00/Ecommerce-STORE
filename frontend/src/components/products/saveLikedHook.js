@@ -5,7 +5,6 @@ import { savedItemsAsync } from '../../features/session/dataThunks';
 export const useSavedItems = (user) => {
 const dispatch = useDispatch()
 const [savedItems, setSavedItems] = useState([])
-console.log(user)
 
 const handleClick = (item) => {
   const itemAlreadySaved = savedItems.find(savedItem => savedItem.id === item.id);
@@ -16,7 +15,6 @@ const handleClick = (item) => {
       updatedSavedItems.id = user._id;
     }
     setSavedItems(updatedSavedItems);
-    console.log(savedItems)
     dispatch(savedItemsAsync(savedItems));
   }
 };

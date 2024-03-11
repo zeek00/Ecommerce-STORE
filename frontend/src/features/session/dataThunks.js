@@ -5,7 +5,6 @@ import {
   getToken, 
   removeToken, 
   setToken,
-  getProfile,
   removeProfile,
   setProfile
 } from '../../helpers/helperFunctions';
@@ -50,7 +49,6 @@ const fetchUserDataAsync = createAsyncThunk('session/fetchUserDataAsync', async 
 const savedItemsAsync = createAsyncThunk('session/savedItemsAsync', async (userData, thunkAPI) => {
     try{
         let accessToken = getToken();
-        console.log(accessToken)
         if(userData.id){
             const entries = Object.entries(userData);
     

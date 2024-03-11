@@ -100,21 +100,19 @@ const Cart = () => {
         const apiFetch = async () =>{
             try{
                 if(userId){
-                    let result = await dispatch(fetchUserCartAsync(userId));
-                    if (fetchUserCartAsync.fulfilled.match(result)) {
-                        console.log(cart)
-                    }
+                    await dispatch(fetchUserCartAsync(userId));
+                    
     
                 }
     
             }catch(err){
-                console.log('it failed');
+                console.error('Failure');
     
             }
 
         }
         apiFetch();
-    }, [userId])
+    }, [userId, cart])
 
   return (
         <CartDiv user={user}>

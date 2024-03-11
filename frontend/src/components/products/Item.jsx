@@ -176,13 +176,10 @@ const Item = ({item}) => {
             
         if(user){
             if(clicked){
-                console.log('inclicked')
                 if(item.category !== 'smartphones' && !size){
-                    console.log('we here')
                     setError('Select a size');
                 }
                 if(size){
-                    console.log('in size')
                     const { id, ...newItem } = item;
                     const updatedItem = {id: uuidv4(), size: size, ...newItem}
                     setData(updatedItem)                    
@@ -215,11 +212,9 @@ const Item = ({item}) => {
         const timeoutId = setTimeout(() => {
             
             if(error){
-                console.log('null');
               setError(null);
             }
             if(success){
-                console.log('null');
                 setSuccess(null);
             }
       

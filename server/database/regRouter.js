@@ -46,7 +46,6 @@ regRouter.post('/signup', async (req, res) => {
       error.message = 'Password should contain a capital letter a number and at least 8 characters.';
       throw error;
     }
-    // Check if the email already exists
     const existingUser = await User.findOne({ email: email.toString() });
     if (existingUser) {
       
@@ -65,12 +64,10 @@ regRouter.post('/signup', async (req, res) => {
       throw error
     }
 
-    // Hashing process
     const hashedPassword = await bcrypt.hash(password, 10);
 
     
 
-    // create a new user object
     const newUser = await User.create({
         name: name.toString(),
         email: email.toString().toLowerCase(),
@@ -105,7 +102,6 @@ regRouter.post('/signin', async (req, res) => {
       throw error;
     }
 
-    // Find the user by email 
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -125,7 +121,6 @@ regRouter.post('/signin', async (req, res) => {
     }
     
     if (user && passwordValidation) {
-      // Create token
       const token = jwt.sign(
         { userId: user._id, email },
         process.env.TOKEN_KEY,
@@ -180,7 +175,6 @@ regRouter.get('/user', async (req, res) => {
   try {
     const users = await User.find({}, 'name email token');
     
-    // If no users are found, throw a custom error
     if (!users || users.length === 0) {
       const error = new Error();
       error.message = 'User not found';
@@ -188,10 +182,8 @@ regRouter.get('/user', async (req, res) => {
       throw error;
     }
 
-    // Get information about the currently authenticated user
     const authenticatedUser = req.session.user;
 
-    // Return list of all users and information about the authenticated user
     res.json({
       users,
       authenticatedUser,
@@ -216,10 +208,8 @@ regRouter.post('/users/:id', async (req, res) => {
       throw error;
     }
 
-    // Extract titles of existing items
     const existingTitles = user.savedItems.map(item => item.title);
 
-    // Filter out items from req.body that already exist
     const newItems = Object.entries(req.body).reduce((acc, [key, value]) => {
       if (!existingTitles.includes(value.title)) {
         acc[key] = value;
@@ -227,7 +217,6 @@ regRouter.post('/users/:id', async (req, res) => {
       return acc;
     }, {});
 
-    // Add only the new items to savedItems
     user.savedItems.push(...Object.values(newItems));
 
     await user.save();
@@ -270,9 +259,6 @@ regRouter.get('/users/:id', async (req, res) => {
   }
 });
 
-
-
-
 regRouter.put('/users/edit/:id', async (req, res) => {
     try {
       const userId = req.user._id;
@@ -287,7 +273,6 @@ regRouter.put('/users/edit/:id', async (req, res) => {
 
       const updatedUserData = req.body;
   
-      // Update user data
       userToUpdate.name = updatedUserData.name || userToUpdate.name;
       userToUpdate.email = updatedUserData.email || userToUpdate.email;
       userToUpdate.phone = updatedUserData.phone || userToUpdate.phone;

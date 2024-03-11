@@ -13,7 +13,7 @@ import { getToken } from '../../helpers/helperFunctions';
 
 const Liked = styled.div`
     display: flex;
-    justify-content: ${(user)=> user ? 'start' : 'center'};
+    justify-content: ${(user)=> !user ? 'start' : 'center'};
     overflow: auto;
     gap: 0.9rem;
     overflow-x: hidden;

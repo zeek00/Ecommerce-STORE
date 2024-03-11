@@ -36,6 +36,22 @@ const AddItemToUserCartAsync = createAsyncThunk('cart/AddItemToUserCartAsync', a
         return thunkAPI.rejectWithValue(error.response.data);
     }
 });
+const DeleteItemFromUserCartAsync = createAsyncThunk('cart/DeleteItemFromUserCartAsync', async(userData, thunkAPI) => {
+    try{
+        let accessToken = getToken();
+        const {userId, itemId} = userData
+        const response = await axios.delete(`${CARTURL}/delete/${userId}/${itemId}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': accessToken
+            }
+        })
+        const data = response;
+        return data.data;
+    }catch(error){
+        return thunkAPI.rejectWithValue(error.response.data);
+    }
+});
 
 
-export {fetchUserCartAsync, AddItemToUserCartAsync}
+export {fetchUserCartAsync, AddItemToUserCartAsync, DeleteItemFromUserCartAsync}

@@ -1,7 +1,6 @@
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 
-// Session middleware configuration
 const sessionMiddleware = session({
   secret: process.env.SECRET,
   resave: false,
