@@ -24,7 +24,6 @@ const options = {
             })
             .addCase(fetchUserCartAsync.fulfilled, (state, action) => {
                 let items = action.payload;
-                console.log(items)
                 items.forEach(element => {
                     const isItemInCart = state.cart.some(item => item.id === element.id);
             

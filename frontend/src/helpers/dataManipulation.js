@@ -6,28 +6,32 @@ class DataManipulation {
             try{
                 const response = await fetch(url);
                 if(!response.ok){
-                    throw new Error("Request failed code: " + response.status);
+                    const error = new Error();
+                    error.message = 'Request Failed';
+                    error.code = 404;
+                    throw error;                 
                 }
                 const data = await response.json();
-                // console.log(data)
                 return data;
             }
-            catch(err) {
-                console.log(JSON.stringify(err.message));
+            catch(error) {
+                console.error(error.message);
             }
     
         }else{
             try{
                 const response = await fetch(url);
                 if(!response.ok){
-                    throw new Error("Request failed code: " + response.status);
+                    const error = new Error();
+                    error.message = 'Request Failed';
+                    error.code = 404;
+                    throw error;     
                 }
                 const data = await response.json();
-                // console.log(data.products)
                 return data.products;
             }
-            catch(err) {
-                console.log(JSON.stringify(err.message));
+            catch(error) {
+                console.error(error.message);
             }
             
         }
@@ -36,7 +40,6 @@ class DataManipulation {
     sortData(data, category){
         let sortedData = [];
         let id = 1;
-        // console.log(data)
         for (let obj of data) {
             let updatedData = {
                 id: id++,
@@ -52,11 +55,9 @@ class DataManipulation {
             } else if (typeof obj.image === 'string') {
                 updatedData.images.push(obj.image);
             }
-            // console.log(updatedData)
 
             sortedData.push(updatedData);
         }
-        // console.log('this is the sorted data: '+sortedData)
 
         return sortedData;
     };
@@ -73,7 +74,6 @@ class DataManipulation {
         for (let obj of mergedData) {
             obj.id = id++
         }
-        // console.log(mergedData)
         return mergedData;
     
     };
@@ -92,14 +92,16 @@ class DataManipulation {
                 });
 
                 if(!response.ok){
-                    throw new Error("Request failed code: " + response.status);
+                    const error = new Error();
+                    error.message = 'Request Failed';
+                    error.code = 404;
+                    throw error;                     
                 }
                 const user = await response.json();
                 return user.savedItems;
             }
             catch(err) {
                 console.error(`Error in getSavedItemsForUser: ${err.message}`);
-                console.log(JSON.stringify(err.message));
             }
     
         }

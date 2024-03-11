@@ -23,7 +23,6 @@ const Header = () => {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [cartCount, setCartCount] = useState(null);
   
-console.log(cartCount)
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 999);

@@ -24,8 +24,6 @@ const fetchUserCartAsync = createAsyncThunk('cart/fetchUserCartAsync', async(use
 const AddItemToUserCartAsync = createAsyncThunk('cart/AddItemToUserCartAsync', async(userData, thunkAPI) => {
     try{
         let accessToken = getToken();
-        console.log(accessToken)
-
         const response = await axios.post(`${CARTURL}/add`, userData, {
             headers: {
                 'Content-Type': 'application/json',
