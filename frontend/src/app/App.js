@@ -27,9 +27,6 @@ function App() {
   useEffect(() => {
     if(user){
       const accessToken = getToken();
-      console.log(accessToken)
-      const ud = getProfile();
-      console.log(ud);
       if(accessToken){
         dispatch(fetchUserDataAsync());
       }
