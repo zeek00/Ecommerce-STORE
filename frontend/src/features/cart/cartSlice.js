@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import { fetchUserCartAsync, AddItemToUserCartAsync } from './dataThunks'
+import { fetchUserCartAsync, AddItemToUserCartAsync, DeleteItemFromUserCartAsync } from './dataThunks'
 
 const initialState ={
     cart: [],
@@ -14,10 +14,7 @@ const options = {
     initialState,
     reducers:{
         removeCartItem: (state, action) => {
-            const indexToRemove = state.cart.findIndex((item) => item.id === action.payload);
-            if (indexToRemove !== -1) {
-                state.cart.splice(indexToRemove, 1)
-            }
+            
         },
     },
     extraReducers: (builder) => {
@@ -29,10 +26,8 @@ const options = {
                 let items = action.payload;
                 console.log(items)
                 items.forEach(element => {
-                    // Check if the item is already in the cart
                     const isItemInCart = state.cart.some(item => item.id === element.id);
             
-                    // If the item is not in the cart, push it
                     if (!isItemInCart) {
                         state.cart.push(element);
                     }
@@ -53,6 +48,24 @@ const options = {
                 state.isLoading = false;
             })
             .addCase(AddItemToUserCartAsync.rejected, (state, action)=>{
+                state.error = action.payload;
+                state.isLoading = false;
+            })
+            .addCase(DeleteItemFromUserCartAsync.pending, (state)=>{
+                state.isLoading = true; 
+            })
+            .addCase(DeleteItemFromUserCartAsync.fulfilled, (state, action)=>{
+                const {itemId} = action.payload
+                const indexToRemove = state.cart.findIndex((item) => item.id === itemId);
+                if (indexToRemove !== -1) {
+                    state.cart.splice(indexToRemove, 1)
+                }
+                state.count -= 1;
+                state.isLoading = false;
+                state.message = action.payload;
+
+            })
+            .addCase(DeleteItemFromUserCartAsync.rejected, (state, action)=>{
                 state.error = action.payload;
                 state.isLoading = false;
             })

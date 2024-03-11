@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import { IoTrashBin } from "react-icons/io5";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '../essentials/Button'
 import styled from 'styled-components';
-import { removeCartItem } from '../../features/cart/cartSlice';
+import { selectCurrentUser } from '../../features/selectors';
+
+import { DeleteItemFromUserCartAsync } from '../../features/cart/dataThunks';
 
 
 const Container = styled.div`
@@ -110,77 +112,77 @@ const Container = styled.div`
 
     }
 
-@media only screen and (max-width: 480px) {
-    width: 95%;
-    top: 3rem;
-    height: 95vh;
-    flex-direction: column;
-    .summary{
-        width: 100%;
-    }
-    
-    
-    
-}
-
-@media only screen and (min-width: 768px) and (max-width: 991px) and (orientation: landscape) {
-    height: 80vh;
-    justify-content: space-between;
-
-    .items{
-        width: 70%;
-    }
-    
-
-    
-}
-
-@media only screen and (min-width: 992px) and (max-width: 1024px)  {
-    height: 80vh;
-    justify-content: space-between;
-
-    .items{
-        width: 70%;        
-    }
-    .total .count{
-        width: 80%;
-
-    }
-    .count button{
-        width: 35%;
-
-    }
-    
-
-}
-   
-@media only screen and (min-width: 1201px){
-    height: 80vh;
-    height: inherit;
-    justify-content: space-between;
-    
-    .itemImage{
-        width: 20%;
-    }
-    .desc button{
-        width: fit-content;
+    @media only screen and (max-width: 480px) {
+        width: 95%;
+        top: 3rem;
+        height: 95vh;
+        flex-direction: column;
+        .summary{
+            width: 100%;
+        }
+        
+        
         
     }
-    .total p{
-        font-size: 1.4rem;
+
+    @media only screen and (min-width: 768px) and (max-width: 991px) and (orientation: landscape) {
+        height: 80vh;
+        justify-content: space-between;
+
+        .items{
+            width: 70%;
+        }
+        
+
+        
     }
-    .total .count{
-        width: 70%;
 
-    }  
-    .count button{
-        width: 35%;
+    @media only screen and (min-width: 992px) and (max-width: 1024px)  {
+        height: 80vh;
+        justify-content: space-between;
+
+        .items{
+            width: 70%;        
+        }
+        .total .count{
+            width: 80%;
+
+        }
+        .count button{
+            width: 35%;
+
+        }
+        
 
     }
-
-
     
-}
+    @media only screen and (min-width: 1201px){
+        height: 80vh;
+        height: inherit;
+        justify-content: space-between;
+        
+        .itemImage{
+            width: 20%;
+        }
+        .desc button{
+            width: fit-content;
+            
+        }
+        .total p{
+            font-size: 1.4rem;
+        }
+        .total .count{
+            width: 70%;
+
+        }  
+        .count button{
+            width: 35%;
+
+        }
+
+
+        
+    }
 
 `;
 
@@ -188,15 +190,18 @@ const Container = styled.div`
 
 const CartItems = ({mainCart}) => {
     const [accumulated, setAccumulated] = useState({});
+    const user = useSelector(selectCurrentUser);
     const dispatch = useDispatch();
     const [total, setTotal] = useState(null);
-    // const [count, setCount] = useState(1);
     const [clicked, setClicked] = useState(false)
     const cart = mainCart;
 
     const handleRemoval = async (itemId) =>{
         try{
-            dispatch(removeCartItem(itemId))
+            dispatch(DeleteItemFromUserCartAsync({
+                itemId: itemId,
+                userId: user._id
+            }))
         }catch(err){
             console.log(err);
         }
@@ -217,7 +222,10 @@ const CartItems = ({mainCart}) => {
             const newCount = Math.max(0, (prevCounts[itemId] || 1) - 1);
             if (newCount === 0) {
                 try {
-                    dispatch(removeCartItem(itemId));
+                    dispatch(DeleteItemFromUserCartAsync({
+                        itemId: itemId,
+                        userId: user._id
+                    }));
                 } catch (err) {
                     console.log(err);
                 }
@@ -228,14 +236,12 @@ const CartItems = ({mainCart}) => {
     useEffect(() => {
         const initialAccumulated = {};
   
-        // Populate the accumulated state with default values
         cart.forEach((item) => {
-          initialAccumulated[item.id] = 1; // You can set any default value here, e.g., 1
+          initialAccumulated[item.id] = 1;
         });
       
         setAccumulated(initialAccumulated);
       
-        // Calculate the initial total when the component mounts
         const initialTotal = cart.reduce((accumulator, currentItem) => {
           const itemPrice = currentItem.price ?? 0;
           return accumulator + itemPrice;
@@ -272,7 +278,7 @@ const CartItems = ({mainCart}) => {
   return (
     <Container>
             <div className="items">
-                {cart.map(item=> (
+                {mainCart.map(item=> (
                 <div className="item" key={item.id}>
                     <span className="itemImage">
                         <img src={item.images[0]} alt="product item" />
@@ -280,7 +286,7 @@ const CartItems = ({mainCart}) => {
                     <span className="desc">
                         <p>{item.title}</p>
                         <p className='size'>{item.size && item.size}</p>
-                        <button onClick={()=>handleRemoval(item.id)}> <IoTrashBin/> Remove</button>
+                        <button onClick={()=>handleRemoval(item.id)}> <IoTrashBin/> Remove </button>
                     </span>
                     <span className="total">
                         <p>£{accumulated[item.id] ? accumulated[item.id] * item.price : item.price}</p>

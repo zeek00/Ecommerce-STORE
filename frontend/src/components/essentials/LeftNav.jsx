@@ -37,7 +37,6 @@ const Nav = styled.nav`
       display: flex;
       flex-direction: column;
       align-content: center;
-      box-shadow: 1rem 0 0.7rem 2rem rgba(0, 0, 0, 0.5);
     }
     .outer {
       width: 10%;
@@ -319,6 +318,7 @@ const LeftNav = ({open, setOpen}) => {
         </Link>
         </div>
       </nav> 
+      <div className="outer"></div>
     </Nav>
   );
 };

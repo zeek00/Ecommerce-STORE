@@ -44,7 +44,6 @@ const Category = styled.div`
 
 
 const Categories = ({lnav, link, selectedCategory}) => {
-    console.log(link)
   return (
     <Category lnav={lnav}>
         {selectedCategory && (

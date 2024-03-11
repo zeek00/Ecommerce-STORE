@@ -18,7 +18,6 @@ const Header = () => {
   const userId = user ? user._id : null;
   const [isVisible, setIsVisible] = useState(false);
 
-  console.log(count);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 999);
   const [searchOpen, setSearchOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -119,12 +118,15 @@ console.log(cartCount)
           </Link>
           <Link onClick={handleCartClick} to={PostsRoutes.products.cart()} className={style.link}>
             <FiShoppingCart className={style.icon} />
+            
             {
-              cartCount && (
-                <span className={style.count}>
+              cartCount === 0 ? (
+                <>
+                </>
+              )   :
+              (cartCount && <span className={style.count}>
                   {cartCount}
-                </span>
-              )   
+                </span>)
             }
             
           </Link>

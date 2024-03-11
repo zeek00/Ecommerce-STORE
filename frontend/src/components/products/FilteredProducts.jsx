@@ -24,7 +24,7 @@ const FilteredProduct = ({filterBy}) => {
                             <div className={style.product}>
                                 <img src={item.images[0]} alt="" />
                                 <div>
-                                    <Link className={style.title}>{item.title}</Link>
+                                    <Link to={`/${item.title}`} className={style.title}>{item.title}</Link>
                                     <IoHeartCircleSharp onClick={()=>handleClick(item)} className={style.icon}/>
                                 </div>
                             

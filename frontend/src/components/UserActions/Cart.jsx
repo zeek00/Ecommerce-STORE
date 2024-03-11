@@ -114,7 +114,7 @@ const Cart = () => {
 
         }
         apiFetch();
-    }, [userId])
+    }, [userId, cart])
 
   return (
         <CartDiv user={user}>

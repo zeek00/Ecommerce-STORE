@@ -10,7 +10,6 @@ const cartSchema = new Schema({
     items: { type: Array, default: null },
 });
 
-// Index to automatically expire the items array after a day
 cartSchema.index({ 'expiration': 1 }, { expireAfterSeconds: 0 });
 
 const Cart = mongoose.model('Cart', cartSchema);
