@@ -226,9 +226,8 @@ const Item = ({item}) => {
     }, [error, success]);
     
     
-    const handleSizeClick = (e)=>{
-        e.preventDefault();    
-        const value = e.target.getAttribute('data-value');
+    const handleSizeClick = (size)=>{
+        const value = size;
         console.log(value)
         setSize(value);
         setError(null);
@@ -240,17 +239,17 @@ const Item = ({item}) => {
         setClicked(true) 
     }
 
-    const handleKeyDown = (e) => {
-        e.preventDefault()
+    const handleKeyDown = (e, size) => {
+        e.preventDefault();
         if (e.key === 'Enter') {
-            handleSizeClick(e); 
-        }else if (e.key === 'Tab') {
+            handleSizeClick(size);
+        } else if (e.key === 'Tab') {
             const sizes = document.querySelectorAll('.size');
             const currentIndex = Array.from(sizes).findIndex(span => span.getAttribute('data-value') === size);
             const nextIndex = (currentIndex + 1) % sizes.length;
             sizes[nextIndex].focus();
         }
-      }
+    }
     
     
 
