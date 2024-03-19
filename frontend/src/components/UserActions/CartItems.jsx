@@ -285,7 +285,7 @@ const CartItems = ({mainCart}) => {
                     </span>
                     <span className="desc">
                         <p>{item.title}</p>
-                        <p className='size'>{item.size && item.size}</p>
+                        {item.size && <p className='size'>{item.size}</p>}
                         <button onClick={()=>handleRemoval(item.id)}> <IoTrashBin/> Remove </button>
                     </span>
                     <span className="total">

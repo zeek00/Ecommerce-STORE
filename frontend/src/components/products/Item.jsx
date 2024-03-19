@@ -229,6 +229,7 @@ const Item = ({item}) => {
     const handleSizeClick = (e)=>{
         e.preventDefault();    
         const value = e.target.getAttribute('data-value');
+        console.log(value)
         setSize(value);
         setError(null);
 
@@ -238,6 +239,20 @@ const Item = ({item}) => {
     const handleButonClick = ()=>{
         setClicked(true) 
     }
+
+    const handleKeyDown = (e) => {
+        e.preventDefault()
+        if (e.key === 'Enter') {
+            handleSizeClick(e); 
+        }else if (e.key === 'Tab') {
+            const sizes = document.querySelectorAll('.size');
+            const currentIndex = Array.from(sizes).findIndex(span => span.getAttribute('data-value') === size);
+            const nextIndex = (currentIndex + 1) % sizes.length;
+            sizes[nextIndex].focus();
+        }
+      }
+    
+    
 
   return (
     <Div>
@@ -251,10 +266,10 @@ const Item = ({item}) => {
             { item.category ===  "laptops" || item.category ===  "smartphones"
                 ? (<span></span>) :  
                 <div className='sizes'>
-                    <span value='M' className='size' data-value="M" onClick={handleSizeClick}>M</span>
-                    <span className='size' data-value="L" onClick={handleSizeClick}>L</span>
-                    <span className='size' data-value="XL" onClick={handleSizeClick}>XL</span>
-                    <span className='size' data-value="XXL" onClick={handleSizeClick}>XXL</span>
+                    <span value='M' className='size' data-value="M" onClick={handleSizeClick} tabIndex={0} onKeyDown={(e)=>handleKeyDown(e, 'M')}>M</span>
+                    <span value='L' className='size' data-value="L" onClick={handleSizeClick} tabIndex={0} onKeyDown={(e)=>handleKeyDown(e, 'L')}>L</span>
+                    <span value='XL' className='size' data-value="XL" onClick={handleSizeClick} tabIndex={0} onKeyDown={(e)=>handleKeyDown(e, 'XL')}>XL</span>
+                    <span value='XXL' className='size' data-value="XXL" onClick={handleSizeClick} tabIndex={0} onKeyDown={(e)=>handleKeyDown(e, 'XXL')}>XXL</span>
                 </div>  
             }
             <p>£ {item.price}</p>

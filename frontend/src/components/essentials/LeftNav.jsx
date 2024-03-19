@@ -235,6 +235,14 @@ const LeftNav = ({open, setOpen}) => {
     setOpen(false)
   }
 
+  const handleKeyDown = (e, customPropertyValue) => {
+    if (customPropertyValue === 'men' || customPropertyValue === 'electronics' || customPropertyValue === 'women') {
+      handleArrowDownClick(customPropertyValue);
+    } else if (e.key === 'Enter') {
+      handleLayerClick(); 
+    }
+  }
+
 
 
   
@@ -246,15 +254,15 @@ const LeftNav = ({open, setOpen}) => {
         <div className="items">
           <div className="item">
             <div className="layerone">
-              <button name='men' tabIndex={0} onClick={()=> handleClick('men')}>
+              <button name='men' tabIndex={0} onClick={()=> handleClick('men')} >
                 MEN
               </button>
 
-              <div className="action">
+              <div tabIndex={0} onKeyDown={(e)=> handleKeyDown(e, 'men')} className="action">
                 { men ? <IoIosArrowUp onClick={()=> handleArrowUpClick()} /> :<IoIosArrowDown onClick={()=> handleArrowDownClick('men')}/>}
               </div> 
             </div>
-            <div className={`layertwo ${men ? 'visible' : ''}`} onClick={()=>handleLayerClick()}>
+            <div className={`layertwo ${men ? 'visible' : ''}`} tabIndex={0} onClick={()=>handleLayerClick()} onKeyDown={(e)=>handleKeyDown(e)}>
              {men && <Categories link={'products/men/'} lnav={true} category={'men'} selectedCategory={maleCategories}/>}
 
             </div>
@@ -262,14 +270,14 @@ const LeftNav = ({open, setOpen}) => {
           </div>
           <div className="item">
             <div className="layerone">
-              <button name='electronics' tabIndex={1} onClick={()=> handleClick('electronics')}>
+              <button name='electronics' tabIndex={0} onClick={()=> handleClick('electronics')}>
                 ELECTRONICS
               </button>  
-              <div className="action">
+              <div tabIndex={0} onKeyDown={(e)=> handleKeyDown(e, 'electronics')} className="action">
                 {electronics ? <IoIosArrowUp onClick={()=>handleArrowUpClick()} /> :<IoIosArrowDown onClick={()=> handleArrowDownClick('electronics')}/>}
               </div>
             </div>
-            <div className={`layertwo ${electronics ? 'visible' : ''}`} onClick={()=>handleLayerClick()}>
+            <div className={`layertwo ${electronics ? 'visible' : ''}`} tabIndex={0} Click={()=>handleLayerClick()} onKeyDown={(e)=>handleKeyDown(e)}>
               {electronics && <Categories link={'products/electronics/'} lnav={true} category={'electronics'} selectedCategory={etronicsCategories}/>}
 
             </div>
@@ -277,14 +285,14 @@ const LeftNav = ({open, setOpen}) => {
 
           <div className="item">
             <div className="layerone">
-              <button name='women' tabIndex={1} onClick={()=> handleClick('women')}>
+              <button name='women' tabIndex={0} onClick={()=> handleClick('women')}>
                 WOMEN
               </button> 
-              <div className="action">
+              <div tabIndex={0} onKeyDown={(e)=> handleKeyDown(e, 'women')} className="action">
                 {women ? <IoIosArrowUp onClick={()=>handleArrowUpClick()} /> :<IoIosArrowDown  onClick={()=> handleArrowDownClick('women')}/>}
               </div>
             </div>
-            <div className={`layertwo ${women ? 'visible' : ''}`} onClick={()=>handleLayerClick()}>
+            <div className={`layertwo ${women ? 'visible' : ''}`} tabIndex={0}  onClick={()=>handleLayerClick()} onKeyDown={(e)=>handleKeyDown(e)}>
               {women && <Categories link={'products/women/'}  lnav={true} category={'female'} selectedCategory={femaleCategories}/>}
             </div>
             
