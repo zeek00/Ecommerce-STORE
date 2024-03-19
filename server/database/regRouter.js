@@ -20,7 +20,8 @@ regRouter.post('/signup', async (req, res) => {
       throw error;
     }
 
-    const emailRegex = /^[^\s@]+@(?:[^\s@]+\.)+[^\s@]+$/;
+    const emailRegex = /^[^\s@]++@(?:[^\s@]++\.)++[^\s@]++$/;
+
 
     if(!emailRegex.test(email.toString())){
       const error = new Error();
