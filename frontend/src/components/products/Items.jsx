@@ -14,12 +14,13 @@ const Div = styled.div`
     display: flex;
     gap: 0.4rem;
   }
-  p{
+  button{
     color: #222;
     font-weight: 200;
+    border: none;
     cursor: pointer;
   }
-  p:hover{
+  button:hover{
     color: ${css.primarySharp};
     font-weight: 300;
     cursor: pointer;
@@ -56,9 +57,9 @@ const Items = ()=> {
   return (
     <Div>
       <div>
-        <p onClick={()=>navigate(PostsRoutes.home.home())}> {'Home' }</p>
+        <button onClick={()=>navigate(PostsRoutes.home.home())}> {'Home' }</button>
 
-        <p onClick={()=>navigate(-1)}> {'< Go back' }</p>
+        <button onClick={()=>navigate(-1)}> {'< Go back' }</button>
 
       </div>
       {isLoading ? <Loading /> : filteredItem && <Item item={filteredItem} />}
