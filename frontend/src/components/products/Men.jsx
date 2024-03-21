@@ -13,12 +13,14 @@ const Men = ()=> {
     const {category} = useParams();
     const filteredMale = category ? filterMale(category, male) : Object.values(male)
     const maleCategories = male ? [...new Set(male.map(item => item.category))] : [];
-
+  console.log(male)
   return (
     <>
         <h2 className={style.h2}>Men's wear</h2>
-        <Categories category={'men'} selectedCategory={maleCategories}/>
-        <Products subCategory={category} filteredCategory={filteredMale} category='male'/>
+        {male.length === 0 && <Products empty={true}/>}
+        {male.length === 0 && <Categories empty={true}/>}
+        {male && <Categories category={'men'} selectedCategory={maleCategories}/> }
+        {male && <Products subCategory={category} filteredCategory={filteredMale} category='male'/> }
     </>
   )
 }

@@ -7,7 +7,7 @@ import styled from 'styled-components';
 const Category = styled.div`
     width: 100%;
     div{
-        border:  ${({lnav})=> lnav ? 'none': '1.4px solid #dcd0a4'};
+        border:  ${({lnav})=> lnav ? 'none': '1.4px solid #ccc'};
         border-top: none;
         display: flex;
         gap: 0.2rem;
@@ -43,10 +43,10 @@ const Category = styled.div`
 `;
 
 
-const Categories = ({lnav, link, selectedCategory}) => {
+const Categories = ({empty, lnav, link, selectedCategory}) => {
   return (
     <Category lnav={lnav}>
-        {selectedCategory && (
+        {!empty && selectedCategory && (
             <div>
                 {selectedCategory.map((item, index)=>(
                     <Link className='link' to={`${link ? link+''+item :item}`} key={index}>{item}</Link>
