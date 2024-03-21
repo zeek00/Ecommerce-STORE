@@ -29,12 +29,20 @@ const DataStore = () => {
 
     useEffect(()=>{
         dispatch(startLoading())
-        setTimeout(()=>{
-            getElectronics(url.electronics, dispatch, setElectronics, addElectronics);
-            getMale(url.male, dispatch, setMale, addMale);
-            getFemale(url.female, dispatch, setFemale, addFemale);
-            dispatch(finishLoading());
-        }, 2000)
+        const promises = [
+            getElectronics(url.electronics, dispatch, setElectronics, addElectronics),
+            getMale(url.male, dispatch, setMale, addMale),
+            getFemale(url.female, dispatch, setFemale, addFemale)
+        ];
+    
+        Promise.all(promises)
+            .then(() => {
+                dispatch(finishLoading());
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+                dispatch(finishLoading());
+            });
         
         
     }, [dispatch])

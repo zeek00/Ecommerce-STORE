@@ -5,10 +5,11 @@ import { selectLoadingState, selectCurrentUser } from '../../features/selectors'
 import Loading from '../essentials/Loading';
 import { Link} from 'react-router-dom';
 import { IoHeartCircleSharp } from "react-icons/io5";
+import { CiWarning } from "react-icons/ci";
 import FilteredProduct from './FilteredProducts';
 import { useSavedItems } from './saveLikedHook';
 
-const Products = ({subCategory, category, filteredCategory}) => {
+const Products = ({empty, subCategory, category, filteredCategory}) => {
     const loading = useSelector(selectLoadingState);
     const user = useSelector(selectCurrentUser);
 
@@ -36,11 +37,21 @@ const Products = ({subCategory, category, filteredCategory}) => {
         <>
             { loading ? (<Loading />) :
                 (
-                    subCategory ?(<FilteredProduct filterBy={filteredCategory}/>): (
+                    subCategory ?(<FilteredProduct filterBy={filteredCategory}/>) : (
                         <div className={style.container}>
-                            {filteredCategory.map(item=>(
+                             {empty && 
+                                <div className={style.empty}>
+                                    <CiWarning className={style.warn}/>
+                                    <p>Try:</p>
+                                    <ul>
+                                        <li>Checking the connection</li>
+                                        <li>Checking the proxy, firewall and DNS configuration</li>
+                                        <li>Running Windows Network Diagnostics</li>
+                                    </ul>
+                                <p>ERR_RESOURCE_UNAVAILABLE</p>
+                                </div>}
+                            {!empty && filteredCategory.map(item=>(
                                 <div className={style.items} key={item.id}>
-                                    
                                     <div className={style.product}>
                                         <img src={item.images[0]} alt="" />
                                         <div>

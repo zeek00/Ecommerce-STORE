@@ -47,6 +47,23 @@ p:nth-child(3){
 .title:hover{
     text-decoration: underline;
 }
+.warn{
+    align-self: center;
+    font-size: 2rem;
+    color: crimson
+}
+.empty{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+}
+.empty p{
+    color: crimson;
+}
+.empty ul{
+    padding-left: 1.8rem;
+}
 .icon{
     border:1px solid #dcd0a4;
     background: #dcd0a4;
@@ -103,6 +120,10 @@ p:nth-child(3){
 
 @media only screen and (min-width: 1200px) {
     /* Styles for large desktops */
+    .empty{
+       
+        height: 70vh;
+    }
   }
   
   

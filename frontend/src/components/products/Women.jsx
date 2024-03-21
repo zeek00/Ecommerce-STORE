@@ -16,9 +16,11 @@ const Women = ()=> {
 
   return (
     <>
-        <h2 className={style.h2}>Women's wear</h2>
-        <Categories category={'women'} selectedCategory={femaleCategories}/>
-        <Products subCategory={category} filteredCategory={filteredFemale} category='female'/>
+      <h2 className={style.h2}>Women's wear</h2>
+      {female.length === 0 && <Products empty={true}/>}
+      {female.length === 0 && <Categories empty={true}/>}
+      {female && <Categories category={'women'} selectedCategory={femaleCategories}/>}
+      {female && <Products subCategory={category} filteredCategory={filteredFemale} category='female'/>}    
     </>
   )
 }

@@ -16,9 +16,11 @@ const Electronics = ()=> {
 
   return (
     <>
-        <h2 className={style.h2}>Electronics</h2>
-        <Categories category={'electronics'} selectedCategory={electronicsCategories}/>
-        <Products subCategory={category} filteredCategory={filteredElectronics} category={'electronics'}/>
+      <h2 className={style.h2}>Electronics</h2>
+      {electronics.length === 0 && <Products empty={true}/>}
+      {electronics.length === 0 && <Categories empty={true}/>}
+      {electronics && <Categories category={'electronics'} selectedCategory={electronicsCategories}/>}
+      {electronics && <Products subCategory={category} filteredCategory={filteredElectronics} category={'electronics'}/>}    
     </>
   )
 }
