@@ -1,4 +1,4 @@
-import {REGURL} from "../config";
+import {REGURL} from "./config";
  
 class DataManipulation {
     async getData(url, sort){

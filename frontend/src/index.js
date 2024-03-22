@@ -1,8 +1,8 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom'; 
-import './index.css';
-import App from '../src/app/App';
+import './stylesheets/index.css';
+import App from './app/App';
 import { Provider } from 'react-redux';
 import store from "./app/store";
 import { fetchUserDataAsync } from './features/session/dataThunks';

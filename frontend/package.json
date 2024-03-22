@@ -1,5 +1,5 @@
 {
-  "name": "shop",
+  "name": "shoopp",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -26,8 +26,23 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest --watch",
     "eject": "react-scripts eject"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-react",
+      "@babel/preset-env"
+    ]
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/"
+    ]
   },
   "eslintConfig": {
     "extends": [
@@ -41,11 +56,15 @@
       "not dead",
       "not op_mini all"
     ],
-    
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.24.3",
+    "@babel/preset-react": "^7.24.1",
+    "jest": "^27.5.1"
   }
 }

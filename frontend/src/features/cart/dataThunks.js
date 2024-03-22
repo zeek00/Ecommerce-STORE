@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import {CARTURL} from "../../config";
+import {CARTURL} from "../../helpers/config";
 import { getToken } from '../../helpers/helperFunctions';
 
 
