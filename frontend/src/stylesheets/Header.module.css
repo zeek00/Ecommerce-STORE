@@ -19,6 +19,24 @@
     background-color: rgb(234,227,201);
     
 }
+.isloggedin,.isloggedout{
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    
+}
+
+
+.isloggedout{
+    background: crimson;
+    animation: red-neon-glow 0.8s ease-in-out infinite alternate; 
+
+}
+.isloggedin{
+    background: #6eb975;
+    animation: green-neon-glow 0.8s ease-in-out infinite alternate; 
+
+}
 
 
 .logo{
@@ -43,6 +61,28 @@
     
 }
 
+.search{
+    padding: .2rem .6rem;
+    height: 30px;
+    border: none;
+    border-radius: 0.3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    transition: 0.8s ease;
+    position: relative;
+
+    left: -100%;
+
+}
+.search:focus{
+    outline: none;
+
+}
+.slideIn {
+    animation: slideIn 0.5s forwards; 
+}
 
 .actionbtn{
     grid-area: a;
@@ -70,6 +110,9 @@
 .link:hover{
     background-color: #dcd0a4;
 }
+.link:last-child:hover{
+    background-color: rgba(0, 0, 0);
+}
 
 .icon{
     color: rgba(34, 34, 34, 0.9);
@@ -90,9 +133,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: rgb(242,242,242);
+    background-color: #dcd0a4;
     padding: 0.4rem;
-    color: #333;
+    color: #222;
     font-size: 0.6rem;
     font-weight: 900;
     width: 0.9rem;
@@ -113,20 +156,6 @@
     animation: logo-spin infinite 0.5s linear;
     box-sizing: border-box; /* Include the border in the width and height calculations */
 }
-
-@keyframes logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-
-
-
-
 
 
 @media only screen and (max-width: 480px) {
@@ -272,9 +301,41 @@
 
 @media only screen and (min-width: 1200px) {
     /* Styles for large desktops */
-  }
+}
   
   
+@keyframes logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+  
+@keyframes red-neon-glow {
+    0% {
+      box-shadow: 0 0 3px crimson, 0 0 6px crimson, 0 0 9px crimson; /* Red glow */
+    }
+    100% {
+      box-shadow: 0 0 10px crimson, 0 0 20px crimson, 0 0 30px crimson; /* Red glow */
+    }
+}
 
-  
-  
+@keyframes green-neon-glow {
+    0% {
+      box-shadow: 0 0 3px #6eb975, 0 0 6px #6eb975, 0 0 9px #6eb975; /* Red glow */
+    }
+    100% {
+      box-shadow: 0 0 10px #6eb975, 0 0 20px #6eb975, 0 0 30px #6eb975; /* Red glow */
+    }
+}
+
+@keyframes slideIn {
+    0% {
+      left: -100%; 
+    }
+    100% {
+      left: 0;
+    }
+  }

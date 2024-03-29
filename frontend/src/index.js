@@ -1,30 +1,28 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom'; 
-import './index.css';
-import App from '../src/app/App';
+import './stylesheets/index.css';
+import App from './app/App';
 import { Provider } from 'react-redux';
-import store from "./app/store";
-import { fetchUserDataAsync } from './features/session/dataThunks';
-import { getToken } from './helpers/helperFunctions';
+import store, {persistor} from "./app/store";
+import { PersistGate } from 'redux-persist/integration/react';
+import Loading from './components/essentials/Loading';
 import reportWebVitals from './reportWebVitals';
-import history from './helpers/history';
 
 
-if(getToken()){
-  store.dispatch(fetchUserDataAsync());
-}
 
 
 
 const root = createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Router history={history}>
       <Provider store={store}>
-        <App />
+        <PersistGate loading={<Loading />} persistor={persistor}>
+          <Router>
+              <App />
+          </Router>
+        </PersistGate>
       </Provider>
-    </Router>
   </React.StrictMode>,
 );
 

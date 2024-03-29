@@ -1,15 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import style from '../../stylesheets/Footer.module.css'
 import { MdOutlineAlternateEmail } from "react-icons/md";
 import Button from '../essentials/Button';
 import { FaInstagramSquare, FaFacebook, FaWhatsapp, FaPhone } from 'react-icons/fa';
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
-import GoToTopButton from '../essentials/GoToTop';
 
 const Footer= ()=> {
-    
-  
+    const [isFocused, setIsFocused] = useState(false);
+
+    const handleFocus = () => {
+        setIsFocused(true);
+    };
   return (
     <div className={style.footer}>
         <div className={style.subscribe}>
@@ -17,8 +19,8 @@ const Footer= ()=> {
             <p>for our curated finds</p>
             <form action="">
                 <div className={style.form}>
-                    <MdOutlineAlternateEmail className={style.icon}/>
-                    <input type="email" placeholder='someone@emailprovider.com' />
+                    <MdOutlineAlternateEmail className={isFocused && style.focusedicon}/>
+                    <input type="email" onFocus={handleFocus} onBlur={() => setIsFocused(false)} placeholder='someone@emailprovider.com' />
                 </div>
                 <Button smPadding={'.4rem'} label='Subscribe' margin={'0'} color='#fff' backgroundColor='#222' borderRadius='0' width={'25%'}/>
             </form>

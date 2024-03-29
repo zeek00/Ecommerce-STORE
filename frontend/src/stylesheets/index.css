@@ -53,8 +53,8 @@ a{
 
 @font-face {
   font-family: 'Galano Grotesque';
-  src: url('../public/fonts/GalanoGrotesque/OTF/GalanoGrotesqueDEMO-Bold.otf') format('opentype'),
-       url('../public/fonts/GalanoGrotesque/TTF/GalanoGrotesqueDEMO-Bold.ttf') format('truetype'); 
+  src: url('../../public/fonts/GalanoGrotesque/OTF/GalanoGrotesqueDEMO-Bold.otf') format('opentype'),
+       url('../../public/fonts/GalanoGrotesque/TTF/GalanoGrotesqueDEMO-Bold.ttf') format('truetype'); 
   font-weight: normal;
   font-style: normal;
 }

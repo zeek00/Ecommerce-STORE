@@ -12,34 +12,18 @@ const Div = styled.div`
     position: relative; 
     height: 100vh;
     display: flex;
-    width: 50%;
     margin: 0 auto;
     
-    .sizes span{
-        display: inline-flex;
-        background-color: #333;
-        cursor: pointer;
-        align-items: center;
-        justify-content: center;
-        width: 1.4rem;
-        height: 1.4rem;
-        padding: 0.3rem;
-        border-radius: 50%;
-        margin: 0 0.3rem 0 0;
-        font-size: 0.6rem;
-        color: #fff;
-    }
-    .sizes span:active{
-        background-color: rgb(234,227,201); 
+    .select{
+        width: 100%;
+        padding: 0.9rem;
     }
     .image{
-        display: flex;
-        height: fit-content;
-
+        object-fit: cover;
     }
     .image img{
-        width: auto;
-        object-fit: cover;
+        width: 280px;
+        height: 400px;
     }
     
     .productInfo{
@@ -62,15 +46,16 @@ const Div = styled.div`
         color: #dcd0a4;
     }
     @media only screen and (max-width: 480px) {
-        top: 4rem;
         height: 95vh;
         width: 90%;
-
         flex-direction: column;
         gap: 0.9rem;
         .image{
-            overflow: auto;
             justify-content: center;
+        }
+        .image img{
+            width: 300px;
+            height: 300px;
         }
         .productInfo{
             gap: 1rem;
@@ -82,18 +67,11 @@ const Div = styled.div`
     }
 
     @media only screen and (min-width: 768px) and (max-width: 991px) and (orientation: landscape) {
-        top: 5rem;
         height: 80vh;
-        .container{
-            display: flex;
-        }
-        .image{
-            display: flex;
-            justify-content: center;
-            overflow: auto;
-        }
+        width: 80%;
         .image img{
-            min-height: 50vh;
+            width: 300px;
+            height: 400px;
         }
         .productInfo{
             padding: 0 0.9rem;
@@ -116,15 +94,11 @@ const Div = styled.div`
     }
     
     @media only screen and (min-width: 992px) and (max-width: 1024px)  {
-        top: 5rem;
         height: 80vh;
-        .image{
-            display: flex;
-            justify-content: center;
-            overflow: auto;
-        }
+        width: 80%;
         .image img{
-            min-height: 60vh;
+            width: 500px;
+            height: 600px;
         }
         .productInfo{
             padding: 0 0.7rem;
@@ -136,15 +110,11 @@ const Div = styled.div`
     }
        
     @media only screen and (min-width: 1201px){
-        top: 5rem;
         height: 80vh;
-        .image{
-            display: flex;
-            justify-content: center;
-            // overflow: auto;
-        }
+        width: 70%;
         .image img{
-            min-height: 60vh;
+            width: 500px;
+            height: 600px;
         }
         .productInfo{
             padding: 0 2rem;
@@ -176,14 +146,22 @@ const Item = ({item}) => {
             
         if(user){
             if(clicked){
-                if(item.category !== 'smartphones' && !size){
-                    setError('Select a size');
+                if(item.category === 'shirts' || item.category === 'dresses' || item.category === 'tops' ){
+                    if(!size){
+                        setError('Select a size');
+                    }
+                }else{
+                    const { id, ...newItem } = item;
+                    const updatedItem = {id: uuidv4(), ...newItem}
+                    setData(updatedItem) 
                 }
                 if(size){
                     const { id, ...newItem } = item;
                     const updatedItem = {id: uuidv4(), size: size, ...newItem}
+                    console.log(updatedItem)
                     setData(updatedItem)                    
                 }
+                
             }
         }
     }, [size, clicked, user, item]);
@@ -226,29 +204,16 @@ const Item = ({item}) => {
     }, [error, success]);
     
     
-    const handleSizeClick = (size)=>{
-        const value = size;
-        console.log(value)
-        setSize(value);
+    const handleSizeChange = (e)=>{
+        e.preventDefault();
+        console.log(e.target.value)
+        setSize(e.target.value);
         setError(null);
 
-    
     }
     
     const handleButonClick = ()=>{
         setClicked(true) 
-    }
-
-    const handleKeyDown = (e, size) => {
-        e.preventDefault();
-        if (e.key === 'Enter') {
-            handleSizeClick(size);
-        } else if (e.key === 'Tab') {
-            const sizes = document.querySelectorAll('.size');
-            const currentIndex = Array.from(sizes).findIndex(span => span.getAttribute('data-value') === size);
-            const nextIndex = (currentIndex + 1) % sizes.length;
-            sizes[nextIndex].focus();
-        }
     }
     
     
@@ -262,14 +227,15 @@ const Item = ({item}) => {
             <h3>{item.title}</h3>
             <p>Category: {item.category}</p>
             <p>{item.description}</p>
-            { item.category ===  "laptops" || item.category ===  "smartphones"
+            { item.category ===  "laptops" || item.category ===  "smartphones"|| item.category ===  "shoes" || item.category ===  "bags"
                 ? (<span></span>) :  
-                <div className='sizes'>
-                    <span value='M' className='size' data-value="M" onClick={handleSizeClick} tabIndex={0} onKeyDown={(e)=>handleKeyDown(e, 'M')}>M</span>
-                    <span value='L' className='size' data-value="L" onClick={handleSizeClick} tabIndex={0} onKeyDown={(e)=>handleKeyDown(e, 'L')}>L</span>
-                    <span value='XL' className='size' data-value="XL" onClick={handleSizeClick} tabIndex={0} onKeyDown={(e)=>handleKeyDown(e, 'XL')}>XL</span>
-                    <span value='XXL' className='size' data-value="XXL" onClick={handleSizeClick} tabIndex={0} onKeyDown={(e)=>handleKeyDown(e, 'XXL')}>XXL</span>
-                </div>  
+                <select id="size" className='select' onChange={handleSizeChange} name="size">
+                        <option  disabled selected>Select Size</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                        <option value="XXL">XXL</option>
+                </select>
             }
             <p>£ {item.price}</p>
             <form action={PostsRoutes.coming()}>

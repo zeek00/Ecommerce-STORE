@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import {REGURL} from "../../config";
+import {REGURL} from "../../helpers/config";
 import { 
   getToken, 
   removeToken, 

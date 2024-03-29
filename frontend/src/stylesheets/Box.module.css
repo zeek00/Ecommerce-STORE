@@ -38,23 +38,17 @@ p{
 
 @media only screen and (max-width: 480px) {
     /* Styles for small screens */
-    .box{
-        width: 100%;
-    }
+   
 }
 
 @media only screen and (min-width:480px) and (max-width: 767px) {
     /* Styles for small screens in landscape */
-    .box{
-        width: 100%;
-    }
+    
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
     /* Styles for tablets in portrait */
-    .box{
-        width: 35rem;
-    }
+   
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) and (orientation: landscape) {
@@ -63,9 +57,7 @@ p{
 
 @media only screen and (min-width: 992px) {
     /* Styles for desktops */
-    .box{
-        width: 45rem;
-    }
+    
 }
 
 @media only screen and (min-width: 1200px) {

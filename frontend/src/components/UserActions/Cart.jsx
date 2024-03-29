@@ -8,6 +8,8 @@ import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { MdRemoveShoppingCart } from "react-icons/md";
 import CartItems from './CartItems';
+import { css } from '../../helpers/cssVariables';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -21,6 +23,22 @@ const CartDiv = styled.div`
     height: 100vh;
     justify-content: ${(user)=> !user ? 'start' : 'center'};
     flex-direction: column;
+    .sitenav{
+        padding: 0.8rem;
+        display: flex;
+        gap: 0.4rem;
+    }
+    .sitenav button{
+        color: #222;
+        font-weight: 200;
+        border: none;
+        cursor: pointer;
+    }
+    .sitenav button:hover{
+        color: ${css.primarySharp};
+        font-weight: 300;
+        cursor: pointer;
+    }
     .noUserBox{
         display: flex;
         justify-content: center;
@@ -90,6 +108,7 @@ const CartDiv = styled.div`
 
 const Cart = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const user = useSelector(selectCurrentUser);
     const cart = useSelector(selectCart);
     let empty = cart.length === 0;
@@ -101,8 +120,6 @@ const Cart = () => {
             try{
                 if(userId){
                     await dispatch(fetchUserCartAsync(userId));
-                    
-    
                 }
     
             }catch(err){
@@ -140,7 +157,11 @@ const Cart = () => {
                 />
             </div>
             )}
+            {!empty && <div className='sitenav'>
+                <button onClick={()=>navigate(PostsRoutes.home.home())}> {'Home' }</button>
 
+                <button onClick={()=>navigate(-1)}> {'< Go back' }</button>
+             </div>}
             { user && !empty && <CartItems mainCart={cart} /> }
            
         </CartDiv> 

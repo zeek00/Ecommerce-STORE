@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import Root from '../components/home/Root';
 import SignUp from '../components/useractions/SignUp';
 import SignIn from '../components/useractions/SignIn';
@@ -15,28 +14,12 @@ import LikedItems from '../components/useractions/LikedItems';
 import FilteredProduct from '../components/products/FilteredProducts';
 import Items from '../components/products/Items';
 import ComingSoon from '../components/essentials/ComingSoon';
-import { fetchUserDataAsync } from '../features/session/dataThunks';
-import { getProfile, getToken } from '../helpers/helperFunctions';
-import { selectCurrentUser } from '../features/selectors';
 import Cart from '../components/useractions/Cart';
+import AllProducts from '../components/products/AllProducts';
 
 
 const App = () => {
 
-  //working on an update
-  // const dispatch = useDispatch();
-  // const user = useSelector(selectCurrentUser);
-  // useEffect(() => {
-  //   if(user){
-  //     const accessToken = getToken();
-  //     if(accessToken){
-  //       dispatch(fetchUserDataAsync());
-  //     }
-
-  //   }
-
-    
-  // }, [user,dispatch]);
   return (
     <>
       <DataStore />
@@ -45,14 +28,16 @@ const App = () => {
       <Routes>
         <Route path={`/${PostsRoutes.home.root()}`} element={<Root />} >
           <Route path={`/${PostsRoutes.home.root()}`} element={<Home/>}/>
+
+          <Route path={`/${PostsRoutes.products.products()}/*`} element={<AllProducts/>}>
+            <Route path=":category" element={<FilteredProduct/>}/>
+          </Route>
+          
           <Route path={`/${PostsRoutes.products.male()}/*`} element={<Men/>}>
             <Route path=":category" element={<FilteredProduct/>}/>
           </Route>
           <Route path={`/${PostsRoutes.products.female()}/*`} element={<Women />}>
             <Route path=":category" element={<FilteredProduct/>}/>
-
-
-            
           </Route>
           <Route path={`/${PostsRoutes.products.electronics()}/*`} element={<Electronics/>}>
             <Route path=":category" element={<FilteredProduct/>}/>

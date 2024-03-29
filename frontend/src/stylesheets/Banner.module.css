@@ -4,7 +4,6 @@
     flex-direction: column;
     justify-content: center;
     height: 100vh;
-    margin: 0rem auto;    
     background-position:  center;
 }
 
@@ -72,7 +71,6 @@
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
     .banner{
-        
         background-image: url('../assets/pexels-robin.jpg');
         background-position: bottom center;
         background-repeat: no-repeat;
@@ -105,7 +103,7 @@
     .banner{
         background-image: url('../assets/pexels-tembela-bohle-1884581.jpg');
         background-repeat: no-repeat;
-        background-size: 100%;
+        /* background-size: 100%; */
     }
     .bannerText{
         margin: 0 auto;
