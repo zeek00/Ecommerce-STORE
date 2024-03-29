@@ -153,6 +153,10 @@ const Nav = styled.nav`
   }
 
   }
+  @media (min-width: 768px) {
+    display: none;
+  }
+
 `;
 
 const LeftNav = ({open, setOpen}) => {

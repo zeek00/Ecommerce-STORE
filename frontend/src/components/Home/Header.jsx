@@ -9,14 +9,18 @@ import Search from '../useractions/Search';
 import UserMenu from '../useractions/UserMenu';
 import PostsRoutes from '../../app/routes';
 import { selectCurrentUser, selectCount } from '../../features/selectors'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { addfilterProducts } from '../../features/products/productsSlice';
 
 const Header = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector(selectCurrentUser);
   const count = useSelector(selectCount);
   const userId = user ? user._id : null;
   const [isVisible, setIsVisible] = useState(false);
+  const [openSearch, setOpenSearch] = useState(false);
+  const [searchPhrase, setSearchPhrase] = useState("")
 
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 999);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -52,7 +56,7 @@ const Header = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [isVisible]);
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -66,12 +70,18 @@ const Header = () => {
 
   }, [count])
 
-  const handleOpen = ()=>{
-    setSearchOpen(!searchOpen)
-    setTimeout(()=>{
-      setSearchOpen(false)
-    }, 7000)
+  
+  const handleSearch = ()=>{
+    setOpenSearch(!openSearch)
   }
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      dispatch(addfilterProducts(searchPhrase.toLowerCase()))
+      setOpenSearch(!openSearch)
+      navigate(`${PostsRoutes.products.products()}/${searchPhrase}`)
+    }
+  };
 
   const handleUserOpen = ()=>{
     setUserMenuOpen(!userMenuOpen)
@@ -105,9 +115,19 @@ const Header = () => {
           <Nav to={PostsRoutes.products.electronics()} className={style.navItem} name={'Electronics'} />
           <Nav to={PostsRoutes.products.female()} className={style.navItem} name={'Women'} />
         </nav>
+
+        
+
         <div className={style.actionbtn}>
+        {openSearch && <input
+          className={`${style.search} ${style.slideIn}`}
+          type='search' 
+          placeholder='Search a category'
+          onChange={(e)=>{setSearchPhrase(e.target.value)}}
+          onKeyDown={handleKeyPress}
+          />}
           <Link to className={style.link}>
-            <FiSearch onClick={handleOpen} className={style.icon}  />
+            <FiSearch onClick={handleSearch} className={style.icon}  />
           </Link>
           <Link to className={style.link}>
             <FaRegUser onClick={handleUserOpen} className={style.icon} />
@@ -128,6 +148,9 @@ const Header = () => {
                 </span>)
             }
             
+          </Link>
+          <Link className={style.link}>
+            <span className={ user ? style.isloggedin : style.isloggedout }></span>
           </Link>
         </div>
       </div>

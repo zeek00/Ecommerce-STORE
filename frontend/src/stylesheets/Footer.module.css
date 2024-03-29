@@ -103,6 +103,12 @@
     padding: .2rem;
 }
 
+.focusedicon{
+    color: #dcd0a4;
+    transition: 0.8s ease;
+
+}
+
 .socialLink{
     padding-left: .2rem;
     color: rgba(34, 34, 34, 0.60);
@@ -142,7 +148,7 @@
     border-style: solid;
     border-top-width: 0.00rem;
     color: rgba(34, 34, 34, 0.60);
-    width: 60%;
+    width: 50%;
 }
 .subscribe form{
     display: flex;
@@ -160,7 +166,6 @@
     display: flex;
     background-color: #fff;
     padding: .5rem 0 .2rem .7rem;
-    /* margin-right: .7rem; */
     color: rgba(34, 34, 34, 0.60);
     font-size: 1.4rem;
     width: 70%;
@@ -175,9 +180,7 @@
     font-weight: 200;
 }
 .form input:focus{
-    
     outline: none;
-    
 }
 
 .footerFinal{

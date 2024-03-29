@@ -93,7 +93,7 @@ class DataManipulation {
 
                 if(!response.ok){
                     const error = new Error();
-                    error.message = 'Request Failed';
+                    error.message = 'jwt expired';
                     error.code = 404;
                     throw error;                     
                 }

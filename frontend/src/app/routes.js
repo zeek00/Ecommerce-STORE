@@ -16,6 +16,7 @@ const PostsRoutes =  {
     },
     menu: () => "/menu",
     products:{
+        products: ()=>"products/all",
         male: ()=>"products/men",
         female: ()=>"products/women",
         electronics: ()=>"products/electronics",

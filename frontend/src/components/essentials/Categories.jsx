@@ -49,7 +49,7 @@ const Categories = ({empty, lnav, link, selectedCategory}) => {
         {!empty && selectedCategory && (
             <div>
                 {selectedCategory.map((item, index)=>(
-                    <Link className='link' to={`${link ? link+'/'+item :item}`} key={index}>{item}</Link>
+                    <Link className='link' to={`${link ? link+'/'+item : item}`} key={index}>{item}</Link>
                 ))}
             </div>
         )}

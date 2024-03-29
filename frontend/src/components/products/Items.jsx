@@ -13,6 +13,7 @@ const Div = styled.div`
   div{
     display: flex;
     gap: 0.4rem;
+    margin-bottom: 1rem;
   }
   button{
     color: #222;
@@ -52,7 +53,6 @@ const Items = ()=> {
         return () => clearTimeout(timeoutId);
     }, [male, female, electronics]);
     const filteredItem = allItems.find(item=> item.title === decodeURI(itemName));
-    // console.log(filteredItem)
 
   return (
     <Div>
