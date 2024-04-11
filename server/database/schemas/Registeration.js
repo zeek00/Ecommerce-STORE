@@ -9,7 +9,6 @@ const regSchema = new Schema({
    role: String,
    datereg: { type: Date, default: Date.now },
    token: {type: String},
-   savedItems: {type: Array},
 });
 
 

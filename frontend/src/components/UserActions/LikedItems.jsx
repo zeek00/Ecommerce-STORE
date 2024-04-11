@@ -1,25 +1,20 @@
 import React, {useState, useEffect} from 'react'
-import { selectCurrentUser, selectCartError } from '../../features/selectors'
+import { selectCurrentUser, selectLikes} from '../../features/selectors'
 import { useDispatch, useSelector } from 'react-redux'
-import { AddItemToUserCartAsync } from '../../features/cart/dataThunks';
-
 import { useNavigate } from 'react-router-dom';
 import Button from '../essentials/Button';
 import { GiHeartMinus } from "react-icons/gi";
 import styled from 'styled-components';
 import PostsRoutes from '../../app/routes';
-import DataManipulation from '../../helpers/dataManipulation';
-import Loading from '../essentials/Loading';
-import { getToken } from '../../helpers/helperFunctions';
 import { PiTrash } from "react-icons/pi";
 import { css } from '../../helpers/cssVariables';
-import { v4 as uuidv4 } from 'uuid';
+import { DeleteItemFromUserLikesAsync, fetchUserLikesAsync } from '../../features/likes/dataThunks';
 
 
 
 const Liked = styled.div`
     display: flex;
-    justify-content: start;
+    justify-content: center;
     overflow: auto;
     gap: 0.9rem;
     overflow-x: hidden;
@@ -65,7 +60,7 @@ const Liked = styled.div`
         transition: 0.3s ease;
     }
     .icon{
-        font-size: 1.7rem;
+        font-size: 2rem;
         color: #222;
     }
     .userBox{
@@ -122,34 +117,34 @@ const Liked = styled.div`
 
 
 const LikedItems = ()=> {
-    const [data, setData] = useState([]);
     const [clicked, setClicked] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
     const user = useSelector(selectCurrentUser);
+    const likes = useSelector(selectLikes);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    let empty = likes.length === 0;
 
-    useEffect(()=>{
-        const fetchData = async () => {
-            const d = new DataManipulation();
-            if (user) {
-              try {
-                const accessToken = getToken()    
-                const savedItems = await d.getSavedItemsForUser(user._id, accessToken);
-                setData(savedItems);
-              } catch (error) {
-                if(error.message === 'jwt expired'){
-                    navigate(PostsRoutes.signAction.signin());
-                }
-              } finally {
-                setLoading(false);
-              }
-            }
-        };
-        fetchData();
-           
-    }, [dispatch, user, navigate]);
+
+    const userId = user ? user._id : null;
+
   
+    useEffect(()=>{
+        const apiFetch = async () =>{
+            try{
+                if(userId){
+                    const savedItems =  await dispatch(fetchUserLikesAsync(userId));
+                    setData(savedItems.payload);
+                }
+    
+            }catch(err){
+                console.error('Failure');
+    
+            }
+
+        }
+        apiFetch();
+    }, [userId, dispatch])
 
     const handleButonClick = (e)=>{
         e.preventDefault();
@@ -160,33 +155,49 @@ const LikedItems = ()=> {
     const handleClick = () => {
         navigate(PostsRoutes.signAction.signin());
     };
+    
+    const handleRemoval = async (itemId) =>{
+        try {
+            await dispatch(DeleteItemFromUserLikesAsync({
+                itemId: itemId,
+                userId: user._id
+            }));
+            // After successful deletion, re-fetch the liked items
+            const updatedLikedItems = await dispatch(fetchUserLikesAsync(userId));
+            setData(updatedLikedItems.payload);
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+
   return (
 
         <Liked>
-            
-            {
-                
-                user ? 
-                (<div className='main'>
-                    {
-                        data.length === 0 && 
-                            (<div className='noUserBox'>
-                                <GiHeartMinus className='icon'/>
-                                <h2>You have no Saved Items</h2>
-                            </div>)
 
-                    }
-                    {
-                        loading ? <Loading/>
-                        :
+            <div className='main'>
+                {
+                    user &&  data.length === 0 && 
+                    (
+                        <div className='noUserBox'>
+                            <GiHeartMinus className='icon'/>
+                            <h2>You have no Saved Items</h2>
+                        </div>
+                    )
+
+                }
+
+                {
+                    user && data.length !== 0 &&
+                    ( 
                         <div className="container">
                             <h2>Favourites</h2>   
-                            <div  className='userBox'>
+                            <div className='userBox'>
                                 {data.map(savedItem => (
                                     <div key ={savedItem.price} className='item'>
                                         <div className="img">
                                             <img src={savedItem.images[0]} alt="" />
-                                            <span><PiTrash className='icon'/></span>
+                                            <span onClick={()=>handleRemoval(savedItem.id)}><PiTrash className='icon'/></span>
                                         </div>
                                         <p>{savedItem.title}</p>
                                         <p>£{savedItem.price}</p>
@@ -194,14 +205,17 @@ const LikedItems = ()=> {
                                     </div>)
                                 )}
                             </div>
-                            
+                                
                         </div>
-                       
-                    }
-                
-                </div>)
-                :
-                (<div className='noUserBox'>
+                    )
+                    
+                }
+            
+            </div>
+        { 
+            !user &&
+            (
+                <div className='noUserBox'>
                     <GiHeartMinus className='icon'/>
                     <h2>Logging to view</h2>  
                     <Button
@@ -210,8 +224,10 @@ const LikedItems = ()=> {
                         label='SIGN IN'
                         width='100%'
                     />
-                </div>)
-            }
+                </div>
+            )
+        }
+    
 
         </Liked>
     );

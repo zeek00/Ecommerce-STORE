@@ -125,6 +125,7 @@ const editUserAsync = createAsyncThunk('session/editUserAsync', async (userData,
 const logOutAsync = createAsyncThunk('session/logOutAsync', async () => {
     removeToken();
     removeProfile();
+
 });
   
 

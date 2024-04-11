@@ -129,7 +129,7 @@ const Cart = () => {
 
         }
         apiFetch();
-    }, [userId, cart])
+    }, [userId, dispatch,  cart])
 
   return (
         <CartDiv user={user}>
@@ -157,7 +157,7 @@ const Cart = () => {
                 />
             </div>
             )}
-            {!empty && <div className='sitenav'>
+            {!user && !empty && <div className='sitenav'>
                 <button onClick={()=>navigate(PostsRoutes.home.home())}> {'Home' }</button>
 
                 <button onClick={()=>navigate(-1)}> {'< Go back' }</button>

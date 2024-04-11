@@ -5,18 +5,18 @@ import { FiShoppingCart, FiSearch } from "react-icons/fi";
 import Burger from '../essentials/Burger';
 import Nav from '../essentials/Nav';
 import { Link, useNavigate } from 'react-router-dom';
-import Search from '../useractions/Search';
 import UserMenu from '../useractions/UserMenu';
 import PostsRoutes from '../../app/routes';
-import { selectCurrentUser, selectCount } from '../../features/selectors'
+import { selectCurrentUser, selectCartCount, selectLikesCount } from '../../features/selectors'
 import { useSelector, useDispatch } from 'react-redux'
 import { addfilterProducts } from '../../features/products/productsSlice';
 
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector(selectCurrentUser);
-  const count = useSelector(selectCount);
+  const user = useSelector(selectCurrentUser)
+  const cart = useSelector(selectCartCount);
+  const likes = useSelector(selectLikesCount);
   const userId = user ? user._id : null;
   const [isVisible, setIsVisible] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
@@ -26,6 +26,7 @@ const Header = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [cartCount, setCartCount] = useState(null);
+  const [likedCount, setLikedCount] = useState(null);
   
   useEffect(() => {
     const handleResize = () => {
@@ -66,14 +67,27 @@ const Header = () => {
   };
 
   useEffect(()=> {
-    setCartCount(count);
+    setLikedCount(likes);
 
-  }, [count])
+  }, [likes])
+  
+  useEffect(()=> {
+    setCartCount(cart);
+
+  }, [cart])
 
   
   const handleSearch = ()=>{
-    setOpenSearch(!openSearch)
+    setOpenSearch(!openSearch);
+    if(!openSearch){
+    setTimeout(() => {
+      document.getElementById("search").focus();
+    }, 0);
   }
+
+  }
+
+
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -121,6 +135,7 @@ const Header = () => {
         <div className={style.actionbtn}>
         {openSearch && <input
           className={`${style.search} ${style.slideIn}`}
+          id='search'
           type='search' 
           placeholder='Search a category'
           onChange={(e)=>{setSearchPhrase(e.target.value)}}
@@ -134,6 +149,15 @@ const Header = () => {
           </Link>
           <Link onClick={handleLIikedClick} to={PostsRoutes.products.likedItems()} className={style.link}>
             <FaRegHeart className={style.icon}  />
+            {
+              likedCount === 0 ? (
+                <>
+                </>
+              )   :
+              (likedCount && <span className={style.count}>
+                  {likedCount}
+                </span>)
+            }
           </Link>
           <Link onClick={handleCartClick} to={PostsRoutes.products.cart()} className={style.link}>
             <FiShoppingCart className={style.icon} />
@@ -154,7 +178,6 @@ const Header = () => {
           </Link>
         </div>
       </div>
-      <Search open={searchOpen} onClose={() => setSearchOpen(false)} />
       {userMenuOpen && <UserMenu isOpen={userMenuOpen} onClose={()=>setUserMenuOpen(!userMenuOpen)} />}
 
     </>

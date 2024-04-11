@@ -15,7 +15,6 @@ const AuthForm = ({ about, closingAbout, title, fields, authType }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const sessionError = useSelector(selectSessionError);
-  
   const sessionLoad = useSelector(selectSessionLoading);
   const [formData, setFormData] = useState(
     fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {})

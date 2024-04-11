@@ -133,7 +133,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #dcd0a4;
+    background-color: rgb(110,185,117);
     padding: 0.4rem;
     color: #222;
     font-size: 0.6rem;
@@ -151,7 +151,7 @@
     z-index: 2;
     width: calc(100% + 2px); /* Adjusted to cover the entire area including the border */
     height: calc(100% + 2px);
-    border: 3px solid rgba(0, 0, 0, 0.7);
+    border: 2px solid #fefcfc;
     border-radius: 50%;
     animation: logo-spin infinite 0.5s linear;
     box-sizing: border-box; /* Include the border in the width and height calculations */

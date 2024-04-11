@@ -102,12 +102,11 @@ const UserMenu = ({ isOpen, onClose }) => {
   };  
   
   const handleLogoutClick = () => {
-    const confirmLogout = window.confirm('Are you sure you want to logout?');
-    if(confirmLogout){
+    if(userNow){
       dispatch(logOutAsync())
     }
     if(userNow === null ){
-      navigate(PostsRoutes.signAction.signin());
+      navigate(PostsRoutes.home.home());
     }
   };
 
@@ -116,7 +115,7 @@ const UserMenu = ({ isOpen, onClose }) => {
       <div className="cont-one">
         <div className="access">
           { userNow ? (
-            <Link onClick={handleLogoutClick} to={PostsRoutes.signAction.signin()}>
+            <Link onClick={handleLogoutClick} to={PostsRoutes.home.home()}>
               <span> Logout</span>
             </Link>):(
             <>
