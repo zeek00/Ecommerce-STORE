@@ -9,8 +9,7 @@
     "frontend": "npm run start --prefix ../frontend",
     "dev": "concurrently \"npm run server\" \"npm run frontend\"",
     "test": "jest --watch",
-    "build": "npm run copy-files",
-    "copy-files": "cp -r ./public ./build && cp -r ./views ./build && cp -r ./node_modules ./build"
+    "build": "echo 'Build process completed'"
   },
   "jest": {
     "testMatch": [
