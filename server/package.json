@@ -9,7 +9,7 @@
     "frontend": "npm run start --prefix ../frontend",
     "dev": "concurrently \"npm run server\" \"npm run frontend\"",
     "test": "jest --watch",
-    "build": "tsc && npm run copy-files",
+    "build": "npm run copy-files",
     "copy-files": "cp -r ./public ./build && cp -r ./views ./build && cp -r ./node_modules ./build"
   },
   "jest": {
@@ -51,7 +51,6 @@
     "jest": "^29.7.0",
     "jest-watch-typeahead": "^2.2.2",
     "nodemon": "^3.0.1",
-    "supertest": "^6.3.4",
-    "typescript": "^5.4.5"
+    "supertest": "^6.3.4"
   }
 }
