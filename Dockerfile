@@ -1,5 +1,5 @@
 # Stage 1: Build the server-side (Node.js) application
-FROM node:14 AS server-build
+# FROM node:14 AS server-build
 
 # Set the working directory for the server-side code
 WORKDIR /Ecommerce-STORE/server
@@ -12,6 +12,9 @@ RUN npm install
 
 # Copy the server-side source code into the container
 COPY server ./
+
+# Build the server-side application
+RUN npm run build
 
 # Stage 2: Build the client-side (React) application
 FROM node:14 AS client-build
