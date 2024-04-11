@@ -13,9 +13,6 @@ RUN npm install
 # Copy the server-side source code into the container
 COPY server ./
 
-# Build the server-side application
-RUN npm run build
-
 # Stage 2: Build the client-side (React) application
 FROM node:14 AS client-build
 
