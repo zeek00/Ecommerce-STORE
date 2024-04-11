@@ -19,9 +19,7 @@ const Top = styled.div`
 
   .go-to-top-button:hover {
     color: #dcd0a4;
-    background-color: #333;
     border-radius: 50%;
-    border-style: none;
     transition: 0.3s ease;
 
   }

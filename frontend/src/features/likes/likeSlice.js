@@ -1,66 +1,67 @@
 import {createSlice} from '@reduxjs/toolkit';
-import { fetchUserCartAsync, AddItemToUserCartAsync, DeleteItemFromUserCartAsync } from './dataThunks'
+import { fetchUserLikesAsync, AddItemToUserLikesAsync, DeleteItemFromUserLikesAsync } from './dataThunks'
 
-const initialState ={
-    cart: [],
+const initialState = {
+    likes: [],
     isLoading: false,
     error: null,
     message: null,
     count: null
+
 }
 
 const options = {
-    name: 'cart',
+    name: 'likes',
     initialState,
     reducers:{},
     extraReducers: (builder) => {
         builder
-            .addCase(fetchUserCartAsync.pending, (state)=>{
+            .addCase(fetchUserLikesAsync.pending, (state)=>{
                 state.isLoading = true;
             })
-            .addCase(fetchUserCartAsync.fulfilled, (state, action) => {
+            .addCase(fetchUserLikesAsync.fulfilled, (state, action) => {
                 let items = action.payload;
                 items.forEach(element => {
-                    const isItemInCart = state.cart.some(item => item.id === element.id);
-            
-                    if (!isItemInCart) {
-                        state.cart.push(element);
+                    const isItemInLikes = state.likes.some(item => item.id === element.id);
+
+                    if (!isItemInLikes) {
+                        state.likes.push(element);
                     }
                 });
                 state.isLoading = false;
 
             })
-            .addCase(fetchUserCartAsync.rejected, (state, action) => {
+            .addCase(fetchUserLikesAsync.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
             })
-            .addCase(AddItemToUserCartAsync.pending, (state)=>{
+            .addCase(AddItemToUserLikesAsync.pending, (state)=>{
                 state.isLoading = true; 
             })
-            .addCase(AddItemToUserCartAsync.fulfilled, (state, action)=>{
+            .addCase(AddItemToUserLikesAsync.fulfilled, (state, action)=>{
                 state.message = action.payload;
                 state.count += 1;
                 state.isLoading = false;
             })
-            .addCase(AddItemToUserCartAsync.rejected, (state, action)=>{
+            .addCase(AddItemToUserLikesAsync.rejected, (state, action)=>{
                 state.error = action.payload;
                 state.isLoading = false;
             })
-            .addCase(DeleteItemFromUserCartAsync.pending, (state)=>{
+            .addCase(DeleteItemFromUserLikesAsync.pending, (state)=>{
                 state.isLoading = true; 
             })
-            .addCase(DeleteItemFromUserCartAsync.fulfilled, (state, action)=>{
+            .addCase(DeleteItemFromUserLikesAsync.fulfilled, (state, action)=>{
                 const {itemId} = action.payload
-                const indexToRemove = state.cart.findIndex((item) => item.id === itemId);
+                const indexToRemove = state.likes.findIndex((item) => item.id === itemId);
                 if (indexToRemove !== -1) {
-                    state.cart.splice(indexToRemove, 1)
+                    state.likes.splice(indexToRemove, 1)
                 }
                 state.count -= 1;
                 state.isLoading = false;
                 state.message = action.payload;
 
             })
-            .addCase(DeleteItemFromUserCartAsync.rejected, (state, action)=>{
+            .addCase(DeleteItemFromUserLikesAsync.rejected, (state, action)=>{
                 state.error = action.payload;
                 state.isLoading = false;
             })
@@ -69,6 +70,6 @@ const options = {
 
 
 
-export const cartSlice = createSlice(options)
+export const likeSlice = createSlice(options)
 
-export default cartSlice.reducer;
+export default likeSlice.reducer;

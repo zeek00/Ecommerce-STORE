@@ -1,23 +1,28 @@
+
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { savedItemsAsync } from '../../features/session/dataThunks';
+import { AddItemToUserLikesAsync } from '../../features/likes/dataThunks';
 
 export const useSavedItems = (user) => {
-const dispatch = useDispatch()
-const [savedItems, setSavedItems] = useState([])
+  const dispatch = useDispatch();
+  const [savedItems, setSavedItems] = useState([]);
+  const [error, setError] = useState(null)
 
-const handleClick = (item) => {
-  const itemAlreadySaved = savedItems.find(savedItem => savedItem.id === item.id);
+  const handleClick = (item) => {
 
-  if (!itemAlreadySaved && user) {
-    const updatedSavedItems = [...savedItems, item];
-    if (!updatedSavedItems.id) {
-      updatedSavedItems.id = user._id;
+    if (user) {
+      setSavedItems(item);
+      dispatch(AddItemToUserLikesAsync({
+        id: user._id,
+        items: [item]
+      })
+      ).then(() => {
+        setError(false)
+      }).catch((error) => {
+        console.error('Failed to add item to user likes:', error);
+      });
     }
-    setSavedItems(updatedSavedItems);
-    dispatch(savedItemsAsync(savedItems));
-  }
-};
+  };
 
-  return { handleClick };
+  return { handleClick, savedItems, error };
 };

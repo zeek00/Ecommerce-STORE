@@ -227,15 +227,16 @@ const Item = ({item}) => {
             <h3>{item.title}</h3>
             <p>Category: {item.category}</p>
             <p>{item.description}</p>
-            { item.category ===  "laptops" || item.category ===  "smartphones"|| item.category ===  "shoes" || item.category ===  "bags"
-                ? (<span></span>) :  
+            {item.category === "shirts" || item.category === "dresses" || item.category === "tops" ? 
                 <select id="size" className='select' onChange={handleSizeChange} name="size">
-                        <option  disabled selected>Select Size</option>
-                        <option value="M">M</option>
-                        <option value="L">L</option>
-                        <option value="XL">XL</option>
-                        <option value="XXL">XXL</option>
-                </select>
+                    <option  defaultValue>Select Size</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                    <option value="XXL">XXL</option>
+                </select> 
+                : 
+                <span></span>
             }
             <p>£ {item.price}</p>
             <form action={PostsRoutes.coming()}>

@@ -8,7 +8,9 @@
     "server": "nodemon server.js",
     "frontend": "npm run start --prefix ../frontend",
     "dev": "concurrently \"npm run server\" \"npm run frontend\"",
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "build": "tsc && npm run copy-files",
+    "copy-files": "cp -r ./public ./build && cp -r ./views ./build && cp -r ./node_modules ./build"
   },
   "jest": {
     "testMatch": [

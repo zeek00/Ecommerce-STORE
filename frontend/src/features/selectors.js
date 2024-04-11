@@ -5,8 +5,10 @@ const selectFemale = (state)=>state.clothing.female;
 const selectProducts = (state)=>state.products.products;
 const selectFilteredProducts = (state)=>state.products.filtered;
 const selectCart = (state) => state.cart.cart;
+const selectLikes = (state) => state.likes.likes;
 const selectCartError = (state) => state.cart.error;
-const selectCount = (state) => state.cart.count;
+const selectCartCount = (state) => state.cart.count;
+const selectLikesCount = (state) => state.likes.count;
 const selectMessage = (state) => state.cart.message;
 const selectFail = (state) => state.session.fail;
 const selectCurrentUser = (state) => state.session.currentUser;
@@ -21,6 +23,7 @@ export {
     selectProducts,
     selectFilteredProducts,
     selectCart,
+    selectLikes,
     selectFail,
     selectCurrentUser,
     selectSessionLoading,
@@ -29,6 +32,7 @@ export {
     selectSessionError,
     selectCartError,
     selectMessage,
-    selectCount
+    selectCartCount,
+    selectLikesCount
 
 };

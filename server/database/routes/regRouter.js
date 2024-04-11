@@ -1,11 +1,12 @@
 const express = require('express');
-const User = require('./schemas/Registeration');
-const Cart = require('./schemas/Cart');
-require('./db');
+const User = require('../schemas/Registeration');
+const Cart = require('../schemas/Cart');
+const Liked = require('../schemas/Likes');
+require('../db');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const regRouter = express.Router();
-const verifyToken = require('../middleware/auth')
+const verifyToken = require('../../middleware/auth')
 
 
 
@@ -20,7 +21,7 @@ regRouter.post('/signup', async (req, res) => {
       throw error;
     }
 
-    const emailRegex = /^[^\s@]++@(?:[^\s@]++\.)++[^\s@]++$/;
+    const emailRegex = /^[^\s@]+@(?:[^\s@]+\.)+[^\s@]+$/;
 
 
     if(!emailRegex.test(email.toString())){
@@ -67,24 +68,31 @@ regRouter.post('/signup', async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    
-
     const newUser = await User.create({
-        name: name.toString(),
-        email: email.toString().toLowerCase(),
-        phone: Number(phone),
-        password: hashedPassword,
-        role: "user",
-        datereg: new Date()
+      name: name.toString(),
+      email: email.toString().toLowerCase(),
+      phone: Number(phone),
+      password: hashedPassword,
+      role: "user",
+      datereg: new Date()
     });
+
     const newCartItem = await Cart.create({
       _id: newUser._id,
       items: []
     });
+
+    const newLikedItem = await Liked.create({
+      _id: newUser._id,
+      items: []
+    });
+
     await newUser.save();
     await newCartItem.save();
-    res.json(newUser);
-}catch (error) {
+    await newLikedItem.save();
+    res.send('success');
+    
+  }catch (error) {
     console.error(error.message);
     res.status(error.code || 500).json({
       message: error.message || 'Internal Server Error',
@@ -125,7 +133,7 @@ regRouter.post('/signin', async (req, res) => {
       const token = jwt.sign(
         { userId: user._id, email },
         process.env.TOKEN_KEY,
-        { expiresIn: "2h" }
+        { expiresIn: "1h" }
       );
       user.token = token;
       req.session.user = user;
@@ -137,7 +145,6 @@ regRouter.post('/signin', async (req, res) => {
           email: user.email,
           name: user.name,
           role: user.role,
-          savedItems: user.savedItems
         }
       });
 
@@ -197,38 +204,7 @@ regRouter.get('/user', async (req, res) => {
   }
 });
 
-regRouter.post('/users/:id', async (req, res) => {
-  try {
-    const userId = req.params.id;
 
-    const user = await User.findById(userId);
-    if (!user) {
-      const error = new Error();
-      error.message = 'User not found';
-      error.code = 404;
-      throw error;
-    }
-
-    const existingTitles = user.savedItems.map(item => item.title);
-
-    const newItems = Object.entries(req.body).reduce((acc, [key, value]) => {
-      if (!existingTitles.includes(value.title)) {
-        acc[key] = value;
-      }
-      return acc;
-    }, {});
-
-    user.savedItems.push(...Object.values(newItems));
-
-    await user.save();
-    return res.status(201).send('Items saved to user');
-  } catch (error) {
-    console.error(error.message);
-    res.status(error.code || 500).json({
-      message: error.message || 'Internal Server Error',
-    });
-  }
-});
 
 regRouter.get('/users/:id', async (req, res) => {
   try {
@@ -248,7 +224,6 @@ regRouter.get('/users/:id', async (req, res) => {
         email: user.email,
         name: user.name,
         role: user.role,
-        savedItems: user.savedItems
       }
     );
 

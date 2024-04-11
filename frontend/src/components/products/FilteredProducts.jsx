@@ -12,14 +12,13 @@ const FilteredProduct = ({filterBy}) => {
   
     const user = useSelector(selectCurrentUser);
     const { handleClick } = useSavedItems(user);
-
   return ( 
         <>
 
             {filterBy ? (
                 <div className={style.container}>
-                    {filterBy.map(item=>(
-                        <div className={style.items} key={item.id}>
+                    {filterBy.map((item, index)=>(
+                        <div className={style.items} key={index}>
                             
                             <div className={style.product}>
                                 <img src={item.images[0]} alt="" />

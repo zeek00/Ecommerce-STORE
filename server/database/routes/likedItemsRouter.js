@@ -1,38 +1,36 @@
 const express = require('express');
-const Cart = require('./schemas/Cart');
-require('./db');
-const cartRouter = express.Router();
-const verifyToken = require('../middleware/auth');
+const Likes = require('../schemas/Likes');
+require('../db');
+const likesRouter = express.Router();
+const verifyToken = require('../../middleware/auth');
 
 
 
-cartRouter.use(verifyToken);
+likesRouter.use(verifyToken);
 
-cartRouter.param('id', async (req, res, next, id) => {
+likesRouter.param('id', async(req, res, next, id) => {
     try {
-        const user = await Cart.findById(id);
-  
-        if (!user) {
+        const user = await Likes.findById(id);
+
+        if(!user){
             const error = new Error();
             error.message = 'User with id not found';
             error.code = 404;
-            throw error;      
+            throw error;
         }
         let userId = user._id.toString();
         req.userId = userId;
+        next();
 
-      next();
-    } catch (error) {
-      next(error);
+    } catch (error){
+        next(error);
     }
 });
 
-cartRouter.post('/add', async (req, res) => {
+likesRouter.post('/add', async (req, res) => {
     try {
         const { id, items } = req.body;
-        console.log(id)
-        console.log(items)
-        const user = await Cart.findById(id);
+        const user = await Likes.findById(id);
 
         if (!user) {
             const error = new Error();
@@ -40,41 +38,34 @@ cartRouter.post('/add', async (req, res) => {
             error.code = 404;
             throw error;
         }
-
-        const existingObjects = user.items.filter(obj => obj.title === items.title);
-
-        if (existingObjects.length > 0) {
-            const hasSameSize = existingObjects.some(obj => obj.size === items.size);
-            
-            if (!hasSameSize) {
-                user.items.push(items);
-            } else {
-                const error = new Error();
-                error.message = 'Items with the same title and size already exist in the cart.';
-                error.code = 409;
-                throw error;
-            }
-        } else {
-            user.items.push(items);
+  
+      const existingTitles = user.items.map(item => item.title);
+  
+      const newItems = Object.entries(items).reduce((acc, [key, value]) => {
+        if (!existingTitles.includes(value.title)) {
+          acc[key] = value;
         }
-
-        await user.save();
-
-        res.status(201).json({ message: 'Item(s) added to cart' });
+        return acc;
+      }, {});
+  
+      user.items.push(...Object.values(newItems));
+  
+      await user.save();
+      return res.status(201).send('Items saved to user');
     } catch (error) {
-        console.error(error.message);
-        res.status(error.code || 500).json({
-            message: error.message || 'Internal Server Error',
-        });
+      console.error(error.message);
+      res.status(error.code || 500).json({
+        message: error.message || 'Internal Server Error',
+      });
     }
-});
+  });
 
-cartRouter.delete('/delete/:userId/:itemId', async (req, res) => {
+  likesRouter.delete('/delete/:userId/:itemId', async (req, res) => {
     try {
         const { itemId, userId } = req.params;
         console.log(userId)
 
-        const user = await Cart.findById(userId);
+        const user = await Likes.findById(userId);
 
         if (!user) {
             const error = new Error();
@@ -87,7 +78,7 @@ cartRouter.delete('/delete/:userId/:itemId', async (req, res) => {
 
         if (itemIndex === -1) {
             const error = new Error();
-            error.message = 'Item not found in the user\'s cart';
+            error.message = 'Item not found in the user\'s Liked Items';
             error.code = 404;
             throw error;
         }
@@ -96,7 +87,7 @@ cartRouter.delete('/delete/:userId/:itemId', async (req, res) => {
 
         await user.save();
 
-        res.status(200).json({ itemId: itemId });
+        res.status(200).json({message: `itemId: ${itemId} has been successfully deleted `});
     } catch (error) {
         console.error(error.message);
         res.status(error.code || 500).json({
@@ -105,13 +96,10 @@ cartRouter.delete('/delete/:userId/:itemId', async (req, res) => {
     }
 });
 
-
-
-
-cartRouter.get('/users/:id',async (req, res)=>{
+likesRouter.get('/users/:id',async (req, res)=>{
     try{
         const userId = req.userId;
-        const user = await Cart.findById(userId);
+        const user = await Likes.findById(userId);
         if (!user) {
             const error = new Error();
             error.message = 'User not found';
@@ -120,7 +108,7 @@ cartRouter.get('/users/:id',async (req, res)=>{
         }
         if(user.items === 0){
             const error = new Error();
-            error.message = 'User Cart Empty';
+            error.message = 'User Liked Empty';
             error.code = 404;
             throw error; 
         }
@@ -137,8 +125,4 @@ cartRouter.get('/users/:id',async (req, res)=>{
 });
 
 
-
-
-
-
-module.exports = cartRouter;
+module.exports = likesRouter;

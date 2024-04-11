@@ -20,9 +20,10 @@ const StyledButton = styled.button`
   font-size: ${({ fontSize }) => fontSize ? fontSize : '.9rem'};
   /* Add more styles as needed */
   &:hover {
-    background-color: #dcd0a4;
-    font-weight: 800;
-    transition: 0.3s ease;
+    background-color: #222;
+    color: #dcd0a4;
+    font-weight: 100;
+    transition: 0.5s ease-in;
 
 
   }

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, {useEffect} from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Root from '../components/home/Root';
 import SignUp from '../components/useractions/SignUp';
 import SignIn from '../components/useractions/SignIn';
@@ -16,9 +16,29 @@ import Items from '../components/products/Items';
 import ComingSoon from '../components/essentials/ComingSoon';
 import Cart from '../components/useractions/Cart';
 import AllProducts from '../components/products/AllProducts';
+import { useDispatch, useSelector } from 'react-redux';
+import { logOutAsync } from '../features/session/dataThunks';
+import { resetState } from '../features/session/sessionSlice';
+import { selectCurrentUser } from '../features/selectors';
 
 
 const App = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector(selectCurrentUser)
+  useEffect(()=>{
+    const timer = setTimeout(()=>{
+      if(user){
+        dispatch(logOutAsync());
+        dispatch(resetState());
+        navigate(PostsRoutes.signAction.signin())
+
+      }
+      
+    }, 3000000)
+
+   return () => clearTimeout(timer);
+  }, [dispatch, navigate, user])
 
   return (
     <>
@@ -41,8 +61,6 @@ const App = () => {
           </Route>
           <Route path={`/${PostsRoutes.products.electronics()}/*`} element={<Electronics/>}>
             <Route path=":category" element={<FilteredProduct/>}/>
-
-
           </Route>
           <Route path={`/${PostsRoutes.products.likedItems()}/`} element={<LikedItems />}>
             <Route path=":userId" element={<LikedItems />} />
