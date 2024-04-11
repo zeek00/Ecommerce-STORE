@@ -1,5 +1,5 @@
 # Stage 1: Build the server-side (Node.js) application
-# FROM node:14 AS server-build
+FROM node:14 AS server-build
 
 # Set the working directory for the server-side code
 WORKDIR /Ecommerce-STORE/server
