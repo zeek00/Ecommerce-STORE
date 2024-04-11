@@ -9,7 +9,7 @@
     "frontend": "npm run start --prefix ../frontend",
     "dev": "concurrently \"npm run server\" \"npm run frontend\"",
     "test": "jest --watch",
-    "build": "echo 'Build process completed'"
+    "build": "echo 'No build steps needed for JavaScript application'"
   },
   "jest": {
     "testMatch": [
