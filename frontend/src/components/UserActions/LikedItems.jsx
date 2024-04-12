@@ -45,7 +45,7 @@ const Liked = styled.div`
         text-align: center;
     }
 
-    .img span{
+    .img button{
         position: absolute;
         bottom: 0.7rem;
         right: 0.7rem;
@@ -55,7 +55,7 @@ const Liked = styled.div`
         padding: 0.4rem;
         cursor: pointer;
     }
-    .img span:hover{
+    .img button:hover{
         background ${css.primary};
         transition: 0.3s ease;
     }
@@ -197,7 +197,7 @@ const LikedItems = ()=> {
                                     <div key ={savedItem.price} className='item'>
                                         <div className="img">
                                             <img src={savedItem.images[0]} alt="" />
-                                            <span onClick={()=>handleRemoval(savedItem.id)}><PiTrash className='icon'/></span>
+                                            <button onClick={()=>handleRemoval(savedItem.id)}><PiTrash className='icon'/></button>
                                         </div>
                                         <p>{savedItem.title}</p>
                                         <p>£{savedItem.price}</p>
