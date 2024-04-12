@@ -42,7 +42,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.2",
-    "node-cron": "^3.0.3"
+    "node-cron": "^3.0.3",
+    "node-email-verifier": "^1.0.1"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
