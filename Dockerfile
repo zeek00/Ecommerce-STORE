@@ -29,7 +29,7 @@ COPY frontend/package*.json ./
 RUN npm install
 
 # Copy the client-side source code into the container
-COPY frontend ./
+COPY frontend ./frontend
 
 # Build the client-side application
 RUN npm run build
@@ -37,12 +37,21 @@ RUN npm run build
 # Stage 3: Final image with both server and client
 FROM node:14-alpine
 
+# Create a non-root user
+RUN adduser -D wrek
+
 # Set the working directory for the application
 WORKDIR /Ecommerce-STORE
 
 # Copy built files from server and client
 COPY --from=server-build /Ecommerce-STORE/server/build ./server/build
 COPY --from=client-build /Ecommerce-STORE/frontend/build ./frontend/build
+
+# Change ownership to the non-root user
+RUN chown -R wrek:wrek .
+
+# Switch to the non-root user
+USER wrek
 
 # Expose server port
 EXPOSE 4001

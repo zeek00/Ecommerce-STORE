@@ -6,11 +6,13 @@ require('../db');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const regRouter = express.Router();
+const emailValidator = require('node-email-verifier');
 const verifyToken = require('../../middleware/auth')
 
 
 
 regRouter.post('/signup', async (req, res) => {
+
   try {
     const { name, email, phone, password } = req.body;
 
@@ -21,9 +23,9 @@ regRouter.post('/signup', async (req, res) => {
       throw error;
     }
 
-    const emailRegex = /^[^\s@]++@(?:[^\s@]++\.)++[^\s@]++$/;
+    const isValid = await emailValidator(email.toString());
 
-    if(!emailRegex.test(email.toString())){
+    if(!isValid){
       const error = new Error();
       error.code = 400;
       error.message = 'Invalid Email format';
@@ -97,6 +99,7 @@ regRouter.post('/signup', async (req, res) => {
       message: error.message || 'Internal Server Error',
     });
   }
+  
 });
 
 regRouter.post('/signin', async (req, res) => {
