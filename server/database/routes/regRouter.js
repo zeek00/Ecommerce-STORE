@@ -12,6 +12,7 @@ const verifyToken = require('../../middleware/auth')
 
 
 regRouter.post('/signup', async (req, res) => {
+
   try {
     const { name, email, phone, password } = req.body;
 
@@ -98,6 +99,7 @@ regRouter.post('/signup', async (req, res) => {
       message: error.message || 'Internal Server Error',
     });
   }
+  
 });
 
 regRouter.post('/signin', async (req, res) => {
