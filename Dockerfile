@@ -8,7 +8,7 @@ WORKDIR /Ecommerce-STORE/server
 COPY server/package*.json ./
 
 # Install server-side dependencies
-RUN npm install
+RUN npm install --ignore-scripts
 
 # Copy the server-side source code into the container
 COPY server ./
@@ -26,7 +26,7 @@ WORKDIR /Ecommerce-STORE/frontend
 COPY frontend/package*.json ./
 
 # Install client-side dependencies
-RUN npm install
+RUN npm install --ignore-scripts
 
 # Copy the client-side source code into the container
 COPY frontend ./frontend
