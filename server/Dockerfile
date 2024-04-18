@@ -1,7 +1,7 @@
 FROM node:18.16.0-slim 
 
-RUN groupadd -g 1000 zeek && \
-    useradd -u 1000 -G zeek -h /home/zeek -D zeek
+RUN groupadd -g 1001 zeek && \
+    useradd -u 1001 -G zeek -h /home/zeek -D zeek
 
 WORKDIR /shoopp
 
