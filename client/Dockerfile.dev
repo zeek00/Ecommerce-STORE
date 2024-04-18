@@ -1,13 +1,18 @@
-FROM node:18.16.0-alpine
+FROM node:18.16.0-slim
+
+RUN adduser --system --group zeek --uid 1000
 
 WORKDIR /shoopp
 
-COPY ./package.json ./
+COPY package.json package-lock.json ./
 
+RUN chown -R zeek:zeek /shoopp && \
+    npm install --ignore-scripts && \
+    chown -R zeek:zeek /shoopp/node_modules
 
-RUN npm install
+USER zeek
 
 COPY . .
 
+# Start the application
 CMD ["npm", "run", "start"]
-
