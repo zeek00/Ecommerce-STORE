@@ -9,7 +9,7 @@ COPY ./package.json ./package-lock.json ./
 
 RUN chown -R serveruser:servergroup /shoopp && \
     npm install --ignore-scripts && \
-    chown -R zeek:zeek /shoopp/node_modules
+    chown -R serveruser:servergroup /shoopp/node_modules
 
 USER serveruser
 
