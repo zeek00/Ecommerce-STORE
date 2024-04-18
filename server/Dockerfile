@@ -1,17 +1,17 @@
 FROM node:18.16.0-slim 
 
-RUN addgroup -g 1001 zeek && \
-    adduser -u 1001 -G zeek -h /home/zeek -D zeek
+RUN addgroup servergroup \
+    && adduser -u 1001 -G servergroup -h /home/server -D serveruser
 
 WORKDIR /shoopp
 
 COPY ./package.json ./package-lock.json ./
 
-RUN chown -R zeek:zeek /shoopp && \
+RUN chown -R serveruser:servergroup /shoopp && \
     npm install --ignore-scripts && \
     chown -R zeek:zeek /shoopp/node_modules
 
-USER zeek
+USER serveruser
 
 COPY database/ ./database/
 COPY middleware/ ./middleware/

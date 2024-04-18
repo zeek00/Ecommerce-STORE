@@ -1,16 +1,16 @@
 
 FROM node:18.16.0-slim as builder
 
-RUN addgroup -g 1000 zeek && \
-    adduser -u 1000 -G zeek -h /home/zeek -D zeek
+RUN addgroup clientgroup \
+    && adduser -u 1001 -G clientgroup -h /home/client -D clientuser
 
 WORKDIR /shoopp
 
 COPY package*.json ./
 
-RUN chown -R zeek:zeek /shoopp
+RUN chown -R clientuser:clientgroup /shoopp
 
-USER zeek
+USER clientuser
 
 
 RUN npm install --ignore-scripts
