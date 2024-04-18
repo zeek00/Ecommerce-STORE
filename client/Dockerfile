@@ -21,15 +21,16 @@ RUN npm run build
 
 FROM nginx
 
-RUN adduser --system --no-create-home --disabled-login --group nginx
+RUN addgroup --gid 1001 clientgroup \
+    && adduser --uid 1001 --ingroup clientgroup --home /home/client --disabled-password clientuser
+
+USER clientuser
 
 EXPOSE 3000
 
-USER nginx
-
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 
-COPY --from=builder /shoopp/build /usr/share/nginx/html
+COPY --from=builder --chown=clientuser:clientgroup /shoopp/build /usr/share/nginx/html
 
 RUN find /usr/share/nginx/html -type f -exec chmod 644 {} \; \
     && find /usr/share/nginx/html -type d -exec chmod 755 {} \; \
