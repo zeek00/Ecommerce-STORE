@@ -22,6 +22,9 @@ RUN npm run build
 
 FROM nginx
 
+RUN adduser --system --no-create-home --disabled-login --group nginx
+
+
 EXPOSE 3000
 
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
