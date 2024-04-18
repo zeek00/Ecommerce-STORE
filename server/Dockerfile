@@ -16,7 +16,6 @@ USER zeek
 COPY database/ ./database/
 COPY middleware/ ./middleware/
 COPY utilities/ ./utilities/
-COPY .env ./
 COPY server.js ./
 
 EXPOSE 4050
