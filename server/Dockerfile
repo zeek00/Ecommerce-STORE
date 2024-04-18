@@ -13,7 +13,6 @@ RUN chown -R zeek:zeek /shoopp && \
 
 USER zeek
 
-COPY . .
 COPY database/ ./database/
 COPY middleware/ ./middleware/
 COPY utilities/ ./utilities/
