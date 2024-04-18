@@ -21,7 +21,7 @@ RUN npm run build
 
 FROM nginx
 
-RUN adduser --system --no-create-home --disabled-login --group nginx
+RUN adduser --system --no-create-home --disabled-login nginx
 
 EXPOSE 3000
 
