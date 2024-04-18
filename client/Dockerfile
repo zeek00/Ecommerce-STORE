@@ -1,8 +1,7 @@
-
 FROM node:18.16.0-slim as builder
 
-RUN addgroup clientgroup \
-    && adduser -u 1001 -G clientgroup -h /home/client -D clientuser
+RUN addgroup --gid 1001 clientgroup \
+    && adduser --uid 1001 --ingroup clientgroup --home /home/client --disabled-password clientuser
 
 WORKDIR /shoopp
 
@@ -12,10 +11,10 @@ RUN chown -R clientuser:clientgroup /shoopp
 
 USER clientuser
 
-
-RUN npm install --ignore-scripts
+RUN npm install --ignore-script
 
 COPY src/ ./src/
+
 COPY public/ ./public/
 
 RUN npm run build
@@ -23,7 +22,6 @@ RUN npm run build
 FROM nginx
 
 RUN adduser --system --no-create-home --disabled-login --group nginx
-
 
 EXPOSE 3000
 

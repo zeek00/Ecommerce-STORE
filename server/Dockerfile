@@ -1,15 +1,15 @@
-FROM node:18.16.0-slim 
+FROM node:18.16.0-slim
 
-RUN addgroup servergroup \
-    && adduser -u 1001 -G servergroup -h /home/server -D serveruser
+RUN addgroup --gid 1001 servergroup \
+    && adduser --uid 1001 --ingroup servergroup --home /home/server --disabled-password serveruser
 
 WORKDIR /shoopp
 
 COPY ./package.json ./package-lock.json ./
 
-RUN chown -R serveruser:servergroup /shoopp && \
-    npm install --ignore-scripts && \
-    chown -R serveruser:servergroup /shoopp/node_modules
+RUN chown -R serveruser:servergroup /shoopp \
+    && npm install --ignore-scripts \
+    && chown -R serveruser:servergroup /shoopp/node_modules
 
 USER serveruser
 
