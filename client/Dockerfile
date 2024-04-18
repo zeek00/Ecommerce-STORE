@@ -11,7 +11,7 @@ RUN chown -R clientuser:clientgroup /shoopp
 
 USER clientuser
 
-RUN npm install --ignore-script
+RUN npm install --ignore-scripts
 
 COPY src/ ./src/
 
