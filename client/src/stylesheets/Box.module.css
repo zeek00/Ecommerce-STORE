@@ -1,0 +1,71 @@
+
+
+
+.box{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+h3,p{
+    text-align: left;
+    color: rgba(34, 34, 34, 0.60);
+
+
+}
+
+h3{
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.3rem; /* 133.333% */
+    letter-spacing: -0.03rem;
+}
+
+p{
+    font-size: .9rem;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.innerBox{
+    width: 80%;
+    margin: 2.5rem auto;
+}
+
+
+@media only screen and (max-width: 480px) {
+    /* Styles for small screens */
+   
+}
+
+@media only screen and (min-width:480px) and (max-width: 767px) {
+    /* Styles for small screens in landscape */
+    
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    /* Styles for tablets in portrait */
+   
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) and (orientation: landscape) {
+    /* Styles for tablets in landscape */
+}
+
+@media only screen and (min-width: 992px) {
+    /* Styles for desktops */
+    
+}
+
+@media only screen and (min-width: 1200px) {
+    /* Styles for large desktops */
+  }
+  
+  
+
+  
+  
+  

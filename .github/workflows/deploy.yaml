@@ -10,11 +10,21 @@ env:
   AWS_REGION: eu-west-2
 
 jobs:
-  build:
-    name: Deployment
+  build-and-deploy:
+    name: Build and Deployment
     runs-on: ubuntu-latest
-
+    services:
+      docker:
+        image: docker:20.10.9
+        options: --privileged
+        ports:
+          - 3050:3050
+        env:
+          DOCKER_HOST: tcp://localhost:2375
     steps:
+      - name: Set up Docker Compose
+        uses: docker/compose-cli@v0.6.0
+
       - name: Set short git commit SHA
         id: commit
         uses: prompt/actions-commit-hash@v2
@@ -42,8 +52,8 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}        
           IMAGE_TAG: ${{ steps.commit.outputs.short }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker-compose build
+          docker-compose push
 
       - name: Update kube config
         run: aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION

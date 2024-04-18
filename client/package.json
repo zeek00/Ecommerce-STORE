@@ -1,0 +1,73 @@
+{
+  "name": "shoopp",
+  "version": "0.1.0",
+  "description": "frontend client for ecommerce web app",
+  "private": true,
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.9.5",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.6.5",
+    "bootstrap": "^5.3.2",
+    "dotenv": "^16.3.1",
+    "history": "^5.3.0",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.9.1",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.11.0",
+    "react-redux": "^8.1.1",
+    "react-router-dom": "^6.15.0",
+    "react-scripts": "5.0.1",
+    "redux-persist": "^6.0.0",
+    "redux-thunk": "^3.1.0",
+    "styled-components": "^5.3.5",
+    "uuid": "^9.0.1",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "jest --watch",
+    "eject": "react-scripts eject"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-react",
+      "@babel/preset-env"
+    ]
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/preset-env": "^7.24.3",
+    "@babel/preset-react": "^7.24.1",
+    "jest": "^27.5.1"
+  }
+}

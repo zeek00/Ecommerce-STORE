@@ -1,6 +1,9 @@
-const crypto = require('crypto');
+module.exports = {
+    mongouri: process.env.MONGOURI,
+    secret: process.env.SECRET,
+    tokenKey: process.env.TOKENKEY,
+    verifaliaUser: process.env.VERIFALIAUSER,
+    verifaliaPass: process.env.VERIFALIAPASS,
+    port: process.env.PORT
 
-const generateSecretKey = () => crypto.randomBytes(32).toString('hex');
-
-const secretKey = generateSecretKey();
-module.exports = secretKey;
+};

@@ -2,10 +2,10 @@ require('dotenv').config();
 const express = require("express");
 const app = express();
 const cors = require('cors');
-const apiRouter = require('../server/api')
+const apiRouter = require('./api')
 const sessionMiddleware = require('./middleware/session');
 
-const allowedOrigins = ['http://localhost:3000', 'https://zeekdevs.com/shoopp'];
+const allowedOrigins = ['http://localhost:3050', 'https://shoopp.zeekdevs.com'];
 
 
 app.use(express.json()); 
@@ -25,6 +25,13 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+app.use((err, req, res, next) => {
+  if (err.name === 'CorsError') {
+    res.status(403).json({ error: 'CORS error: Not allowed by CORS' });
+  } else {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 
 
@@ -39,9 +46,13 @@ app.disable("x-powered-by");
 
 app.use(sessionMiddleware);
 
+app.get("/welcome", (req,res)=>{
+  res.send("Welcome to SHOOPP api")
+})
+
 app.use('/api', apiRouter);
 
-const PORT = process.env.PORT || 4001;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });

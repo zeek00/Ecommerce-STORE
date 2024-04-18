@@ -1,0 +1,395 @@
+.footer{
+    position: static;
+    background-color: rgb(242,242,242);
+    color: rgba(34, 34, 34, 0.60);
+}
+
+.container{
+    display: grid;
+    padding: 1rem 0;
+    grid-template-columns: repeat(3, 1fr);
+    text-align: center;
+    grid-row-gap: .7rem;
+    grid-template-areas: 
+        "a b c"
+        "d f g"
+        
+    ;
+}
+
+.container ul{
+    list-style-type: none;
+}
+
+.container h4{
+    text-transform: uppercase;
+    font-size: .6rem;
+    color: #222;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1.45rem;
+    letter-spacing: -0.025rem;
+}
+
+.container p{
+    margin: .3rem auto;
+}
+
+.container li{
+    font-size: .5rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.categories{
+    grid-area: a;
+
+}
+
+.accessories{
+    grid-area: b;
+
+}
+
+.company {
+    grid-area: c;
+}
+
+.support{
+    grid-area: d;
+}
+
+.subscribe{
+    background: rgb(234,227,201);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+.subscribe h4{
+    text-transform: uppercase;
+    color: rgba(34, 34, 34, 0.60);
+
+}
+
+.subscribe p{
+    color: rgba(34, 34, 34, 0.60);
+    font-size: 0.9rem;
+    padding: 0.4rem;
+}
+
+.socials{
+    grid-area: f;
+}
+
+.contact{
+    grid-area: g;
+}
+
+.socials ul{
+    display: flex;
+    width: 20%;
+    flex-direction: column;
+    margin: 0 auto;
+}
+.socials li{
+    display: flex;
+}
+
+.socialIcon{
+    font-size: 1.3rem;
+    margin: -.1rem 0 -.4rem 0;
+    padding: .2rem;
+}
+
+.focusedicon{
+    color: #dcd0a4;
+    transition: 0.8s ease;
+
+}
+
+.socialLink{
+    padding-left: .2rem;
+    color: rgba(34, 34, 34, 0.60);
+    text-decoration: none;
+}
+
+.footer h3{
+    
+    font-size: .9rem;
+}
+.footer div:last-child{
+    font-size: .9rem;
+}
+
+.g{
+    grid-area: g;
+}
+
+.copy{
+    grid-area: h;
+}
+
+.subscribe h5{
+    font-size: .9rem;
+}
+.subscribe p{
+    font-size: .7rem;
+}
+
+.subscribe span{
+    text-decoration: underline;
+}
+
+.hr {
+    display: flex;
+    margin: 1rem 0;
+    border-style: solid;
+    border-top-width: 0.00rem;
+    color: rgba(34, 34, 34, 0.60);
+    width: 50%;
+}
+.subscribe form{
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    
+
+}
+
+.subscribe span{
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+.form{
+    display: flex;
+    background-color: #fff;
+    padding: .5rem 0 .2rem .7rem;
+    color: rgba(34, 34, 34, 0.60);
+    font-size: 1.4rem;
+    width: 70%;
+}
+
+
+.form input{
+    border: none;
+    padding-left: .7rem;
+    width: 80%;
+    font-size: .8rem;
+    font-weight: 200;
+}
+.form input:focus{
+    outline: none;
+}
+
+.footerFinal{
+    display: flex;
+    border-top: 0.5px solid rgba(34, 34, 34, 0.1);
+    justify-content: space-between;
+    padding: 0.7rem 0;
+}
+
+.footerFinal p{
+    color: rgba(34, 34, 34, 0.6);
+    font-weight: 500;
+    font-size: .8rem;
+}
+
+.footerFinal p span{
+    text-decoration: underline;
+    cursor: pointer;
+}
+.links{
+    display: flex;
+    gap: 2rem;
+}
+
+.links span{
+    cursor: pointer;
+}
+
+
+
+
+@media only screen and (max-width: 480px) {
+    /* Styles for small screens */
+
+    .container{
+        display: none;
+        grid-template-columns: repeat(4, 1fr);
+        grid-row-gap: .7rem;
+        grid-template-areas: 
+            "a b c d"
+             "f f g g"
+             "e e e e"
+            
+        ;
+    }
+    
+    .subscribe form{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: .7rem;
+        width: 100%;
+        
+    }
+   
+
+    .form{
+        width: 80%;
+        
+    }
+    
+    .form input{
+        width: 100%;
+        
+    }
+    .container h4{
+        font-size: .8rem;
+        letter-spacing: 0.025rem;
+    }
+    
+    .container li{
+        font-size: .7rem;
+        font-weight: 500;
+    }
+
+    .subscribe h5{
+        font-size: 1.6rem;
+    }
+    .subscribe p{
+        font-size: .8rem;
+        text-align: center;
+    }
+  
+    .hr {
+        
+        width: 80%;
+    }
+
+
+    .footer h3{
+        text-align: left;
+        font-size: 1rem;
+    }
+
+    .footerFinal p{
+        font-size: .7rem;
+    }
+}
+
+
+@media only screen and (min-width:480px) and (max-width: 700px) {
+    /* Styles for small screens in landscape */
+    .form{
+        width: 60%;
+        
+    }
+    .container{
+        display: none;
+    }
+    
+    .footer h3{
+        text-align: left;
+        font-size: 1rem;
+    }
+}
+
+@media only screen and (min-width: 700px) and (max-width: 767px) {
+    /* Styles for tablets in portrait */
+    .container{
+        display: none;
+    }
+    
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) and (orientation: landscape) {
+    /* Styles for tablets in landscape */
+    .container{
+        display: grid;
+        grid-gap: 1rem;
+        grid-template-areas: 
+            "a b c"
+            "d f g" 
+        ;
+    }
+    .container h4{
+        font-size: 1rem;
+        letter-spacing: 0.025rem;
+    }
+
+    .container li{
+        font-size: .9rem;
+        font-weight: 500;
+    }
+
+    .subscribe h5{
+        font-size: 1rem;
+    }
+    .subscribe p{
+        font-size: .9rem;
+        text-align: center;
+    }
+
+
+    .footerFinal{
+        margin-top: 1rem;
+
+    }
+    
+
+    .footer h3{
+        text-align: left;
+        font-size: 1rem;
+    }
+
+}
+
+
+@media only screen and (min-width: 992px) {
+    /* Styles for desktops */
+   .container{ 
+        grid-gap: 2rem;
+        grid-template-areas: 
+            "a b c"
+            "d f g"
+        ;
+   }
+
+   .container h4{
+    font-size: 1.1rem;
+    letter-spacing: 0.025rem;
+    }
+
+    .container li{
+        font-size: .9rem;
+        font-weight: 500;
+    }
+
+
+    .subscribe h5{
+        font-size: 1.5rem;
+    }
+    .subscribe p{
+        font-size: 0.8rem;
+        text-align: center;
+    }
+
+   
+    .footer h3{
+        text-align: left;
+        font-size: 1.3rem;
+    } 
+
+
+    .footerFinal{
+        margin-top: 1rem;
+
+    }
+
+    .footerFinal p{
+        font-size: 0.8rem;
+    }
+   
+}
