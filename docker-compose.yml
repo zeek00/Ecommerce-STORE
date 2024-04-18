@@ -15,13 +15,13 @@ services:
       - client
     restart: always
     build: 
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
       context: ./nginx
     ports:
       - "3050:80"
   api:
     build: 
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
       context: './server'
     volumes:
       - /shoopp/node_modules
@@ -36,9 +36,8 @@ services:
     depends_on:
       - mongodb
   client:
-    stdin_open: true
     build: 
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
       context: ./client
     volumes:
       - /shoopp/node_modules

@@ -8,6 +8,12 @@ env:
   ECR_REPOSITORY: shoopp
   EKS_CLUSTER_NAME: shoopp-cluster
   AWS_REGION: eu-west-2
+  MONGO_URI: ${{ secrets.MONGO_URI }}
+  SECRET: ${{ secrets.SECRET }}
+  TOKEN_KEY: ${{ secrets.TOKEN_KEY }}
+  VERIFALIA_USER: ${{ secrets.VERIFALIA_USER }}
+  VERIFALIA_PASS: ${{ secrets.VERIFALIA_PASS }}
+  PORT: ${{ secrets.PORT }}
 
 jobs:
   build-and-deploy:
@@ -23,7 +29,7 @@ jobs:
           DOCKER_HOST: tcp://localhost:2375
     steps:
       - name: Set up Docker Compose
-        uses: docker/compose-cli@v3.8
+        uses: docker/compose-cli@latest
 
       - name: Set short git commit SHA
         id: commit
