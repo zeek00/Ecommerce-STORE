@@ -1,6 +1,6 @@
 FROM nginx:alpine
 
-RUN adduser --system --group --no-create-home --disabled-login nginx && \
+RUN adduser -D -S -G nginx && \
     chown -R nginx:nginx /var/cache/nginx && \
     chown -R nginx:nginx /var/log/nginx
 
