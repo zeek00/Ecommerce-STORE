@@ -1,8 +1,8 @@
 
 FROM node:18.16.0-slim as builder
 
-RUN addgroup -g 1000 zeek && \
-    adduser -u 1000 -G zeek -h /home/zeek -D zeek
+RUN groupadd -g 1000 zeek && \
+    useradd -u 1000 -G zeek -h /home/zeek -D zeek
 
 WORKDIR /shoopp
 
