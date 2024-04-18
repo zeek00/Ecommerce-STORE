@@ -25,3 +25,5 @@ EXPOSE 3000
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=builder --chown=nginx:nginx /shoopp/build /usr/share/nginx/html
+
+RUN find /usr/share/nginx/html -type f -exec chmod 644 {} \;
