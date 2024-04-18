@@ -23,7 +23,7 @@ jobs:
           DOCKER_HOST: tcp://localhost:2375
     steps:
       - name: Set up Docker Compose
-        uses: docker/compose-cli@v0.6.0
+        uses: docker/compose-cli@v3.8
 
       - name: Set short git commit SHA
         id: commit
