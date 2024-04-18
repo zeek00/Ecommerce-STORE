@@ -28,3 +28,5 @@ EXPOSE 3000
 USER nginx
 
 COPY --from=builder --chown=nginx:nginx /shoopp/build /usr/share/nginx/html
+
+RUN ls -l /usr/share/nginx/html
