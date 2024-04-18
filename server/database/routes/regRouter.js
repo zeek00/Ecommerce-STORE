@@ -6,7 +6,7 @@ require('../db');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const regRouter = express.Router();
-const emailValidator = require('node-email-verifier');
+const verifalia = require('../../utilities/verifalia')
 const verifyToken = require('../../middleware/auth')
 
 
@@ -23,9 +23,10 @@ regRouter.post('/signup', async (req, res) => {
       throw error;
     }
 
-    const isValid = await emailValidator(email.toString());
-
-    if(!isValid){
+    const validationResponse = await verifalia.emailValidations.submit({
+      emailAddress: email.toString()
+  });
+    if(validationResponse.status !== 'Deliverable'){
       const error = new Error();
       error.code = 400;
       error.message = 'Invalid Email format';

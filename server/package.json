@@ -5,9 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "server": "nodemon server.js",
-    "frontend": "npm run start --prefix ../frontend",
-    "dev": "concurrently \"npm run server\" \"npm run frontend\"",
+    "server": "nodemon",
+    "frontend": "npm run start --prefix ../client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "jest --watch",
     "build": "docker build -t shoopp-dev:1.0.0 -f Dockerfile ."
   },
@@ -43,7 +43,7 @@
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.2",
     "node-cron": "^3.0.3",
-    "node-email-verifier": "^1.0.1"
+    "verifalia": "^4.1.0"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
