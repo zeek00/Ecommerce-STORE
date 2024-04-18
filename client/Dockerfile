@@ -1,3 +1,4 @@
+
 FROM node:18.16.0-slim as builder
 
 RUN addgroup -g 1000 zeek && \
@@ -5,13 +6,14 @@ RUN addgroup -g 1000 zeek && \
 
 WORKDIR /shoopp
 
-COPY ./package.json ./
+COPY package*.json ./
 
-RUN chown -R zeek:zeek /shoopp && \
-    npm install --ignore-scripts && \
-    chown -R zeek:zeek /shoopp/node_modules
+RUN chown -R zeek:zeek /shoopp
 
 USER zeek
+
+
+RUN npm install --ignore-scripts
 
 COPY src/ ./src/
 COPY public/ ./public/
@@ -24,7 +26,7 @@ EXPOSE 3000
 
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 
-COPY --from=builder --chown=nginx:nginx /shoopp/build /usr/share/nginx/html
+COPY --from=builder /shoopp/build /usr/share/nginx/html
 
 RUN find /usr/share/nginx/html -type f -exec chmod 644 {} \; \
     && find /usr/share/nginx/html -type d -exec chmod 755 {} \; \
