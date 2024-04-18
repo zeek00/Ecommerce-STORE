@@ -25,8 +25,11 @@ RUN adduser --system --no-create-home --disabled-login nginx
 
 EXPOSE 3000
 
-USER nginx
+USER root
 
-COPY --from=builder --chown=nginx:nginx /shoopp/build /usr/share/nginx/html
+COPY --from=builder --chown=root:root --chmod=755 /shoopp/build /usr/share/nginx/html
+
+RUN find /usr/share/nginx/html -type f -exec chmod 644 {} \; \
+    && find /usr/share/nginx/html -type d -exec chmod 755 {} \;
 
 RUN chmod -R -w /usr/share/nginx/html
