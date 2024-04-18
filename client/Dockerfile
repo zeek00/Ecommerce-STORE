@@ -21,7 +21,7 @@ RUN npm run build
 
 FROM nginx
 
-RUN adduser --system --no-create-home --disabled-login --group nginx
+RUN adduser --system --no-create-home --disabled-login nginx
 
 EXPOSE 3000
 
@@ -29,4 +29,4 @@ USER nginx
 
 COPY --from=builder --chown=nginx:nginx /shoopp/build /usr/share/nginx/html
 
-RUN ls -l /usr/share/nginx/html
+RUN chmod -R -w /usr/share/nginx/html
