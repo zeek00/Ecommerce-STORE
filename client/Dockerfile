@@ -27,6 +27,8 @@ RUN adduser --system --no-create-home --disabled-login --group nginx
 
 EXPOSE 3000
 
+USER nginx
+
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=builder --chown=nginx:nginx /shoopp/build /usr/share/nginx/html
