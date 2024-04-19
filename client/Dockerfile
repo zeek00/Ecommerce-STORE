@@ -1,15 +1,15 @@
 FROM node:18.16.0-slim as builder
 
-RUN addgroup --gid 1001 clientgroup \
-    && adduser --uid 1001 --ingroup clientgroup --home /home/client --disabled-password clientuser
+RUN addgroup --system nonroot && \
+    adduser --system --ingroup nonroot --home /home/nonroot nonroot
 
 WORKDIR /shoopp
 
 COPY package*.json ./
 
-RUN chown -R clientuser:clientgroup /shoopp
+RUN chown -R nonroot:nonroot /shoopp
 
-USER clientuser
+USER nonroot
 
 RUN npm install --ignore-scripts
 
@@ -19,15 +19,18 @@ COPY public/ ./public/
 
 RUN npm run build
 
-FROM nginx
+FROM nginx:alpine
 
-RUN adduser --system --no-create-home --disabled-login nginx
+RUN adduser -D -S -G nonroot
 
-EXPOSE 3000
+COPY ./default.conf /etc/nginx/conf.d/default.conf
 
-COPY --from=builder --chown=nginx:nginx --chmod=755 /shoopp/build /usr/share/nginx/html
+RUN rm /etc/nginx/conf.d/default.conf
+
+USER nonroot
+
+COPY --from=builder --chown=nonroot:nonroot --chmod=755 /shoopp/build /usr/share/nginx/html
 
 RUN find /usr/share/nginx/html -type f -exec chmod 644 {} \; \
-    && find /usr/share/nginx/html -type d -exec chmod 755 {} \;
-
-RUN chmod -R -w /usr/share/nginx/html
+    && find /usr/share/nginx/html -type d -exec chmod 755 {} \; \
+    && chmod -R -w /usr/share/nginx/html
