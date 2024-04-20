@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shoopp
+  labels:
+    app: shoopp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: shoopp
+  template:
+    metadata:
+      labels:
+        app: shoopp
+    spec:
+      containers:
+        - name: shoopp
+          image: DOCKER_IMAGE 
+          ports:
+            - containerPort: 3050
+          env:
+            - name: MONGO_URI
+              value: $MONGO_URI
+            - name: SECRET
+              value: $SECRET
+            - name: TOKEN_KEY
+              value: $TOKEN_KEY
+            - name: VERIFALIA_USER
+              value: $VERIFALIA_USER
+            - name: VERIFALIA_PASS
+              value: $VERIFALIA_PASS
+            - name: PORT
+              value: $PORT
