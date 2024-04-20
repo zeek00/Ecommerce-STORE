@@ -43,13 +43,13 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
         with:
-          registry: ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+          registry: ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
           username: AWS
           password: ${{ secrets.DOCKER_PASSWORD }} 
 
@@ -66,10 +66,12 @@ jobs:
 
       - name: Deploy to EKS
         env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}        
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: shoopp        
           IMAGE_TAG: ${{ steps.commit.outputs.short }}
         run: |
-          sed -i.bak "s|DOCKER_IMAGE|$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|g" manifests/shoopp-deployment.yaml && \
-          kubectl apply -f manifests/shoopp-deployment.yaml
+          sed -i.bak "s|DOCKER_IMAGE|${ECR_REGISTRY}/${secrets.ECR_REPOSITORY}:${IMAGE_TAG}|g" manifests/shoopp-deployment.yaml && \
+          aws eks --region ${secrets.AWS_REGION} update-kubeconfig --name ${secrets.EKS_CLUSTER_NAME} && \
+          kubectl apply -f manifests/shoopp-deployment.yaml && \
           kubectl apply -f manifests/shoopp-service.yaml
 
