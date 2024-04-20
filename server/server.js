@@ -5,7 +5,7 @@ const cors = require('cors');
 const apiRouter = require('./api')
 const sessionMiddleware = require('./middleware/session');
 
-const allowedOrigins = ['http://localhost:3050', 'https://shoopp.zeekdevs.com'];
+const allowedOrigins = ['http://localhost:3050', 'http://shoopp.zeekdevs.com'];
 
 
 app.use(express.json()); 
