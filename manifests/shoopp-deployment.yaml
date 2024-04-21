@@ -3,12 +3,12 @@ kind: Deployment
 metadata:
   name: shoopp
   labels:
-    app: shoopp
+    app: webapp
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: shoopp
+      app: webapp
   template:
     metadata:
       labels:
