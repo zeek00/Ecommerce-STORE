@@ -35,7 +35,7 @@ app.use((err, req, res, next) => {
 
 
 
-app.set('trust proxy', 1)
+app.set('trust proxy', 1);
 
 app.use((req, res, next) => {
   res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
