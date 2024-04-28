@@ -46,16 +46,16 @@ jobs:
           PORT: ${{ secrets.PORT }}
         run: |
           docker-compose build nginx
-          docker tag nginx:${{ steps.commit.outputs.short }} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY/nginx:${{ steps.commit.outputs.short }}
-          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY/nginx:${{ steps.commit.outputs.short }}
+          docker tag nginx:${{ steps.commit.outputs.short }} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:${{ steps.commit.outputs.short }}
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:${{ steps.commit.outputs.short }}
 
           docker-compose build api
-          docker tag api:${{ steps.commit.outputs.short }} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY/api:${{ steps.commit.outputs.short }}
-          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY/api:${{ steps.commit.outputs.short }}
+          docker tag api:${{ steps.commit.outputs.short }} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:${{ steps.commit.outputs.short }}
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:${{ steps.commit.outputs.short }}
 
           docker-compose build client
-          docker tag client:${{ steps.commit.outputs.short }} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY/client:${{ steps.commit.outputs.short }}
-          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY/client:${{ steps.commit.outputs.short }}
+          docker tag client:${{ steps.commit.outputs.short }} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:${{ steps.commit.outputs.short }}
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:${{ steps.commit.outputs.short }}
 
       - name: Update kubeconfig
         run: aws eks update-kubeconfig --name ${{secrets.EKS_CLUSTER_NAME}} --region ${{secrets.AWS_REGION}}
