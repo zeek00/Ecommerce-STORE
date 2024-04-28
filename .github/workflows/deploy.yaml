@@ -45,17 +45,18 @@ jobs:
           VERIFALIA_PASS: ${{ secrets.VERIFALIA_PASS }}
           PORT: ${{ secrets.PORT }}
         run: |
-          docker-compose build nginx
-          docker tag nginx:v1.0 $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY/nginx:v1.0 .
-          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY/nginx:v1.0
+          docker-compose -f docker-compose.yml build nginx
+          docker tag nginx:v1.0 $AWS_ACCOUNT_ID.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/$ECR_REPOSITORY/nginx:v1.0
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/$ECR_REPOSITORY/nginx:v1.0
 
-          docker-compose build api
-          docker tag api:v1.0 $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY/api:v1.0 .
-          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY/api:v1.0
+          docker-compose -f docker-compose.yml build api
+          docker tag api:v1.0 $AWS_ACCOUNT_ID.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/$ECR_REPOSITORY/api:v1.0
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/$ECR_REPOSITORY/api:v1.0
 
-          docker-compose build client
-          docker tag client:v1.0 $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY/client:v1.0 .
-          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY/client:v1.0
+          docker-compose -f docker-compose.yml build client
+          docker tag client:v1.0 $AWS_ACCOUNT_ID.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/$ECR_REPOSITORY/client:v1.0
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/$ECR_REPOSITORY/client:v1.0
+
 
       - name: Update kubeconfig
         run: aws eks update-kubeconfig --name ${{secrets.EKS_CLUSTER_NAME}} --region ${{secrets.AWS_REGION}}
