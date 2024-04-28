@@ -36,19 +36,20 @@ jobs:
       - name: Build and push Docker images using docker-compose
         env:
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+          ECR_REPOSITORY: ${{secrets.ECR_REPOSITORY}}
           TAG: ${{ steps.commit.outputs.short }}
         run: |
           docker-compose build nginx
-          docker tag nginx:${TAG} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/nginx:${TAG}
-          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/nginx:${TAG}
+          docker tag nginx:${TAG} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:${TAG}
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:${TAG}
 
           docker-compose build api
-          docker tag api:${TAG} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/api:${TAG}
-          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/api:${TAG}
+          docker tag api:${TAG} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:${TAG}
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:${TAG}
 
           docker-compose build client
-          docker tag client:${TAG} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/client:${TAG}
-          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/client:${TAG}
+          docker tag client:${TAG} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:${TAG}
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:${TAG}
 
       - name: Update kubeconfig
         run: aws eks update-kubeconfig --name ${{secrets.EKS_CLUSTER_NAME}} --region ${{secrets.AWS_REGION}}
@@ -56,7 +57,7 @@ jobs:
       - name: Deploy to Amazon EKS
         env:
           ECR_REGISTRY: $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com
-          ECR_REPOSITORY: shoopp
+          ECR_REPOSITORY: ${{secrets.ECR_REPOSITORY}}
           IMAGE_TAG: ${{ steps.commit.outputs.short }}
         run: |
           sed -i.bak "s|DOCKER_IMAGE|${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}|g" manifests/shoopp-deployment.yaml
