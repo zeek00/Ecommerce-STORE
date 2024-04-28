@@ -18,22 +18,33 @@ jobs:
         id: commit
         uses: prompt/actions-commit-hash@v2
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+      - name: Install Docker Compose
+        run: |
+          sudo apt update
+          sudo apt install -y docker-compose
 
-      - name: Build and push Docker image to Amazon ECR
+      - name: Log in to Amazon ECR
         env:
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          ECR_REPOSITORY: shoopp
-          IMAGE_TAG: ${{ steps.commit.outputs.short }}
         run: |
           aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
-          
-          docker buildx build --file Dockerfile --tag $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/shoopp:$IMAGE_TAG .
 
-          docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/shoopp:$IMAGE_TAG
+      - name: Build and push Docker images using docker-compose
+        env:
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+          TAG: ${{ steps.commit.outputs.short }}
+        run: |
+          docker-compose build nginx
+          docker tag mynginx:${TAG} $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/mynginx:${TAG}
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/mynginx:${TAG}
+
+          docker-compose build api
+          docker tag myapi:${TAG} $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/myapi:${TAG}
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/myapi:${TAG}
+
+          docker-compose build client
+          docker tag myclient:${TAG} $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/myclient:${TAG}
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/myclient:${TAG}
 
       - name: Update kubeconfig
         run: aws eks update-kubeconfig --name ${{secrets.EKS_CLUSTER_NAME}} --region $AWS_REGION
@@ -45,4 +56,5 @@ jobs:
           IMAGE_TAG: ${{ steps.commit.outputs.short }}
         run: |
           sed -i.bak "s|DOCKER_IMAGE|${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}|g" manifests/shoopp-deployment.yaml
+          
           kubectl apply -f manifests/shoopp-deployment.yaml
