@@ -1,76 +1,48 @@
-name: Deploy to ECR
-
+name: Deploy to ECR and EKS
 on:
   push:
     branches: [master]
 
 env:
-  ECR_REPOSITORY: shoopp
-  EKS_CLUSTER_NAME: shoopp-cluster
   AWS_REGION: eu-west-2
-  MONGO_URI: ${{ secrets.MONGO_URI }}
-  SECRET: ${{ secrets.SECRET }}
-  TOKEN_KEY: ${{ secrets.TOKEN_KEY }}
-  VERIFALIA_USER: ${{ secrets.VERIFALIA_USER }}
-  VERIFALIA_PASS: ${{ secrets.VERIFALIA_PASS }}
-  PORT: ${{ secrets.PORT }}
 
 jobs:
   build-and-deploy:
-    name: Build and Deployment
+    name: Build, Push, and Deploy
     runs-on: ubuntu-latest
-    services:
-      docker:
-        image: docker:20.10.9
-        options: --privileged
-        ports:
-          - 3050:3050
-        env:
-          DOCKER_HOST: tcp://localhost:2375
     steps:
-      - name: Set up Docker Compose
-        uses: docker/compose-cli@v1.0.0
+      - name: Checkout code
+        uses: actions/checkout@v2
 
       - name: Set short git commit SHA
         id: commit
         uses: prompt/actions-commit-hash@v2
 
-      - name: Check out code
-        uses: actions/checkout@v2
-    
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-        with:
-          registry: ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
-          username: AWS
-          password: ${{ secrets.DOCKER_PASSWORD }} 
-
-      - name: Build, tag, and push image to Amazon ECR
+      - name: Build and push Docker image to Amazon ECR
         env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}        
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          ECR_REPOSITORY: shoopp
           IMAGE_TAG: ${{ steps.commit.outputs.short }}
         run: |
-          docker-compose -f docker-compose.yml build
-          docker-compose -f docker-compose.yml push
+          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+          
+=          docker buildx build --file Dockerfile --tag $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/shoopp:$IMAGE_TAG .
 
-      - name: Update kube config
-        run: aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION
+=          docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/shoopp:$IMAGE_TAG
 
-      - name: Deploy to EKS
+      - name: Update kubeconfig
+        run: aws eks update-kubeconfig --name ${{secrets.EKS_CLUSTER_NAME}} --region ${{secrets.AWS_REGION}}
+
+      - name: Deploy to Amazon EKS
         env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: shoopp        
+          ECR_REGISTRY: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+          ECR_REPOSITORY: shoopp
           IMAGE_TAG: ${{ steps.commit.outputs.short }}
         run: |
-          sed -i.bak "s|DOCKER_IMAGE|${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}|g" manifests/shoopp-deployment.yaml && \
-          aws eks --region $AWS_REGION update-kubeconfig --name $EKS_CLUSTER_NAME && \
+          sed -i.bak "s|DOCKER_IMAGE|${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}|g" manifests/shoopp-deployment.yaml
           kubectl apply -f manifests/shoopp-deployment.yaml
-
