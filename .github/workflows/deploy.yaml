@@ -46,15 +46,15 @@ jobs:
           PORT: ${{ secrets.PORT }}
         run: |
           docker-compose build nginx
-          docker -t $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY/nginx:v1.0 .
+          docker tag nginx:${{ steps.commit.outputs.short }} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY/nginx:v1.0 .
           docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY/nginx:v1.0
 
           docker-compose build api
-          docker -t $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY/api:v1.0 .
+          docker tag api:${{ steps.commit.outputs.short }} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY/api:v1.0 .
           docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY/api:v1.0
 
           docker-compose build client
-          docker -t $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY/client:v1.0 .
+          docker tag client:${{ steps.commit.outputs.short }} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY/client:v1.0 .
           docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY/client:v1.0
 
       - name: Update kubeconfig
