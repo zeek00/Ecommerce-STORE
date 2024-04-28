@@ -20,7 +20,7 @@ services:
       context: ./nginx
     ports:
       - "3050:80"
-    image: mynginx:${TAG}  
+    image: nginx:${TAG}  
 
   api:
     build: 
@@ -38,7 +38,7 @@ services:
       - PORT=${PORT}
     depends_on:
       - mongodb
-    image: myapi:${TAG}
+    image: api:${TAG}
 
   client:
     build: 
@@ -47,5 +47,5 @@ services:
     volumes:
       - /shoopp/node_modules
       - ./client:/shoopp
-    image: myclient:${TAG} 
+    image: client:${TAG} 
 
