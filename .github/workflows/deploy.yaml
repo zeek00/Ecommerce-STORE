@@ -1,12 +1,10 @@
 name: Deploy to ECR
-
 on:
   push:
     branches: [master]
 
 env:
   ECR_REPOSITORY: shoopp
-  EKS_CLUSTER_NAME: shoopp-cluster
   AWS_REGION: eu-west-2
   MONGO_URI: ${{ secrets.MONGO_URI }}
   SECRET: ${{ secrets.SECRET }}
@@ -71,6 +69,5 @@ jobs:
           IMAGE_TAG: ${{ steps.commit.outputs.short }}
         run: |
           sed -i.bak "s|DOCKER_IMAGE|${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}|g" manifests/shoopp-deployment.yaml && \
-          aws eks --region $AWS_REGION update-kubeconfig --name $EKS_CLUSTER_NAME && \
           kubectl apply -f manifests/shoopp-deployment.yaml
 
