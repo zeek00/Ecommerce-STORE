@@ -17,6 +17,8 @@ COPY src/ ./src/
 
 COPY public/ ./public/
 
+COPY Dockerfile ./
+
 RUN npm run build
 
 FROM nginx

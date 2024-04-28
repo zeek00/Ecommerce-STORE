@@ -9,6 +9,7 @@ services:
       - type: bind
         source: ./data
         target: /data/db
+
   nginx:
     depends_on:
       - api
@@ -19,6 +20,8 @@ services:
       context: ./nginx
     ports:
       - "3050:80"
+    image: mynginx:${TAG}  
+
   api:
     build: 
       dockerfile: Dockerfile
@@ -35,6 +38,8 @@ services:
       - PORT=${PORT}
     depends_on:
       - mongodb
+    image: myapi:${TAG}
+
   client:
     build: 
       dockerfile: Dockerfile
@@ -42,4 +47,5 @@ services:
     volumes:
       - /shoopp/node_modules
       - ./client:/shoopp
-    
+    image: myclient:${TAG} 
+
