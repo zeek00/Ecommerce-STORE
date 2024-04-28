@@ -14,6 +14,8 @@ spec:
       labels:
         app: shoopp
     spec:
+    spec:
+      automountServiceAccountToken: false 
       containers:
         - name: shoopp
           image: DOCKER_IMAGE 
@@ -32,3 +34,7 @@ spec:
               value: $VERIFALIA_PASS
             - name: PORT
               value: $PORT
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: 0.5
