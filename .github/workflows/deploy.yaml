@@ -39,15 +39,15 @@ jobs:
           TAG: ${{ steps.commit.outputs.short }}
         run: |
           docker-compose build nginx
-          docker tag mynginx:${TAG} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/mynginx:${TAG}
+          docker tag nginx:${TAG} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/nginx:${TAG}
           docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/mynginx:${TAG}
 
           docker-compose build api
-          docker tag myapi:${TAG} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/myapi:${TAG}
+          docker tag api:${TAG} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/api:${TAG}
           docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/myapi:${TAG}
 
           docker-compose build client
-          docker tag myclient:${TAG} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/myclient:${TAG}
+          docker tag lient:${TAG} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/client:${TAG}
           docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/myclient:${TAG}
 
       - name: Update kubeconfig
