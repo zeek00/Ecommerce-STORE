@@ -72,6 +72,5 @@ jobs:
         run: |
           sed -i.bak "s|DOCKER_IMAGE|${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}|g" manifests/shoopp-deployment.yaml && \
           aws eks --region $AWS_REGION update-kubeconfig --name $EKS_CLUSTER_NAME && \
-          kubectl apply -f manifests/shoopp-deployment.yaml &&
-          kubectl apply -f manifests/shoopp-service.yaml
+          kubectl apply -f manifests/shoopp-deployment.yaml
 
