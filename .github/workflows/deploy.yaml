@@ -35,7 +35,7 @@ jobs:
 
       - name: Build and push Docker images using docker files
         env:
-          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+          AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
           ECR_REPOSITORY: ${{secrets.ECR_REPOSITORY}}
           IMAGE_TAG: ${{ steps.commit.outputs.short }}
           MONGO_URI: ${{ secrets.MONGO_URI }}
@@ -59,7 +59,7 @@ jobs:
 
       - name: Deploy to Amazon EKS
         env:
-          ECR_REGISTRY: $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com
+          ECR_REGISTRY: ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com
           ECR_REPOSITORY: ${{secrets.ECR_REPOSITORY}}
           IMAGE_TAG: ${{ steps.commit.outputs.short }}
         run: |
