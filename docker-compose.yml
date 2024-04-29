@@ -20,7 +20,7 @@ services:
       dockerfile: ../nginx/Dockerfile
     ports:
       - "3050:80"
-    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:nginx-${TAG}  
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:nginx-${IMAGE_TAG}  
 
   api:
     build: 
@@ -38,15 +38,14 @@ services:
       - PORT=${PORT}
     depends_on:
       - mongodb
-    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:api-${TAG}
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:api-${IMAGE_TAG}
 
   client:
     build: 
       context: ./client
       dockerfile: ../client/Dockerfile
-
     volumes:
       - /shoopp/node_modules
       - ../client:/shoopp
-    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:client-${TAG}
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:client-${IMAGE_TAG}
 
