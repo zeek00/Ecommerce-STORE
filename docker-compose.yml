@@ -16,19 +16,19 @@ services:
       - client
     restart: always
     build: 
+      dockerfile: Dockerfile
       context: ./nginx
-      dockerfile: ../nginx/Dockerfile
     ports:
       - "3050:80"
     image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:nginx-${IMAGE_TAG}  
 
   api:
     build: 
+      dockerfile: Dockerfile
       context: './server'
-      dockerfile: ../server/Dockerfile
     volumes:
       - /shoopp/node_modules
-      - ../server:/shoopp
+      - ./server:/shoopp
     environment:
       - MONGO_URI=${MONGO_URI}
       - SECRET=${SECRET}
@@ -42,10 +42,10 @@ services:
 
   client:
     build: 
+      dockerfile: Dockerfile
       context: ./client
-      dockerfile: ../client/Dockerfile
     volumes:
       - /shoopp/node_modules
-      - ../client:/shoopp
+      - ./client:/shoopp
     image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:client-${IMAGE_TAG}
 
