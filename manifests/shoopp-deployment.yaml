@@ -40,18 +40,10 @@ spec:
           image: DOCKER_IMAGE_NGINX
           ports:
             - containerPort: 80
-          resources:
-            limits:
-              memory: "512Mi"
-              cpu: 0.5
         - name: client
           image: DOCKER_IMAGE_CLIENT
           ports:
             - containerPort: 3000
-          resources:
-            limits:
-              memory: "512Mi"
-              cpu: 0.5
 ---
 
 apiVersion: v1
