@@ -45,35 +45,18 @@ jobs:
           VERIFALIA_PASS: ${{ secrets.VERIFALIA_PASS }}
           PORT: ${{ secrets.PORT }}
         run: |
-          # Build nginx service
           docker-compose -f docker-compose.yml build nginx
-          IMAGE_NGINX="nginx:${{ steps.commit.outputs.short }}"
-          if ! docker inspect "$IMAGE_NGINX" &> /dev/null; then
-            echo "Error: Docker image '$IMAGE_NGINX' does not exist."
-            exit 1
-          fi
-          docker tag "$IMAGE_NGINX" $AWS_ACCOUNT_ID.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/$ECR_REPOSITORY:nginx-${{ steps.commit.outputs.short }}
-          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/$ECR_REPOSITORY:nginx-${{ steps.commit.outputs.short }}
+          docker tag nginx:${{ steps.commit.outputs.short }} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:nginx-${{ steps.commit.outputs.short }}
+          docker images nginx
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:nginx-${{ steps.commit.outputs.short }}
 
-          # Build api service
           docker-compose -f docker-compose.yml build api
-          IMAGE_API="api:${{ steps.commit.outputs.short }}"
-          if ! docker inspect "$IMAGE_API" &> /dev/null; then
-            echo "Error: Docker image '$IMAGE_API' does not exist."
-            exit 1
-          fi
-          docker tag "$IMAGE_API" $AWS_ACCOUNT_ID.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/$ECR_REPOSITORY:api-${{ steps.commit.outputs.short }}
-          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/$ECR_REPOSITORY:api-${{ steps.commit.outputs.short }}
+          docker tag api:${{ steps.commit.outputs.short }} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:api-${{ steps.commit.outputs.short }}
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:api-${{ steps.commit.outputs.short }}
 
-          # Build client service
           docker-compose -f docker-compose.yml build client
-          IMAGE_CLIENT="client:${{ steps.commit.outputs.short }}"
-          if ! docker inspect "$IMAGE_CLIENT" &> /dev/null; then
-            echo "Error: Docker image '$IMAGE_CLIENT' does not exist."
-            exit 1
-          fi
-          docker tag "$IMAGE_CLIENT" $AWS_ACCOUNT_ID.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/$ECR_REPOSITORY:client-${{ steps.commit.outputs.short }}
-          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/$ECR_REPOSITORY:client-${{ steps.commit.outputs.short }}
+          docker tag client:${{ steps.commit.outputs.short }} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:client-${{ steps.commit.outputs.short }}
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:client-${{ steps.commit.outputs.short }}
 
       - name: Update kubeconfig
         run: aws eks update-kubeconfig --name ${{secrets.EKS_CLUSTER_NAME}} --region ${{secrets.AWS_REGION}}
