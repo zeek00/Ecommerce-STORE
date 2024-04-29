@@ -4,7 +4,7 @@ on:
     branches: [master]
 
 env:
-  AWS_REGION: eu-west-2
+  AWS_REGION: "eu-west-2"
 
 jobs:
   build-and-deploy:
@@ -35,9 +35,9 @@ jobs:
 
       - name: Build and push Docker images using docker-compose
         env:
-          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-          ECR_REPOSITORY: ${{secrets.ECR_REPOSITORY}}
-          IMAGE_TAG: ${{ steps.commit.outputs.short }}
+          AWS_ACCOUNT_ID: "${{ secrets.AWS_ACCOUNT_ID }}"
+          ECR_REPOSITORY: "${{secrets.ECR_REPOSITORY}}"
+          IMAGE_TAG: "${{ steps.commit.outputs.short }}"
           MONGO_URI: ${{ secrets.MONGO_URI }}
           SECRET: ${{ secrets.SECRET }}
           TOKEN_KEY: ${{ secrets.TOKEN_KEY }}
@@ -46,16 +46,16 @@ jobs:
           PORT: ${{ secrets.PORT }}
         run: |
           docker-compose -f docker-compose.yml build nginx
-          docker tag nginx $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:nginx-${$IMAGE_TAG}
-          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:nginx-${$IMAGE_TAG}
+          docker tag nginx "$AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:nginx-${$IMAGE_TAG}"
+          docker push "$AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:nginx-${$IMAGE_TAG}"
 
           docker-compose -f docker-compose.yml build api
-          docker tag api $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:api-${$IMAGE_TAG}
-          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:api-${$IMAGE_TAG}
+          docker tag api "$AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:api-${$IMAGE_TAG}"
+          docker push "$AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:api-${$IMAGE_TAG}"
 
           docker-compose -f docker-compose.yml build client
-          docker tag client $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:client-${$IMAGE_TAG}
-          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:client-${$IMAGE_TAG}
+          docker tag client "$AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:client-${$IMAGE_TAG}"
+          docker push "$AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:client-${$IMAGE_TAG}"
 
       - name: Update kubeconfig
         run: aws eks update-kubeconfig --name ${{secrets.EKS_CLUSTER_NAME}} --region ${{secrets.AWS_REGION}}
