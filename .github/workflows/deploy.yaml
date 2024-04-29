@@ -45,15 +45,15 @@ jobs:
           VERIFALIA_PASS: ${{ secrets.VERIFALIA_PASS }}
           PORT: ${{ secrets.PORT }}
         run: |
-          docker-compose build nginx
+          docker-compose -f docker-compose.yml build nginx
           docker tag nginx:${{ steps.commit.outputs.short }} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:nginx-${{ steps.commit.outputs.short }}
           docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:nginx-${{ steps.commit.outputs.short }}
 
-          docker-compose build api
+          docker-compose -f docker-compose.yml build api
           docker tag api:${{ steps.commit.outputs.short }} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:api-${{ steps.commit.outputs.short }}
           docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:api-${{ steps.commit.outputs.short }}
 
-          docker-compose build client
+          docker-compose -f docker-compose.yml build client
           docker tag client:${{ steps.commit.outputs.short }} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:client-${{ steps.commit.outputs.short }}
           docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:client-${{ steps.commit.outputs.short }}
 
