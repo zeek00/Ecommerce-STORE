@@ -20,7 +20,7 @@ services:
       context: ./nginx
     ports:
       - "3050:80"
-    image: nginx:${TAG}  
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:nginx-${TAG}  
 
   api:
     build: 
@@ -38,7 +38,7 @@ services:
       - PORT=${PORT}
     depends_on:
       - mongodb
-    image: api:${TAG}
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:api-${TAG}
 
   client:
     build: 
@@ -47,5 +47,5 @@ services:
     volumes:
       - /shoopp/node_modules
       - ./client:/shoopp
-    image: client:${TAG} 
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:client-${TAG}
 
