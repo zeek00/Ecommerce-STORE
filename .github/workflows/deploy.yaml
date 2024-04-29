@@ -44,7 +44,7 @@ jobs:
           VERIFALIA_USER: ${{ secrets.VERIFALIA_USER }}
           VERIFALIA_PASS: ${{ secrets.VERIFALIA_PASS }}
           PORT: ${{ secrets.PORT }}
-         run: |
+        run: |
           # Build nginx service
           docker-compose -f docker-compose.yml build nginx
           IMAGE_NGINX="nginx:${{ steps.commit.outputs.short }}"
