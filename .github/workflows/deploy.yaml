@@ -47,7 +47,9 @@ jobs:
         run: |
           docker-compose -f docker-compose.yml build nginx
           docker tag nginx:${{ steps.commit.outputs.short }} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:nginx-${IMAGE_TAG}
-          docker images
+        - name: Inspect Docker Image
+          run: |
+            docker image inspect nginx:${{ steps.commit.outputs.short }}
           docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:nginx-${IMAGE_TAG}
 
           docker-compose -f docker-compose.yml build api
