@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+apiVersion: apps/v1.29
 kind: Deployment
 metadata:
   name: shoopp-deployment
@@ -15,8 +15,8 @@ spec:
     spec:
       automountServiceAccountToken: false 
       containers:
-        - name: shoopp
-          image: DOCKER_IMAGE 
+        - name: api
+          image: DOCKER_IMAGE_API
           ports:
             - containerPort: 3050
           env:
@@ -32,6 +32,22 @@ spec:
               value: $VERIFALIA_PASS
             - name: PORT
               value: $PORT
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: 0.5
+        - name: nginx
+          image: DOCKER_IMAGE_NGINX
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: 0.5
+        - name: client
+          image: DOCKER_IMAGE_CLIENT
+          ports:
+            - containerPort: 3000
           resources:
             limits:
               memory: "512Mi"
