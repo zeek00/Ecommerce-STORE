@@ -45,17 +45,19 @@ jobs:
           VERIFALIA_PASS: ${{ secrets.VERIFALIA_PASS }}
           PORT: ${{ secrets.PORT }}
         run: |
-          docker images
           docker-compose -f docker-compose.yml build nginx
           docker tag nginx:${{ steps.commit.outputs.short }} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:nginx-${IMAGE_TAG}
+          docker images
           docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:nginx-${IMAGE_TAG}
 
           docker-compose -f docker-compose.yml build api
           docker tag api:${{ steps.commit.outputs.short }} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:api-${IMAGE_TAG}
+          docker images
           docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:api-${IMAGE_TAG}
 
           docker-compose -f docker-compose.yml build client
           docker tag client:${{ steps.commit.outputs.short }} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:client-${IMAGE_TAG}
+          docker images
           docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:client-${IMAGE_TAG}
 
       - name: Update kubeconfig
