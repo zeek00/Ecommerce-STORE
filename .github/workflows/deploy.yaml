@@ -33,7 +33,7 @@ jobs:
         run: |
           aws ecr get-login-password --region ${{secrets.AWS_REGION}} | docker login --username AWS --password-stdin ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com
 
-      - name: Build and push Docker images using docker-compose
+      - name: Build and push Docker images using docker files
         env:
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
           ECR_REPOSITORY: ${{secrets.ECR_REPOSITORY}}
@@ -45,16 +45,13 @@ jobs:
           VERIFALIA_PASS: ${{ secrets.VERIFALIA_PASS }}
           PORT: ${{ secrets.PORT }}
         run: |
-          docker-compose -f docker-compose.yml build nginx
-          docker tag nginx-${IMAGE_TAG} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:nginx-${IMAGE_TAG}
+          docker build -t ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:nginx-${IMAGE_TAG} ./nginx
           docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:nginx-${IMAGE_TAG}
 
-          docker-compose -f docker-compose.yml build api
-          docker tag api-${IMAGE_TAG} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:api-${IMAGE_TAG}
+          docker build -t ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:api-${IMAGE_TAG} ./server
           docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:api-${IMAGE_TAG}
 
-          docker-compose -f docker-compose.yml build client
-          docker tag client-${IMAGE_TAG} $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:client-${IMAGE_TAG}
+          docker build -t ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:client-${IMAGE_TAG} ./client
           docker push $AWS_ACCOUNT_ID.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/$ECR_REPOSITORY:client-${IMAGE_TAG}
 
       - name: Update kubeconfig
