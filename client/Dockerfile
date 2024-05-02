@@ -1,4 +1,4 @@
-FROM node:18.16.0-slim as builder
+FROM node:22.0.0-slim as builder
 
 RUN addgroup --gid 1001 clientgroup \
     && adduser --uid 1001 --ingroup clientgroup --home /home/client --disabled-password clientuser

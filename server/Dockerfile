@@ -1,4 +1,4 @@
-FROM node:18.16.0-slim
+FROM node:22.0.0-slim
 
 RUN addgroup --gid 1001 servergroup \
     && adduser --uid 1001 --ingroup servergroup --home /home/server --disabled-password serveruser
