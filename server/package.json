@@ -1,12 +1,12 @@
 {
-  "name": "server",
+  "name": "shoopp-server",
   "version": "1.0.0",
   "description": "backend server for ecommerce web app",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "server": "nodemon",
-    "frontend": "npm run start --prefix ../client",
+    "client": "npm run start --prefix ../client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "jest --watch",
     "build": "docker build -t shoopp-dev:1.0.0 -f Dockerfile ."

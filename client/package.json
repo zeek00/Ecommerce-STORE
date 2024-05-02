@@ -1,5 +1,5 @@
 {
-  "name": "shoopp",
+  "name": "shoopp-client",
   "version": "0.1.0",
   "description": "frontend client for ecommerce web app",
   "private": true,

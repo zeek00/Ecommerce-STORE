@@ -9,7 +9,13 @@ const Main = styled.main`
     overflow: auto;
     scrollbar-width: thin;
     scrollbar-color: transparent transparent;
-    @media only screen and (max-width: 480px) {
+    
+    
+    @media only screen and (orientation: landscape) {
+        margin-top: 4rem;    
+    }
+
+    @media only screen and (max-width: 480px){
         margin-top: 3rem;
         
     }

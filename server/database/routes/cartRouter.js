@@ -29,8 +29,6 @@ cartRouter.param('id', async (req, res, next, id) => {
 cartRouter.post('/add', async (req, res) => {
     try {
         const { id, items } = req.body;
-        console.log(id)
-        console.log(items)
         const user = await Cart.findById(id);
 
         if (!user) {
@@ -71,8 +69,6 @@ cartRouter.post('/add', async (req, res) => {
 cartRouter.delete('/delete/:userId/:itemId', async (req, res) => {
     try {
         const { itemId, userId } = req.params;
-        console.log(userId)
-
         const user = await Cart.findById(userId);
 
         if (!user) {

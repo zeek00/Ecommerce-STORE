@@ -9,6 +9,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import PostsRoutes from '../../app/routes';
 import { selectCurrentUser } from '../../features/selectors';
 import { logOutAsync } from '../../features/session/dataThunks';
+import { persistor } from '../../app/store';
 
 
 const Div = styled.div`
@@ -103,8 +104,12 @@ const UserMenu = ({ isOpen, onClose }) => {
   
   const handleLogoutClick = () => {
     if(userNow){
-      dispatch(logOutAsync())
-    }
+      dispatch(logOutAsync()).then(() => {
+        persistor.purge();
+        navigate(PostsRoutes.home.home());
+      }).catch(error => {
+        console.error('Logout failed:', error);
+      });    }
     if(userNow === null ){
       navigate(PostsRoutes.home.home());
     }

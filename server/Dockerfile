@@ -5,14 +5,13 @@ RUN addgroup --gid 1001 servergroup \
 
 WORKDIR /shoopp
 
-COPY ./package.json ./package-lock.json ./
+COPY ./package.json ./
 
 RUN chown -R serveruser:servergroup /shoopp \
     && npm install --ignore-scripts \
     && chown -R serveruser:servergroup /shoopp/node_modules
 
 USER serveruser
-
 COPY database/ ./database/
 COPY middleware/ ./middleware/
 COPY utilities/ ./utilities/

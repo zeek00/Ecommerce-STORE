@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useCallback} from 'react'
 import { selectCurrentUser} from '../../features/selectors'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
@@ -107,6 +107,7 @@ const Liked = styled.div`
     ::-webkit-scrollbar-thumb:hover{
         background: #dcd0a4;
     }
+    
    
 
    
@@ -117,102 +118,80 @@ const Liked = styled.div`
 
 
 const LikedItems = ()=> {
-    const [, setClicked] = useState(false);
     const [data, setData] = useState([]);
     const user = useSelector(selectCurrentUser);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
 
-    const userId = user ? user._id : null;
+    const userId = user?._id;
 
   
-    useEffect(()=>{
-        const apiFetch = async () =>{
-            try{
-                if(userId){
-                    const savedItems =  await dispatch(fetchUserLikesAsync(userId));
-                    setData(savedItems.payload);
-                }
-    
-            }catch(err){
-                console.error('Failure');
-    
-            }
-
-        }
-        apiFetch();
-    }, [userId, dispatch])
-
-    const handleButonClick = (e)=>{
-        e.preventDefault();
-        navigate('/' + e.target.value)
-        setClicked(true) 
-   }
-    
-    const handleClick = () => {
-        navigate(PostsRoutes.signAction.signin());
-    };
-    
-    const handleRemoval = async (itemId) =>{
+    const fetchLikedItems = useCallback(async () => {
         try {
-            await dispatch(DeleteItemFromUserLikesAsync({
-                itemId: itemId,
-                userId: user._id
-            }));
-            // After successful deletion, re-fetch the liked items
-            const updatedLikedItems = await dispatch(fetchUserLikesAsync(userId));
-            setData(updatedLikedItems.payload);
+            if (userId) {
+                const savedItems = await dispatch(fetchUserLikesAsync(userId));
+                setData(savedItems.payload);
+            }
         } catch (err) {
-            console.error(err);
+            console.error('Failed to fetch liked items:', err);
         }
-    }
+    }, [userId, dispatch]);
+
+    useEffect(() => {
+        fetchLikedItems();
+    }, [fetchLikedItems]);
+
+    const handleButonClick = useCallback((e) => {
+        e.preventDefault();
+        navigate('/' + e.target.value);
+    }, [navigate]);
+    
+   const handleClick = useCallback(() => {
+    navigate(PostsRoutes.signAction.signin());
+}, [navigate]);
+    
+    const handleRemoval = useCallback(async (itemId) => {
+        try {
+            await dispatch(DeleteItemFromUserLikesAsync({ itemId, userId }));
+            fetchLikedItems(); // Fetch liked items again after removal
+        } catch (err) {
+            console.error('Failed to remove item from liked items:', err);
+        }
+    }, [dispatch, fetchLikedItems, userId]);
 
 
-  return (
+    return (
 
         <Liked>
+            {user && data.length === 0 && (
+                <div className='noUserBox'>
+                    <GiHeartMinus className='icon'/>
+                    <h2>You have no Saved Items</h2>
+                </div>
+            )}
 
-            <div className='main'>
-                {
-                    user &&  data.length === 0 && 
-                    (
-                        <div className='noUserBox'>
-                            <GiHeartMinus className='icon'/>
-                            <h2>You have no Saved Items</h2>
-                        </div>
-                    )
-
-                }
-
-                {
-                    user && data.length !== 0 &&
-                    ( 
-                        <div className="container">
-                            <h2>Favourites</h2>   
-                            <div className='userBox'>
-                                {data.map(savedItem => (
-                                    <div key ={savedItem.price} className='item'>
-                                        <div className="img">
-                                            <img src={savedItem.images[0]} alt="" />
-                                            <button onClick={()=>handleRemoval(savedItem.id)}><PiTrash className='icon'/></button>
-                                        </div>
-                                        <p>{savedItem.title}</p>
-                                        <p>£{savedItem.price}</p>
-                                        <Button color='#fff' value={savedItem.title} onClick={handleButonClick}  padding='0.8rem' label='Buy' width='100%' borderRadius='0'/>
-                                    </div>)
-                                )}
-                            </div>
-                                
-                        </div>
-                    )
-                    
-                }
+            {data.length !== 0 && ( 
+                <div className="container">
+                    <h2>Favourites</h2>   
+                    <div className='userBox'>
+                        {data.map(savedItem => (
+                            <div key ={savedItem.price} className='item'>
+                                <div className="img">
+                                    <img src={savedItem.images[0]} alt="" />
+                                    <button onClick={()=>handleRemoval(savedItem.id)}><PiTrash className='icon'/></button>
+                                </div>
+                                <p>{savedItem.title}</p>
+                                <p>£{savedItem.price}</p>
+                                <Button color='#fff' value={savedItem.title} onClick={handleButonClick}  padding='0.8rem' label='Buy' width='100%' borderRadius='0'/>
+                            </div>)
+                        )}
+                    </div>
+                        
+                </div>
+            )}
             
-            </div>
-        { 
-            !user &&
-            (
+            {!user && (
                 <div className='noUserBox'>
                     <GiHeartMinus className='icon'/>
                     <h2>Logging to view</h2>  
@@ -223,10 +202,7 @@ const LikedItems = ()=> {
                         width='100%'
                     />
                 </div>
-            )
-        }
-    
-
+            )}
         </Liked>
     );
 };

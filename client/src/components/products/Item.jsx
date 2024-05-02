@@ -183,7 +183,7 @@ const Item = ({item}) => {
             }
         }
         apiCall();
-    }, [data, user, cartError.message, dispatch])
+    }, [data, user, dispatch])
 
     useEffect(() => {
         // Check for success or error messages

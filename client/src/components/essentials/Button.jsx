@@ -22,8 +22,9 @@ const StyledButton = styled.button`
   &:hover {
     background-color: #222;
     color: #dcd0a4;
-    font-weight: 100;
-    transition: 0.5s ease-in;
+    font-weight: 300;
+    font-size: 1.2rem;
+    transition: 0.2s ease-in;
 
 
   }
