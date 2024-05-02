@@ -63,7 +63,6 @@ likesRouter.post('/add', async (req, res) => {
   likesRouter.delete('/delete/:userId/:itemId', async (req, res) => {
     try {
         const { itemId, userId } = req.params;
-        console.log(userId)
 
         const user = await Likes.findById(userId);
 

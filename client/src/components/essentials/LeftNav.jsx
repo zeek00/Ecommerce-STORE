@@ -285,7 +285,7 @@ const LeftNav = ({open, setOpen}) => {
                 {electronics ? <IoIosArrowUp onClick={()=>handleArrowUpClick()} /> :<IoIosArrowDown onClick={()=> handleArrowDownClick('electronics')}/>}
               </button>
             </div>
-            <button className={`layertwo ${electronics ? 'visible' : ''}`} tabIndex={0} Click={()=>handleLayerClick()} onKeyDown={(e)=>handleKeyDown(e)}>
+            <button className={`layertwo ${electronics ? 'visible' : ''}`} tabIndex={0} onClick={()=>handleLayerClick()} onKeyDown={(e)=>handleKeyDown(e)}>
               {electronics && <Categories link={'products/electronics/'} lnav={true} category={'electronics'} selectedCategory={etronicsCategories}/>}
 
             </button>

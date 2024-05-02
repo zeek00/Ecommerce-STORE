@@ -17,7 +17,7 @@ const Container = styled.div`
     .item{        
         height: 20vh;
         background:rgb(242,242,242);
-        box-shadow: 0px 0px 1.7px 0px #dcd0a4;
+        box-shadow: 1.3px 2px 1.7px 1px rgb(0,0,0,0.3);
         border-radius: 0.4rem;
         padding: 1rem 1rem;
         margin-bottom: 1.7rem;
@@ -28,7 +28,7 @@ const Container = styled.div`
         width: 28%;
         height: 25vh;
         background: rgb(242,242,242);
-        box-shadow: 0px 0px 1.7px 0px #dcd0a4;
+        box-shadow: 1.3px 2px 1.7px 1px rgb(0,0,0,0.3);
         border-radius: 0.4rem;
         padding: 1rem 1rem;
         display: flex;
@@ -70,7 +70,15 @@ const Container = styled.div`
         margin-top: auto;
         width: fit-content;
         cursor: pointer;
+        &:hover {
+            background-color: #222;
+            color: #dcd0a4;
+            font-weight: 300;
+            font-size: 1.2rem;
+            transition: 0.2s ease-in;
         
+        
+          }
     }
 
     .total{
@@ -123,6 +131,18 @@ const Container = styled.div`
         
         
         
+    }
+
+    @media only screen and (orientation: landscape){
+        justify-content: space-between;
+        .item{
+            gap: 10rem;
+        }
+
+        .summary{
+            gap: 2rem;
+        }
+
     }
 
     @media only screen and (min-width: 768px) and (max-width: 991px) and (orientation: landscape) {
@@ -309,6 +329,7 @@ const CartItems = ({mainCart}) => {
             <Button
                 width={'100%'}
                 onClick={handleSubmit}
+                borderRadius={'0'}
                 label='Checkout'
             />
         </div>

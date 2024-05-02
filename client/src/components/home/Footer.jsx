@@ -20,7 +20,14 @@ const Footer= ()=> {
             <form action="">
                 <div className={style.form}>
                     <MdOutlineAlternateEmail className={isFocused && style.focusedicon}/>
-                    <input type="email" onFocus={handleFocus} onBlur={() => setIsFocused(false)} placeholder='someone@emailprovider.com' />
+                    <input 
+                        type="email" 
+                        id="email" 
+                        onFocus={handleFocus} 
+                        onBlur={() => setIsFocused(false)} 
+                        placeholder='someone@emailprovider.com' 
+                        autoComplete="email" 
+                    />
                 </div>
                 <Button smPadding={'.4rem'} label='Subscribe' margin={'0'} color='#fff' backgroundColor='#222' borderRadius='0' width={'25%'}/>
             </form>
