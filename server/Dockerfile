@@ -3,6 +3,8 @@ FROM node:22.0.0-slim
 RUN addgroup --gid 1001 servergroup \
     && adduser --uid 1001 --ingroup servergroup --home /home/server --disabled-password serveruser
 
+RUN apt-get update && apt-get install -y python gcc
+
 WORKDIR /shoopp
 
 COPY ./package.json ./
