@@ -167,7 +167,7 @@ const Item = ({item}) => {
     }, [size, clicked, user, item]);
 
     useEffect(() => {
-        const apiCall = useCallback(async () => {
+        const apiCall = async () => {
             try {
                 if (data) {
                     let result = await dispatch(AddItemToUserCartAsync({
@@ -181,10 +181,10 @@ const Item = ({item}) => {
             } catch (error) {
                 setError(prevError => error.message); // Use prevState to avoid the dependency
             }
-        }, [data, user, dispatch]);
+        };
     
         apiCall();
-    }, [apiCall]);
+    }, [data, user, dispatch]);
 
     useEffect(() => {
         // Check for success or error messages
