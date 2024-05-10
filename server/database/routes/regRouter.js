@@ -6,7 +6,7 @@ require('../db');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const regRouter = express.Router();
-const verifalia = require('../../utilities/verifalia')
+const validateEmailWithMx = require('../../utilities/email-validator')
 const verifyToken = require('../../middleware/auth')
 
 
@@ -15,18 +15,16 @@ regRouter.post('/signup', async (req, res) => {
 
   try {
     const { name, email, phone, password } = req.body;
-
-    if (!(email && password && name && phone)) {
+      if (!(email && password && name && phone)) {
       const error = new Error();
       error.code = 400;
       error.message = 'All input is required';
       throw error;
     }
 
-    const validationResponse = await verifalia.emailValidations.submit({
-      emailAddress: email.toString()
-  });
-    if(validationResponse.status !== 'Deliverable'){
+    const validationResult = await validateEmailWithMx(email).then();
+
+    if(validationResult !== 'valid'){
       const error = new Error();
       error.code = 400;
       error.message = 'Invalid Email format';
@@ -95,7 +93,7 @@ regRouter.post('/signup', async (req, res) => {
     res.send('success');
     
   }catch (error) {
-    console.error(error.message);
+    console.error(error);
     res.status(error.code || 500).json({
       message: error.message || 'Internal Server Error',
     });

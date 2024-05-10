@@ -16,7 +16,6 @@ COPY database/ ./database/
 COPY middleware/ ./middleware/
 COPY utilities/ ./utilities/
 COPY api.js ./
-COPY Dockerfile ./
 COPY server.js ./
 
 

@@ -8,7 +8,11 @@ import store, {persistor} from "./app/store";
 import { PersistGate } from 'redux-persist/integration/react';
 import Loading from './components/essentials/Loading';
 import reportWebVitals from './reportWebVitals';
+import {disableReactDevTools} from '@fvilers/disable-react-devtools'
 
+if (process.env.NODE_ENV === 'production') {
+  disableReactDevTools();
+}
 
 
 const root = createRoot(document.getElementById('root'));

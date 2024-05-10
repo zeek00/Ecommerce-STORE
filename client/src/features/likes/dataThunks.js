@@ -8,7 +8,7 @@ import { getToken } from '../../helpers/helperFunctions';
 const fetchUserLikesAsync = createAsyncThunk('cart/fetchUserLikesAsync', async(userId, thunkAPI) => {
     try{
         let accessToken = getToken();
-        const response = await axios.get(`${LIKESURL}/users/${userId}`, {
+        const response = await axios.get(`${process.env.PORT}${LIKESURL}/users/${userId}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': accessToken
@@ -24,7 +24,7 @@ const fetchUserLikesAsync = createAsyncThunk('cart/fetchUserLikesAsync', async(u
 const AddItemToUserLikesAsync = createAsyncThunk('cart/AddItemToUserLikesAsync', async(userData, thunkAPI) => {
     try{
         let accessToken = getToken();
-        const response = await axios.post(`${LIKESURL}/add`, userData, {
+        const response = await axios.post(`${process.env.PORT}${LIKESURL}/add`, userData, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': accessToken
@@ -40,7 +40,7 @@ const DeleteItemFromUserLikesAsync = createAsyncThunk('cart/DeleteItemFromUserLi
     try{
         let accessToken = getToken();
         const {userId, itemId} = userData
-        const response = await axios.delete(`${LIKESURL}/delete/${userId}/${itemId}`, {
+        const response = await axios.delete(`${process.env.PORT}${LIKESURL}/delete/${userId}/${itemId}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': accessToken

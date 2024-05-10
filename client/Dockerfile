@@ -16,8 +16,7 @@ RUN npm install --ignore-scripts
 COPY src/ ./src/
 
 COPY public/ ./public/
-
-COPY Dockerfile ./
+COPY  nginx/ .nginx/
 
 RUN npm run build
 
@@ -33,3 +32,9 @@ RUN find /usr/share/nginx/html -type f -exec chmod 644 {} \; \
     && find /usr/share/nginx/html -type d -exec chmod 755 {} \;
 
 RUN chmod -R -w /usr/share/nginx/html
+
+
+
+
+
+
