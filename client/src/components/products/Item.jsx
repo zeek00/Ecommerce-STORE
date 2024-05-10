@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import styled from 'styled-components';
 import Button from '../essentials/Button';
 import PostsRoutes from '../../app/routes';
@@ -166,10 +166,10 @@ const Item = ({item}) => {
         }
     }, [size, clicked, user, item]);
 
-    useEffect(()=>{
-        const apiCall = async () =>{
+    useEffect(() => {
+        const apiCall = useCallback(async () => {
             try {
-                if(data){
+                if (data) {
                     let result = await dispatch(AddItemToUserCartAsync({
                         id: user._id,
                         items: data
@@ -179,11 +179,12 @@ const Item = ({item}) => {
                     }
                 } 
             } catch (error) {
-                setError(cartError.message);
+                setError(prevError => error.message); // Use prevState to avoid the dependency
             }
-        }
+        }, [data, user, dispatch]);
+    
         apiCall();
-    }, [data, user, dispatch])
+    }, [apiCall]);
 
     useEffect(() => {
         // Check for success or error messages
