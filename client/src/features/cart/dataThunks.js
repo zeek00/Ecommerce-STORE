@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import {CARTURL} from "../../helpers/config";
+import {CARTURL, PORT} from "../../helpers/config";
 import { getToken } from '../../helpers/helperFunctions';
 
 
@@ -8,7 +8,7 @@ import { getToken } from '../../helpers/helperFunctions';
 const fetchUserCartAsync = createAsyncThunk('cart/fetchUserCartAsync', async(userId, thunkAPI) => {
     try{
         let accessToken = getToken();
-    const response = await axios.get(`${process.env.PORT}${CARTURL}/users/${userId}`, {
+    const response = await axios.get(`${PORT}${CARTURL}/users/${userId}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': accessToken
@@ -24,7 +24,7 @@ const fetchUserCartAsync = createAsyncThunk('cart/fetchUserCartAsync', async(use
 const AddItemToUserCartAsync = createAsyncThunk('cart/AddItemToUserCartAsync', async(userData, thunkAPI) => {
     try{
         let accessToken = getToken();
-    const response = await axios.post(`${process.env.PORT}${CARTURL}/add`, userData, {
+    const response = await axios.post(`${PORT}${CARTURL}/add`, userData, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': accessToken
@@ -40,7 +40,7 @@ const DeleteItemFromUserCartAsync = createAsyncThunk('cart/DeleteItemFromUserCar
     try{
         let accessToken = getToken();
         const {userId, itemId} = userData
-    const response = await axios.delete(`${process.env.PORT}${CARTURL}/delete/${userId}/${itemId}`, {
+    const response = await axios.delete(`${PORT}${CARTURL}/delete/${userId}/${itemId}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': accessToken

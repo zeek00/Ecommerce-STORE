@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import {REGURL} from "../../helpers/config";
+import {PORT, REGURL} from "../../helpers/config";
 import { 
   getToken, 
   removeToken, 
@@ -13,7 +13,7 @@ import {
 const fetchAllUsersAsync = createAsyncThunk('session/fetchAllUsersAsync', async (_, thunkAPI) => {
     try{
         const accessToken = getToken();
-        const response = await axios.get(`${process.env.PORT}${REGURL}/users`, {
+        const response = await axios.get(`${PORT}${REGURL}/users`, {
             headers: {
             'Content-Type': 'application/json',
             'Authorization': accessToken
@@ -32,7 +32,7 @@ const fetchAllUsersAsync = createAsyncThunk('session/fetchAllUsersAsync', async 
 const fetchUserDataAsync = createAsyncThunk('session/fetchUserDataAsync', async (_, thunkAPI) => {
     try{
       const accessToken = getToken();
-      const response = await axios.get(`${process.env.PORT}${REGURL}/user`, {
+      const response = await axios.get(`${PORT}${REGURL}/user`, {
         headers:{
           'Content-Type': 'application/json',
           'Authorization': accessToken
@@ -59,7 +59,7 @@ const savedItemsAsync = createAsyncThunk('session/savedItemsAsync', async (userD
             
             // Step 3: Create a new object from the sorted array
             const sortedObject = Object.fromEntries(sortedEntries);
-            const response = await axios.post(`${process.env.PORT}${REGURL}/users/${userData.id}`, sortedObject, {
+            const response = await axios.post(`${PORT}${REGURL}/users/${userData.id}`, sortedObject, {
                 headers: {
                 'Content-Type': 'application/json',
                 'Authorization': accessToken}
@@ -77,7 +77,7 @@ const savedItemsAsync = createAsyncThunk('session/savedItemsAsync', async (userD
   // Async Thunk for signing up
 const signUpAsync = createAsyncThunk('session/signUpAsync', async (userData, thunkAPI) => {
     try {
-      const response = await axios.post(`${process.env.PORT}${REGURL}/signup`, userData);
+      const response = await axios.post(`${PORT}${REGURL}/signup`, userData);
   
       return response.data;
     } catch (error) {
@@ -88,7 +88,7 @@ const signUpAsync = createAsyncThunk('session/signUpAsync', async (userData, thu
   // Async Thunk for signing in
 const signInAsync = createAsyncThunk('session/signInAsync', async (userData, thunkAPI) => {
     try {
-      const response = await axios.post(`${process.env.PORT}${REGURL}/signin`, userData);
+      const response = await axios.post(`${PORT}${REGURL}/signin`, userData);
       setToken(response.data.accessToken);
       setProfile({
         email: response.data.user.email,
@@ -108,7 +108,7 @@ const editUserAsync = createAsyncThunk('session/editUserAsync', async (userData,
         let accessToken = getToken();
         const loggedInUser = thunkAPI.getState().session.users.find(user => user.isLoggedIn);
         if (loggedInUser) {
-            const response = await axios.put(`${process.env.PORT}${REGURL}/users/edit/${loggedInUser.id}`, userData, {
+            const response = await axios.put(`${PORT}${REGURL}/users/edit/${loggedInUser.id}`, userData, {
                 headers: {
                 'Content-Type': 'application/json',
                 'Authorization': accessToken}
