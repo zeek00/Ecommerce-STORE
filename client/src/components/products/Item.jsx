@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import Button from '../essentials/Button';
 import PostsRoutes from '../../app/routes';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrentUser } from '../../features/selectors';
+import { selectCurrentUser, selectCartError } from '../../features/selectors';
 import { AddItemToUserCartAsync } from '../../features/cart/dataThunks';
 import Warning from '../essentials/Warning';
 import { v4 as uuidv4 } from 'uuid';
@@ -133,7 +133,7 @@ const Item = ({item}) => {
     const [size, setSize] = useState(null);
     const [clicked, setClicked] = useState(false);
     const user = useSelector(selectCurrentUser)
-    // const cartError = useSelector(selectCartError);
+    const cartError = useSelector(selectCartError);
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(null)
     const [data, setData] = useState(null)
@@ -166,25 +166,24 @@ const Item = ({item}) => {
         }
     }, [size, clicked, user, item]);
 
-    const apiCall = useCallback(async () => {
-        try {
-            if (data) {
-                let result = await dispatch(AddItemToUserCartAsync({
-                    id: user._id,
-                    items: data
-                }));
-                if (AddItemToUserCartAsync.fulfilled.match(result)) {
-                    setSuccess(result.payload.message);
-                }
+    useEffect(()=>{
+        const apiCall = async () =>{
+            try {
+                if(data){
+                    let result = await dispatch(AddItemToUserCartAsync({
+                        id: user._id,
+                        items: data
+                    }));
+                    if (AddItemToUserCartAsync.fulfilled.match(result)) {
+                        setSuccess(result.payload.message);
+                    }
+                } 
+            } catch (error) {
+                setError(cartError.message);
             }
-        } catch (error) {
-            setError(prevError => error.message);
         }
-    }, [data, user, dispatch]);
-
-    useEffect(() => {
         apiCall();
-    }, [apiCall]);
+    }, [data, user, dispatch])
 
     useEffect(() => {
         // Check for success or error messages
