@@ -22,6 +22,7 @@ import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2';
 const persistConfig = {
     key: 'root',
     storage,
+    whitelist: ['cart', 'likes', 'session'],
     stateReconciler: autoMergeLevel2
 };
 
@@ -56,15 +57,12 @@ export const setupStore = (preloadedState) => {
 export const createPreloadedState = (customState) => {
     const currentState = store.getState();
     return {
-        electronics: { ...currentState.electronics, ...customState.electronics },
-        clothing: { ...currentState.clothing, ...customState.clothing },
         cart: { ...currentState.cart, ...customState.cart },
         likes: { ...currentState.likes, ...customState.likes },
-        loading: { ...currentState.loading, ...customState.loading },
         session: { ...currentState.session, ...customState.session },
-        products: { ...currentState.products, ...customState.products },
     };
 };
+
 export const AppDispatch = store.dispatch;
 export const AppStore = setupStore();
 export const RootState = store.getState();

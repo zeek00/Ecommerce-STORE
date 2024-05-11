@@ -22,7 +22,6 @@ const AuthForm = ({ about, closingAbout, title, fields, authType }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Show the fail message when a sign-up fails
     
     const timeoutId = setTimeout(() => {
       if(error){
