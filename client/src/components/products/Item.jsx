@@ -183,7 +183,8 @@ const Item = ({item}) => {
             }
         }
         apiCall();
-    }, [data, user, dispatch, cartError])
+        // eslint-disable-next-line
+    }, [data, user, dispatch])
 
     useEffect(() => {
         // Check for success or error messages
@@ -201,6 +202,7 @@ const Item = ({item}) => {
           return () => {
             clearTimeout(timeoutId);
           };
+          
     }, [error, success]);
     
     

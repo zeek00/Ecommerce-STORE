@@ -158,7 +158,8 @@ const LikedItems = ()=> {
         } catch (err) {
             console.error('Failed to remove item from liked items:', err);
         }
-    }, [dispatch, fetchLikedItems, userId]);
+        // eslint-disable-next-line
+    }, [dispatch, userId]);
 
 
     return (
