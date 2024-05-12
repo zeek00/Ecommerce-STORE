@@ -3,22 +3,23 @@ import DataManipulation from '../helpers/dataManipulation';
 const dataManipulation = new DataManipulation();
 
 const fetchDataAndSort = async (categories, urls) => {
-    const promises = urls.map(async (url, index) => {
+    return Promise.all(urls.map(async (url, index) => {
         const data = await dataManipulation.getData(url, false);
         return { category: categories[index], data: dataManipulation.sortData(data, categories[index]) };
-    });
+    }));
+};
 
-    return Promise.all(promises);
+const mergeDataAndDispatch = (sortedData, dispatch, setData, addData) => {
+    const mergedData = dataManipulation.mergeData(sortedData.map(item => item.data));
+    setData(mergedData);
+    dispatch(addData(mergedData));
 };
 
 const getDataAndDispatch = async (categories, urls, dispatch, setData, addData) => {
     try {
         const sortedData = await fetchDataAndSort(categories, urls);
-        const mergedData = dataManipulation.mergeData(sortedData.map(item => item.data));
-        setData(mergedData);
-        dispatch(addData(mergedData));
+        mergeDataAndDispatch(sortedData, dispatch, setData, addData);
     } catch (error) {
-        // Handle errors
         console.error('Error fetching data:', error);
     }
 };

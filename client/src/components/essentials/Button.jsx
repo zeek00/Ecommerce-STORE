@@ -24,9 +24,17 @@ const StyledButton = styled.button`
     color: #dcd0a4;
     font-weight: 300;
     font-size: 1.2rem;
-    transition: 0.2s ease-in;
+    transition: 0.2s ease-in-out;
 
 
+  }
+  @media only screen and (max-width: 480px){
+    &:hover {
+      font-size: 1rem;
+  
+  
+    }
+    
   }
   @media only screen and (min-width:480px) and (max-width: 700px) {
     padding: ${({ smPadding }) => smPadding ? smPadding : '.4rem'};

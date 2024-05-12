@@ -15,6 +15,10 @@ const selectCurrentUser = (state) => state.session.currentUser;
 const selectCurrentUserToken = (state) => state.session.token;
 const selectSessionError = (state) => state.session.error;
 const selectSessionLoading = (state) => state.session.isLoading;
+const selectCartLoading = (state) => state.cart.isLoading; 
+const selectLikesLoading = (state) => state.likes.isLoading;
+
+
 
 export {
     selectLoadingState,
@@ -33,6 +37,8 @@ export {
     selectCartError,
     selectMessage,
     selectCartCount,
-    selectLikesCount
+    selectLikesCount,
+    selectCartLoading,
+    selectLikesLoading
 
 };

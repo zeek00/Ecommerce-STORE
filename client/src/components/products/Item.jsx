@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback, useMemo } from 'react'
 import styled from 'styled-components';
 import Button from '../essentials/Button';
 import PostsRoutes from '../../app/routes';
@@ -131,94 +131,52 @@ const Div = styled.div`
 
 const Item = ({item}) => {
     const [size, setSize] = useState(null);
-    const [clicked, setClicked] = useState(false);
-    const user = useSelector(selectCurrentUser)
-    const cartError = useSelector(selectCartError);
-    const [error, setError] = useState(null)
-    const [success, setSuccess] = useState(null)
-    const [data, setData] = useState(null)
-    const dispatch = useDispatch();
+  const [clicked, setClicked] = useState(false);
+  const user = useSelector(selectCurrentUser);
+  const cartError = useSelector(selectCartError);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const [data, setData] = useState(null);
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (!user) {
-             setError('Actions Requires a signed in user');
-        }
-            
-        if(user){
-            if(clicked){
-                if(item.category === 'shirts' || item.category === 'dresses' || item.category === 'tops' ){
-                    if(!size){
-                        setError('Select a size');
-                    }
-                }else{
-                    const { id, ...newItem } = item;
-                    const updatedItem = {id: uuidv4(), ...newItem}
-                    setData(updatedItem) 
-                }
-                if(size){
-                    const { id, ...newItem } = item;
-                    const updatedItem = {id: uuidv4(), size: size, ...newItem}
-                    console.log(updatedItem)
-                    setData(updatedItem)                    
-                }
-                
-            }
-        }
-    }, [size, clicked, user, item]);
-
-    useEffect(()=>{
-        const apiCall = async () =>{
-            try {
-                if(data){
-                    let result = await dispatch(AddItemToUserCartAsync({
-                        id: user._id,
-                        items: data
-                    }));
-                    if (AddItemToUserCartAsync.fulfilled.match(result)) {
-                        setSuccess(result.payload.message);
-                    }
-                } 
-            } catch (error) {
-                setError(cartError.message);
-            }
-        }
-        apiCall();
-        // eslint-disable-next-line
-    }, [data, user, dispatch])
-
-    useEffect(() => {
-        // Check for success or error messages
-        const timeoutId = setTimeout(() => {
-            
-            if(error){
-              setError(null);
-            }
-            if(success){
-                setSuccess(null);
-            }
-      
-          }, 5000);
-      
-          return () => {
-            clearTimeout(timeoutId);
-          };
-          
-    }, [error, success]);
-    
-    
-    const handleSizeChange = (e)=>{
-        e.preventDefault();
-        console.log(e.target.value)
-        setSize(e.target.value);
-        setError(null);
-
+  const updatedItem = useMemo(() => {
+    if (!user || !clicked) return null;
+    if (item.category === 'shirts' || item.category === 'dresses' || item.category === 'tops') {
+      if (!size) return null;
+      return { id: uuidv4(), size, ...item };
     }
-    
-    const handleButonClick = ()=>{
-        setClicked(true) 
-    }
-    
-    
+    return { id: uuidv4(), ...item };
+  }, [user, item, clicked, size]);
+
+  useEffect(() => {
+    if (!user) setError('Actions Requires a signed in user');
+    if (updatedItem) setData(updatedItem);
+  }, [user, updatedItem]);
+
+  useEffect(() => {
+    const apiCall = async () => {
+      try {
+        if (data) {
+          const result = await dispatch(AddItemToUserCartAsync({ id: user._id, items: data }));
+          if (AddItemToUserCartAsync.fulfilled.match(result)) {
+            setSuccess(result.payload.message);
+          }
+        }
+      } catch (error) {
+        setError(cartError.message);
+      }
+    };
+    apiCall();
+  }, [data, user, dispatch, cartError]);
+
+  const handleSizeChange = useCallback((e) => {
+    setSize(e.target.value);
+    setError(null);
+  }, []);
+
+  const handleButonClick = useCallback(() => {
+    setClicked(true);
+  }, []);
 
   return (
     <Div>

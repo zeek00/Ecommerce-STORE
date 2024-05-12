@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react'
-import { selectCurrentUser} from '../../features/selectors'
+import { selectCurrentUser, selectLikesLoading} from '../../features/selectors'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import Button from '../essentials/Button';
@@ -9,8 +9,24 @@ import PostsRoutes from '../../app/routes';
 import { PiTrash } from "react-icons/pi";
 import { css } from '../../helpers/cssVariables';
 import { DeleteItemFromUserLikesAsync, fetchUserLikesAsync } from '../../features/likes/dataThunks';
+import Loading from '../essentials/Loading';
 
-
+const SiteNav = styled.div`
+    padding: 0.8rem;
+    display: flex;
+    gap: 0.4rem;
+    button{
+        color: #222;
+        font-weight: 200;
+        border: none;
+        cursor: pointer;
+    }
+    button:hover{
+        color: ${css.primarySharp};
+        font-weight: 300;
+        cursor: pointer;
+    }
+`;
 
 const Liked = styled.div`
     display: flex;
@@ -122,6 +138,7 @@ const LikedItems = ()=> {
     const user = useSelector(selectCurrentUser);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const loading = useSelector(selectLikesLoading);
 
 
     const userId = user?._id;
@@ -154,7 +171,7 @@ const LikedItems = ()=> {
     const handleRemoval = useCallback(async (itemId) => {
         try {
             await dispatch(DeleteItemFromUserLikesAsync({ itemId, userId }));
-            fetchLikedItems(); // Fetch liked items again after removal
+            fetchLikedItems();
         } catch (err) {
             console.error('Failed to remove item from liked items:', err);
         }
@@ -163,48 +180,54 @@ const LikedItems = ()=> {
 
 
     return (
-
-        <Liked>
-            {user && data.length === 0 && (
-                <div className='noUserBox'>
-                    <GiHeartMinus className='icon'/>
-                    <h2>You have no Saved Items</h2>
-                </div>
-            )}
-
-            {data.length !== 0 && ( 
-                <div className="container">
-                    <h2>Favourites</h2>   
-                    <div className='userBox'>
-                        {data.map(savedItem => (
-                            <div key ={savedItem.price} className='item'>
-                                <div className="img">
-                                    <img src={savedItem.images[0]} alt="" />
-                                    <button onClick={()=>handleRemoval(savedItem.id)}><PiTrash className='icon'/></button>
-                                </div>
-                                <p>{savedItem.title}</p>
-                                <p>£{savedItem.price}</p>
-                                <Button color='#fff' value={savedItem.title} onClick={handleButonClick}  padding='0.8rem' label='Buy' width='100%' borderRadius='0'/>
-                            </div>)
-                        )}
+        <>
+            <SiteNav>
+                <button onClick={()=>navigate(PostsRoutes.home.home())}> {'Home' }</button>
+                <button onClick={()=>navigate(-1)}> {'< Go back' }</button>
+            </SiteNav>
+            <Liked>
+                {user && data.length === 0 && (
+                    <div className='noUserBox'>
+                        <GiHeartMinus className='icon'/>
+                        <h2>You have no Saved Items</h2>
                     </div>
-                        
-                </div>
-            )}
-            
-            {!user && (
-                <div className='noUserBox'>
-                    <GiHeartMinus className='icon'/>
-                    <h2>Logging to view</h2>  
-                    <Button
-                        onClick={handleClick}
-                        borderRadius='0'
-                        label='SIGN IN'
-                        width='100%'
-                    />
-                </div>
-            )}
-        </Liked>
+                )}
+
+                {data.length !== 0 && ( 
+                    <div className="container">
+                        <h2>Favourites</h2>   
+                        <div className='userBox'>
+                            {loading && <Loading/>} 
+                            {data.map(savedItem => (
+                                <div key ={savedItem.price} className='item'>
+                                    <div className="img">
+                                        <img src={savedItem.images[0]} alt="" />
+                                        <button onClick={()=>handleRemoval(savedItem.id)}><PiTrash className='icon'/></button>
+                                    </div>
+                                    <p>{savedItem.title}</p>
+                                    <p>£{savedItem.price}</p>
+                                    <Button color='#fff' value={savedItem.title} onClick={handleButonClick}  padding='0.8rem' label='Buy' width='100%' borderRadius='0'/>
+                                </div>)
+                            )}
+                        </div>
+                            
+                    </div>
+                )}
+                
+                {!user && (
+                    <div className='noUserBox'>
+                        <GiHeartMinus className='icon'/>
+                        <h2>Logging to view</h2>  
+                        <Button
+                            onClick={handleClick}
+                            borderRadius='0'
+                            label='SIGN IN'
+                            width='100%'
+                        />
+                    </div>
+                )}
+            </Liked>
+        </>
     );
 };
 
