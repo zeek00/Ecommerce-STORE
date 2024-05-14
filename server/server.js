@@ -5,7 +5,7 @@ const cors = require('cors');
 const apiRouter = require('./api')
 const sessionMiddleware = require('./middleware/session');
 
-const allowedOrigins = ['http://localhost:3050', 'http://localhost:3000', 'http://shoopp.zeekdevs.com'];
+const allowedOrigins = ['https://shoopps.netlify.app'];
 
 
 app.use(express.json()); 

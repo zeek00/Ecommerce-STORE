@@ -137,7 +137,7 @@ const Header = () => {
           id='search'
           type='search' 
           placeholder='Search a category'
-          onChange={(e)=>{setSearchPhrase(e.target.value)}}
+          onChange={(e)=>{setSearchPhrase(e.target.value.toLowerCase())}}
           onKeyDown={handleKeyPress}
           />}
           <Link className={style.link} aria-label="Search">
