@@ -37,7 +37,7 @@ const Footer= ()=> {
 
             <div className={style.container}>
                 <div className={style.categories}>
-                    <h3>Categories</h3> {/* Changed to h3 for subsection title */}
+                    <h3>Categories</h3> 
                     <ul>
                         <li>men</li>
                         <li>women</li>
@@ -46,16 +46,16 @@ const Footer= ()=> {
                 </div>
                     
                 <div className={style.accessories}>
-                    <h3>accessories</h3> {/* Changed to h3 for subsection title */}
+                    <h3>accessories</h3> 
                     <ul>
                         <li>bags</li>
-                        <li>watches</li> {/* Corrected typo in "watches" */}
+                        <li>watches</li> 
                         <li>shoes</li>
                     </ul>
                 </div>
 
                 <div className={style.company}>
-                    <h3>company</h3> {/* Changed to h3 for subsection title */}
+                    <h3>company</h3> 
                     <ul>
                         <li>about us</li>
                         <li>store location</li>
@@ -64,7 +64,7 @@ const Footer= ()=> {
                 </div>
 
                 <div className={style.support}>
-                    <h3>support</h3> {/* Changed to h3 for subsection title */}
+                    <h3>support</h3>
                     <ul>
                         <li>Help centre</li>
                         <li>returns & refunds</li>
@@ -73,7 +73,7 @@ const Footer= ()=> {
                 </div>
                 
                 <div className={style.socials}>
-                    <h3>connect</h3> {/* Changed to h3 for subsection title */}
+                    <h3>connect</h3>
                     <ul>
                         <li><FaFacebook className={style.socialIcon} /><Link className={style.socialLink} >shoop_fb</Link></li>
                         <li><FaSquareXTwitter className={style.socialIcon} /><Link className={style.socialLink} >shoopp_x</Link></li>
@@ -82,7 +82,7 @@ const Footer= ()=> {
                 </div>
                 
                 <div className={style.contact}>
-                    <h3>contact</h3> {/* Changed to h3 for subsection title */}
+                    <h3>contact</h3>
                     <ul>
                         <li><FaWhatsapp className={style.socialIcon} /><Link className={style.socialLink} >+234 809 368 3423</Link></li>
                         <li><FaPhone className={style.socialIcon} /><Link className={style.socialLink} >+44 798 389 79390</Link></li>
