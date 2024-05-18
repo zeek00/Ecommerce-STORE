@@ -5,14 +5,13 @@ const cors = require('cors');
 const apiRouter = require('./api')
 const sessionMiddleware = require('./middleware/session');
 
-const allowedOrigins = ['http://localhost:3000'];
+const allowedOrigins = ['https://shoopps.netlify.app'];
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const corsOptions = {
   origin: (origin, callback) => {
-    // Allow requests with no origin, like mobile apps or curl requests
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -23,10 +22,8 @@ const corsOptions = {
   credentials: true,
 };
 
-// Use CORS middleware with the specified options
 app.use(cors(corsOptions));
 
-// Handle preflight requests for all routes
 app.options('*', cors(corsOptions));
 
 app.use((err, req, res, next) => {
