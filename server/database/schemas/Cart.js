@@ -7,10 +7,11 @@ const cartSchema = new Schema({
         ref: 'User',
         unique: true
     },
-    items: { type: Array, default: null },
+    items: { type: Array, default: [] },
+    createdAt: { type: Date, default: Date.now }
 });
 
-cartSchema.index({ 'expiration': 1 }, { expireAfterSeconds: 0 });
+cartSchema.index({ 'createdAt': 1 }, { expireAfterSeconds: 86400 });
 
 const Cart = mongoose.model('Cart', cartSchema);
 module.exports = Cart;
