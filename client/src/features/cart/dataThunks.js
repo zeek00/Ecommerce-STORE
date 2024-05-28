@@ -14,7 +14,7 @@ const fetchUserCartAsync = createAsyncThunk('cart/fetchUserCartAsync', async(use
                 'Authorization': accessToken
             }
         })
-        const data = response.data.items;
+        const data = await response.data.items;
         return data;
     }catch(error){
         return thunkAPI.rejectWithValue(error.response.data);

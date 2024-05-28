@@ -132,8 +132,4 @@ cartRouter.get('/users/:id',async (req, res)=>{
 });
 
 
-
-
-
-
 module.exports = cartRouter;
