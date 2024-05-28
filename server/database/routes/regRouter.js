@@ -6,7 +6,7 @@ require('../db');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const regRouter = express.Router();
-const verifalia = require('../../utilities/verifalia')
+const validateEmailWithMx = require('../../utilities/email-validator')
 const verifyToken = require('../../middleware/auth')
 
 
@@ -23,15 +23,15 @@ regRouter.post('/signup', async (req, res) => {
       throw error;
     }
 
-    const validationResponse = await verifalia.emailValidations.submit({
-      emailAddress: email.toString()
-  });
-    if(validationResponse.status !== 'Deliverable'){
+    const validationResult = await validateEmailWithMx(email).then();
+
+    if(validationResult !== 'valid'){
       const error = new Error();
       error.code = 400;
       error.message = 'Invalid Email format';
       throw error;
     }
+
 
     const phoneNumberRegex = /^\d{10,}$/;
 
@@ -52,7 +52,6 @@ regRouter.post('/signup', async (req, res) => {
     }
     const existingUser = await User.findOne({ email: email.toString() });
     if (existingUser) {
-      
       const error = new Error();
       error.code = 409;
       error.message = 'Email already exists. Please Login'
@@ -79,6 +78,9 @@ regRouter.post('/signup', async (req, res) => {
       datereg: new Date()
     });
 
+    await newUser.save();
+
+
     const newCartItem = await Cart.create({
       _id: newUser._id,
       items: []
@@ -89,16 +91,23 @@ regRouter.post('/signup', async (req, res) => {
       items: []
     });
 
-    await newUser.save();
     await newCartItem.save();
     await newLikedItem.save();
-    res.send('success');
+    res.status(201).json({ message: 'User registered successfully' });
     
   }catch (error) {
     console.error(error.message);
-    res.status(error.code || 500).json({
-      message: error.message || 'Internal Server Error',
-    });
+
+    // Map MongoDB error codes to HTTP status codes
+    if (error.code === 11000) {
+      res.status(409).json({
+        message: 'Duplicate key error: Email or phone number already exists',
+      });
+    } else {
+      res.status(500).json({
+        message: error.message || 'Internal Server Error',
+      });
+    }
   }
   
 });

@@ -2,59 +2,38 @@ import DataManipulation from '../helpers/dataManipulation';
 
 const dataManipulation = new DataManipulation();
 
+const fetchDataAndSort = async (categories, urls) => {
+    return Promise.all(urls.map(async (url, index) => {
+        const data = await dataManipulation.getData(url, false);
+        return { category: categories[index], data: dataManipulation.sortData(data, categories[index]) };
+    }));
+};
 
-const getElectronics = async (url, dispatch, setData, addData) => {
-    const data = await dataManipulation.getData(url[0], false);
-    const sortedData = dataManipulation.sortData(data, 'smartphones');
-    const data2 = await dataManipulation.getData(url[1], false);
-    const sortedData2 = dataManipulation.sortData(data2, 'laptops');
-
-    const toMerge = [sortedData, sortedData2];
-    const mergedData = dataManipulation.mergeData(toMerge);
-
+const mergeDataAndDispatch = (sortedData, dispatch, setData, addData) => {
+    const mergedData = dataManipulation.mergeData(sortedData.map(item => item.data));
     setData(mergedData);
-
     dispatch(addData(mergedData));
-}
+};
 
-const getMale = async (url, dispatch, setData, addData) => {
-    const data = await dataManipulation.getData(url[0], false);
-    const sortedData = dataManipulation.sortData(data, 'shirts');
-    const data2 = await dataManipulation.getData(url[1], false);
-    const sortedData2 = dataManipulation.sortData(data2, 'shoes');
-    const data3 = await dataManipulation.getData(url[2], false);
-    const sortedData3 = dataManipulation.sortData(data3, 'watches');
-    const data4 = await dataManipulation.getData(url[3], false);
-    const sortedData4 = dataManipulation.sortData(data4, 'tops');
+const getDataAndDispatch = async (categories, urls, dispatch, setData, addData) => {
+    try {
+        const sortedData = await fetchDataAndSort(categories, urls);
+        mergeDataAndDispatch(sortedData, dispatch, setData, addData);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+};
 
-    const toMerge = [sortedData, sortedData2, sortedData3, sortedData4];
-    const mergedData = dataManipulation.mergeData(toMerge);
+const getElectronics = async (urls, dispatch, setData, addData) => {
+    await getDataAndDispatch(['smartphones', 'laptops'], urls, dispatch, setData, addData);
+};
 
-    setData(mergedData);
+const getMale = async (urls, dispatch, setData, addData) => {
+    await getDataAndDispatch(['shirts', 'shoes', 'watches', 'tops'], urls, dispatch, setData, addData);
+};
 
-    dispatch(addData(mergedData));
-}
+const getFemale = async (urls, dispatch, setData, addData) => {
+    await getDataAndDispatch(['dresses', 'shoes', 'watches', 'bags', 'jewelries'], urls, dispatch, setData, addData);
+};
 
-const getFemale = async (url, dispatch, setData, addData) => {
-    const data = await dataManipulation.getData(url[0], false);
-    const data2 = await dataManipulation.getData(url[1], false);
-    const data3 = await dataManipulation.getData(url[2], false);
-    const data4 = await dataManipulation.getData(url[3], false);
-    const data5 = await dataManipulation.getData(url[4], false);
-    const sortedData = dataManipulation.sortData(data, "dresses");
-    const sortedData2 = dataManipulation.sortData(data2, "shoes");
-    const sortedData3 = dataManipulation.sortData(data3, "watches");
-    const sortedData4 = dataManipulation.sortData(data4, "bags");
-    const sortedData5 = dataManipulation.sortData(data5, "jewelries");
-    const toMerge = [sortedData,sortedData2,sortedData3,sortedData4,sortedData5];
-    const mergedData = dataManipulation.mergeData(toMerge);
-
-    setData(mergedData);
-
-    dispatch(addData(mergedData));    
-
-}
-
-export {getElectronics, getMale, getFemale};
-
-
+export { getElectronics, getMale, getFemale };

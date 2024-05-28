@@ -11,7 +11,22 @@ import CartItems from './CartItems';
 import { css } from '../../helpers/cssVariables';
 import { useNavigate } from 'react-router-dom';
 
-
+const SiteNav = styled.div`
+    padding: 0.8rem;
+    display: flex;
+    gap: 0.4rem;
+    button{
+        color: #222;
+        font-weight: 200;
+        border: none;
+        cursor: pointer;
+    }
+    button:hover{
+        color: ${css.primarySharp};
+        font-weight: 300;
+        cursor: pointer;
+    }
+`;
 
 const CartDiv = styled.div`
     display: flex;
@@ -132,39 +147,40 @@ const Cart = () => {
     }, [userId, dispatch,  cart])
 
   return (
-        <CartDiv user={user}>
-            {!user && (
-            <div className='noUserBox'>
-                <GiHeartMinus className='icon'/>
-                <h2>Logging to view</h2>  
-                <Button
-                    to={PostsRoutes.signAction.signin()}
-                    borderRadius='0'
-                    label='SIGN IN'
-                    width='100%'
-                />
-            </div>)} 
-
-            {user && empty && (
-                <div className='noUserBox'>
-                <MdRemoveShoppingCart className='icon'/>
-                <h2>Your Cart is Empty</h2>  
-                <Button
-                    to={'../' + PostsRoutes.products.likedItems()}
-                    borderRadius='0'
-                    label='VIEW SAVED ITEMS'
-                    width='100%'
-                />
-            </div>
-            )}
-            {!user && !empty && <div className='sitenav'>
+        <>
+            <SiteNav>
                 <button onClick={()=>navigate(PostsRoutes.home.home())}> {'Home' }</button>
-
                 <button onClick={()=>navigate(-1)}> {'< Go back' }</button>
-             </div>}
-            { user && !empty && <CartItems mainCart={cart} /> }
-           
-        </CartDiv> 
+            </SiteNav>
+            <CartDiv user={user}>
+                {!user && (
+                <div className='noUserBox'>
+                    <GiHeartMinus className='icon'/>
+                    <h2>Logging to view</h2>  
+                    <Button
+                        to={PostsRoutes.signAction.signin()}
+                        borderRadius='0'
+                        label='SIGN IN'
+                        width='100%'
+                    />
+                </div>)} 
+
+                {user && empty && (
+                    <div className='noUserBox'>
+                    <MdRemoveShoppingCart className='icon'/>
+                    <h2>Your Cart is Empty</h2>  
+                    <Button
+                        to={'../' + PostsRoutes.products.likedItems()}
+                        borderRadius='0'
+                        label='VIEW SAVED ITEMS'
+                        width='100%'
+                    />
+                </div>
+                )}
+                { user && !empty && <CartItems mainCart={cart} /> }
+            
+            </CartDiv> 
+        </>
     );
 }
 

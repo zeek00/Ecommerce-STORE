@@ -5,25 +5,26 @@ const cors = require('cors');
 const apiRouter = require('./api')
 const sessionMiddleware = require('./middleware/session');
 
-const allowedOrigins = ['http://localhost:3050', 'http://localhost:3000', 'http://shoopp.zeekdevs.com'];
+const allowedOrigins = ['https://shoopps.netlify.app'];
 
-
-app.use(express.json()); 
-app.use(express.urlencoded({ extended: true })); 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const corsOptions = {
   origin: (origin, callback) => {
-    if (allowedOrigins.includes(origin) || !origin) {
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
-  methods: 'GET,HEAD,PUT,POST,DELETE',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
 };
 
 app.use(cors(corsOptions));
+
+app.options('*', cors(corsOptions));
 
 app.use((err, req, res, next) => {
   if (err.name === 'CorsError') {

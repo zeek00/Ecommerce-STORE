@@ -21,7 +21,7 @@
     list-style-type: none;
 }
 
-.container h4{
+.container h3{
     text-transform: uppercase;
     font-size: .6rem;
     color: #222;
@@ -65,16 +65,17 @@
     flex-direction: column;
     align-items: center;
     padding: 1rem 0;
+    color: rgba(34, 34, 34);
 }
 
-.subscribe h4{
+.subscribe h3{
     text-transform: uppercase;
-    color: rgba(34, 34, 34, 0.60);
+    color: rgba(34, 34, 34);
 
 }
 
 .subscribe p{
-    color: rgba(34, 34, 34, 0.60);
+    color: rgba(34, 34, 34);
     font-size: 0.9rem;
     padding: 0.4rem;
 }
@@ -111,7 +112,7 @@
 
 .socialLink{
     padding-left: .2rem;
-    color: rgba(34, 34, 34, 0.60);
+    color: rgba(34, 34, 34);
     text-decoration: none;
 }
 
@@ -140,6 +141,7 @@
 
 .subscribe span{
     text-decoration: underline;
+    color: rgba(34, 34, 34);
 }
 
 .hr {
@@ -147,7 +149,7 @@
     margin: 1rem 0;
     border-style: solid;
     border-top-width: 0.00rem;
-    color: rgba(34, 34, 34, 0.60);
+    color: rgba(34, 34, 34);
     width: 50%;
 }
 .subscribe form{
@@ -166,7 +168,7 @@
     display: flex;
     background-color: #fff;
     padding: .5rem 0 .2rem .7rem;
-    color: rgba(34, 34, 34, 0.60);
+    color: rgba(34, 34, 34);
     font-size: 1.4rem;
     width: 70%;
 }
@@ -191,7 +193,7 @@
 }
 
 .footerFinal p{
-    color: rgba(34, 34, 34, 0.6);
+    color: rgba(34, 34, 34);
     font-weight: 500;
     font-size: .8rem;
 }
@@ -314,7 +316,7 @@
             "d f g" 
         ;
     }
-    .container h4{
+    .container h3{
         font-size: 1rem;
         letter-spacing: 0.025rem;
     }
@@ -340,7 +342,7 @@
     
 
     .footer h3{
-        text-align: left;
+        text-align: center;
         font-size: 1rem;
     }
 
@@ -378,7 +380,7 @@
 
    
     .footer h3{
-        text-align: left;
+        text-align: center;
         font-size: 1.3rem;
     } 
 

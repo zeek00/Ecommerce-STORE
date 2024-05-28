@@ -266,12 +266,12 @@ const LeftNav = ({open, setOpen}) => {
                 MEN
               </button>
 
-              <button tabIndex={0} onKeyDown={(e)=> handleKeyDown(e, 'men')} className="action">
+              <button tabIndex={0} aria-label="men" onKeyDown={(e)=> handleKeyDown(e, 'men')} className="action">
                 { men ? <IoIosArrowUp onClick={()=> handleArrowUpClick()} /> :<IoIosArrowDown onClick={()=> handleArrowDownClick('men')}/>}
               </button> 
             </div>
-            <button className={`layertwo ${men ? 'visible' : ''}`} tabIndex={0} onClick={()=>handleLayerClick()} onKeyDown={(e)=>handleKeyDown(e)}>
-             {men && <Categories link={'products/men/'} lnav={true} category={'men'} selectedCategory={maleCategories}/>}
+            <button aria-label="men-category" className={`layertwo ${men ? 'visible' : ''}`} tabIndex={0} onClick={()=>handleLayerClick()} onKeyDown={(e)=>handleKeyDown(e)}>
+             {men && <Categories link={'products/men'} lnav={true} category={'men'} selectedCategory={maleCategories}/>}
 
             </button>
               
@@ -281,12 +281,12 @@ const LeftNav = ({open, setOpen}) => {
               <button name='electronics' tabIndex={0} onClick={()=> handleClick('electronics')}>
                 ELECTRONICS
               </button>  
-              <button onKeyDown={(e)=> handleKeyDown(e, 'electronics')} className="action">
+              <button onKeyDown={(e)=> handleKeyDown(e, 'electronics')} aria-label="electronics" className="action">
                 {electronics ? <IoIosArrowUp onClick={()=>handleArrowUpClick()} /> :<IoIosArrowDown onClick={()=> handleArrowDownClick('electronics')}/>}
               </button>
             </div>
-            <button className={`layertwo ${electronics ? 'visible' : ''}`} tabIndex={0} onClick={()=>handleLayerClick()} onKeyDown={(e)=>handleKeyDown(e)}>
-              {electronics && <Categories link={'products/electronics/'} lnav={true} category={'electronics'} selectedCategory={etronicsCategories}/>}
+            <button className={`layertwo ${electronics ? 'visible' : ''}`} aria-label="electronics-category" tabIndex={0} onClick={()=>handleLayerClick()} onKeyDown={(e)=>handleKeyDown(e)}>
+              {electronics && <Categories link={'products/electronics'} lnav={true} category={'electronics'} selectedCategory={etronicsCategories}/>}
 
             </button>
           </div>
@@ -296,12 +296,12 @@ const LeftNav = ({open, setOpen}) => {
               <button name='women' tabIndex={0} onClick={()=> handleClick('women')}>
                 WOMEN
               </button> 
-              <button tabIndex={0} onKeyDown={(e)=> handleKeyDown(e, 'women')} className="action">
+              <button tabIndex={0} onKeyDown={(e)=> handleKeyDown(e, 'women')} aria-label="women" className="action">
                 {women ? <IoIosArrowUp onClick={()=>handleArrowUpClick()} /> :<IoIosArrowDown  onClick={()=> handleArrowDownClick('women')}/>}
               </button>
             </div>
-            <button className={`layertwo ${women ? 'visible' : ''}`} tabIndex={0}  onClick={()=>handleLayerClick()} onKeyDown={(e)=>handleKeyDown(e)}>
-              {women && <Categories link={'products/women/'}  lnav={true} category={'female'} selectedCategory={femaleCategories}/>}
+            <button className={`layertwo ${women ? 'visible' : ''}`} tabIndex={0} aria-label="women-category" onClick={()=>handleLayerClick()} onKeyDown={(e)=>handleKeyDown(e)}>
+              {women && <Categories link={'products/women'}  lnav={true} category={'female'} selectedCategory={femaleCategories}/>}
             </button>
             
           </div>

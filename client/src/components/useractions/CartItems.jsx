@@ -5,7 +5,7 @@ import Button from '../essentials/Button'
 import styled from 'styled-components';
 import { selectCurrentUser } from '../../features/selectors';
 
-import { DeleteItemFromUserCartAsync } from '../../features/cart/dataThunks';
+import { DeleteItemFromUserCartAsync, fetchUserCartAsync } from '../../features/cart/dataThunks';
 
 
 const Container = styled.div`
@@ -208,31 +208,48 @@ const Container = styled.div`
 
 
 
-const CartItems = ({mainCart}) => {
+const CartItems = () => {
     const [accumulated, setAccumulated] = useState({});
     const user = useSelector(selectCurrentUser);
     const dispatch = useDispatch();
     const [total, setTotal] = useState(null);
-    const [clicked, setClicked] = useState(false)
-    const cart = mainCart;
+    const [clicked, setClicked] = useState(false);
+    const [data, setData] = useState([]);
+    const userId = user?._id;
 
-    const handleRemoval = async (itemId) =>{
-        try{
-            dispatch(DeleteItemFromUserCartAsync({
-                itemId: itemId,
-                userId: user._id
-            }))
-        }catch(err){
-            console.log(err);
+
+    const fetchCartItems = useCallback(async () => {
+        try {
+            if (userId) {
+                const savedItems = await dispatch(fetchUserCartAsync(userId));
+                setData(savedItems.payload);
+            }
+        } catch (err) {
+            console.error('Failed to fetch liked items:', err);
         }
-    }
+    }, [userId, dispatch]);
+
+    useEffect(() => {
+        fetchCartItems();
+    }, [fetchCartItems]);
+
+    const handleRemoval = useCallback(async (itemId) => {
+        try {
+            await dispatch(DeleteItemFromUserCartAsync({ itemId, userId }));
+            fetchCartItems(); 
+        } catch (err) {
+            console.error('Failed to remove item from Cart:', err);
+        }
+        // eslint-disable-next-line
+    }, [dispatch, userId]);
     
     const handleIncrement = (itemId) => {
         setClicked(true);
         setAccumulated((prevCounts) => {
             const newCount = (prevCounts[itemId] || 1) + 1;
-            return { ...prevCounts, [itemId]: newCount };
+            return {[itemId]: newCount };
         });
+
     };
     
 
@@ -242,45 +259,41 @@ const CartItems = ({mainCart}) => {
             const newCount = Math.max(0, (prevCounts[itemId] || 1) - 1);
             if (newCount === 0) {
                 try {
-                    dispatch(DeleteItemFromUserCartAsync({
-                        itemId: itemId,
-                        userId: user._id
-                    }));
+                    dispatch(DeleteItemFromUserCartAsync({itemId,userId}));
                 } catch (err) {
                     console.log(err);
                 }
             }
-            return { ...prevCounts, [itemId]: newCount };
+            return {[itemId]: newCount };
         });
     };
     useEffect(() => {
         const initialAccumulated = {};
   
-        cart.forEach((item) => {
+        data.forEach((item) => {
           initialAccumulated[item.id] = 1;
         });
       
         setAccumulated(initialAccumulated);
       
-        const initialTotal = cart.reduce((accumulator, currentItem) => {
+        const initialTotal = data.reduce((accumulator, currentItem) => {
           const itemPrice = currentItem.price ?? 0;
           return accumulator + itemPrice;
         }, 0);
-      
         setTotal(initialTotal);
         
-    }, [cart]);
+    }, [data]);
 
     const calculateTotal = useCallback(() => {
         let updateTotal = 0;
         Object.keys(accumulated).forEach((itemId) => {
             const count = accumulated[itemId] || 0;
-            const item = cart.find((item) => item.id === itemId);
+            const item = data.find(item=>item.id === Number(itemId));
             const price = item ? item.price : 0;
             updateTotal += count === 1 ? price : Math.max(0, count * price);
         });
         setTotal(updateTotal);
-    }, [accumulated, cart, setTotal]);
+    }, [accumulated, data, setTotal]);
 
 
     useEffect(() => {
@@ -299,7 +312,7 @@ const CartItems = ({mainCart}) => {
   return (
     <Container>
             <div className="items">
-                {mainCart.map(item=> (
+                {data.map(item=> (
                 <div className="item" key={item.id}>
                     <span className="itemImage">
                         <img src={item.images[0]} alt="product item" />

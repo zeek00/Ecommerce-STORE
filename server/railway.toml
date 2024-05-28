@@ -1,0 +1,8 @@
+[build]
+builder = "DOCKERFILE"
+dockerFilePath = "api/Dockerfile"
+
+[deploy]
+
+restartPolicyMaxRetries = 10
+restartPolicyType = "ON_FAILURE"

@@ -137,16 +137,16 @@ const Header = () => {
           id='search'
           type='search' 
           placeholder='Search a category'
-          onChange={(e)=>{setSearchPhrase(e.target.value)}}
+          onChange={(e)=>{setSearchPhrase(e.target.value.toLowerCase())}}
           onKeyDown={handleKeyPress}
           />}
-          <Link to className={style.link}>
+          <Link className={style.link} aria-label="Search">
             <FiSearch onClick={handleSearch} className={style.icon}  />
           </Link>
-          <Link to className={style.link}>
+          <Link className={style.link}aria-label="User Profile">
             <FaRegUser onClick={handleUserOpen} className={style.icon} />
           </Link>
-          <Link onClick={handleLIikedClick} to={PostsRoutes.products.likedItems()} className={style.link}>
+          <Link onClick={handleLIikedClick} to={PostsRoutes.products.likedItems()} className={style.link} aria-label="Liked Items">
             <FaRegHeart className={style.icon}  />
             {
               likedCount === 0 ? (
@@ -158,7 +158,7 @@ const Header = () => {
                 </span>)
             }
           </Link>
-          <Link onClick={handleCartClick} to={PostsRoutes.products.cart()} className={style.link}>
+          <Link onClick={handleCartClick} to={PostsRoutes.products.cart()} className={style.link} aria-label="Shopping Cart">
             <FiShoppingCart className={style.icon} />
             
             {
@@ -172,8 +172,8 @@ const Header = () => {
             }
             
           </Link>
-          <Link className={style.link}>
-            <span className={ user ? style.isloggedin : style.isloggedout }></span>
+          <Link className={style.link} aria-label="Online status">
+            <span className={ user ? style.isloggedin : style.isloggedout } aria-hidden="true"></span>
           </Link>
         </div>
       </div>
