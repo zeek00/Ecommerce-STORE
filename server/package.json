@@ -13,8 +13,8 @@
   },
   "type": "module",
   "babel": {
-    "presets": ["@babel/preset-env"],
-    "plugins": ["@babel/plugin-transform-modules-commonjs"]
+    "presets": [ "@babel/preset-env" ],
+    "plugins": [ "@babel/plugin-transform-modules-commonjs" ]
   },
   "jest": {
     "transform": {
@@ -57,8 +57,9 @@
     "node-email-verifier": "^1.1.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.24.7",
     "@babel/plugin-transform-modules-commonjs": "^7.24.6",
-    "@babel/preset-env": "^7.24.6",
+    "@babel/preset-env": "^7.24.7",
     "babel-jest": "^29.7.0",
     "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",

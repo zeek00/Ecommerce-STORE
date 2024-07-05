@@ -1,20 +1,23 @@
-const mongoose = require("mongoose");
-const request = require("supertest");
-require("dotenv").config();
-const app = require("../../server");
+jest.mock('mongoose', () => require('../mocks/jest-mongoose'));
+const mongoose = require('mongoose');
+const request = require('supertest');
+require('dotenv').config();
+const app = require('../../server');
 
-const Cart = require("../../database/schemas/Cart");
+const Cart = require('../../database/schemas/Cart');
 
-jest.mock("../../database/schemas/Cart", () => ({
+jest.mock('../../database/schemas/Cart', () => ({
   findById: jest.fn(),
 }));
 
-describe("/api/cart routes", () => {
-  describe("GET /api/cart/", () => {
+
+
+describe('/api/cart routes', () => {
+  describe('GET /api/cart/', () => {
     describe('GET /users/:id', () => {
       it('should return user items when a valid user id is provided', async () => {
-        const userId = 'validUserId';
-        const mockUser = { _id: userId, items: [{item1: 1}, {item2: 2}] };
+        const userId = 1;
+        const mockUser = { _id: userId, items: [{ item1: 1 }, { item2: 2 }] };
         Cart.findById.mockResolvedValue(mockUser);
 
         const response = await request(app).get(`/users/${userId}`);
@@ -53,12 +56,20 @@ describe("/api/cart routes", () => {
 
         expect(response.status).toBe(500);
         expect(response.body.message).toBe('Internal Server Error');
-      });
+      });    
     });
+    
   });
 
-// Closing database connection
+  // Closing database connection after each test
   afterEach(async () => {
-    await mongoose.connection.close();
+    jest.clearAllMocks();
+  });
+
+  // Close the server after all tests are completed
+  afterAll(done => {
+    mongoose.connection.close(() => {
+      app.close(done);
+    });
   });
 });
