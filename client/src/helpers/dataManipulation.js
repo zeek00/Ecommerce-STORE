@@ -1,41 +1,21 @@
 import {REGURL} from "./config";
  
 class DataManipulation {
-    async getData(url, sort){
-        if(sort){
-            try{
-                const response = await fetch(url);
-                if(!response.ok){
-                    const error = new Error();
-                    error.message = 'Request Failed';
-                    error.code = 404;
-                    throw error;                 
-                }
-                const data = await response.json();
-                return data;
-            }
-            catch(error) {
-                console.error(error.message);
-            }
-    
-        }else{
-            try{
-                const response = await fetch(url);
-                if(!response.ok){
-                    const error = new Error();
-                    error.message = 'Request Failed';
-                    error.code = 404;
-                    throw error;     
-                }
-                const data = await response.json();
-                return data.products;
-            }
-            catch(error) {
-                console.error(error.message);
-            }
-            
+    async getData(url, sort) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            const error = new Error();
+            error.message = 'Request Failed';
+            error.code = 404;
+            throw error;
         }
-    };
+        const data = await response.json();
+        return sort ? data : data.products;
+    } catch (error) {
+        console.error(error.message);
+    }
+}
 
     sortData(data, category){
         let sortedData = [];
